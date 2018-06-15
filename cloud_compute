@@ -15,13 +15,16 @@ class Application(Tk):
 
 		self.frames = {}
 
+		#puts all the frames in a nice container.
 		for F in (StartPage, StoragePage, ComputingPage):
 			frame = F(container, self)
 			self.frames[F] = frame
 			frame.grid(row=0, column=0, sticky="nsew")
 
+		#Starts the application at the correct home page
 		self.show_frame(StartPage)
 
+	#need a function for this so a button can change pages
 	def show_frame(self, context):
 		frame = self.frames[context]
 		frame.tkraise()
@@ -39,6 +42,7 @@ class StartPage(Frame):
 		compute_page = Button(self, text="Explore Computing Pricing", padx=10, pady=10, command= lambda: controller.show_frame(ComputingPage) )
 		compute_page.pack()
 
+#each page is a seperate class with specific functions.
 class StoragePage(Frame):
 	def __init__(self, parent, controller):
 		Frame.__init__(self, parent)
@@ -71,6 +75,7 @@ class StoragePage(Frame):
 		calc_button = Button(self, text="Calculate Final Cost", padx=10, pady=10, command=self.get_input )
 		calc_button.pack()
 
+	#Takes all the text entry input and puts them into variables
 	def get_input(self):
 		Application.storage_needed = int(self.entry1.get() )
 		Application.read_ops = int(self.entry2.get() )
