@@ -54,7 +54,7 @@ class StoragePage(Frame):
 		Frame.__init__(self, parent)
 		self.par_controller = controller
 
-		self.label1 = Label(self, text="Storgae Needed (GB)")
+		self.label1 = Label(self, text="Storage Needed (GB)")
 		self.label1.pack()
 		self.entry1 = Entry(self)
 		self.entry1.pack()
@@ -90,10 +90,8 @@ class StoragePage(Frame):
 		Application.data_scan = float(self.entry4.get() )
 		Application.data_return = float(self.entry5.get() )
 
-		print("In get input ", Application.storage_needed)
-
-		#Show final frame to display the calculations
-		#self.par_controller.show_frame(PriceStorage)
+		#Delete entries to make room for the final result
+		#I cannot make a new page without the variables updating correctly
 		self.entry1.pack_forget()
 		self.label1.pack_forget()
 		self.entry2.pack_forget()
@@ -106,18 +104,64 @@ class StoragePage(Frame):
 		self.label5.pack_forget()
 		self.calc_button.pack_forget()
 
-		label = Label(self, text="This is the price page")
-		label.pack()
+		self.label6 = Label(self, text="Final Price Calculations", font=("Helvetica", 16, "bold"))
+		self.label6.pack()
 
+		#Calculate all of the pricing options
 		self.am_s3 = 0.023 * Application.storage_needed + 0.0007 * Application.data_return + 0.002 * Application.data_scan + 0.05 * Application.write_ops + 0.004 * Application.read_ops
+		self.am_s3ia = 0.0125 * Application.storage_needed + 0.01 * Application.data_return + 0.002 * Application.data_scan + 0.1 * Application.write_ops + 0.01 * Application.read_ops
+		self.am_glac = 0.004 * Application.storage_needed + 0.0025 * Application.data_return + 0.001 * Application.data_scan + 0.5 * Application.write_ops + 0.25 * Application.read_ops
 
-		label2 = Label(self, text="Amazon Pricing (per month)")
-		label2.pack()
+		self.g_mr = 0.026 * Application.storage_needed + 0.05 * Application.write_ops + 0.05 * Application.read_ops
+		self.g_near = 0.01 * Application.storage_needed + 0.01 * Application.data_return + 0.1 * Application.write_ops + 0.1 * Application.read_ops
+		self.g_cold = 0.007 * Application.storage_needed + 0.05 * Application.data_return + 0.1 * Application.write_ops + 0.1 * Application.read_ops
 
-		label3 = Label(self, text="S3 = $" + str(self.am_s3) )
-		label3.pack()
+		self.m_base = 0.0075 * Application.storage_needed
+		self.m_bs = 0.009375 * Application.storage_needed
+		self.m_br = 0.015 * Application.storage_needed
+		self.m_sr = 0.01875 * Application.storage_needed
 
+		#All the Amazon labels and packing
+		self.label7 = Label(self, text="Amazon Pricing (per month)", font=("Helvetica", 12, "bold"))
+		self.label7.pack()
 
+		self.label8 = Label(self, text="S3 = $" + str(self.am_s3) )
+		self.label8.pack()
+
+		self.label9 = Label(self, text="S3 Infrequent Access = $" + str(self.am_s3ia))
+		self.label9.pack()
+
+		self.label10 = Label(self, text="Glacier = $" + str(self.am_glac))
+		self.label10.pack()
+
+		#All of the Google labels and packing
+		self.label11 = Label(self, text="Google Pricing (per month)", font=("Helvetica", 12, "bold"))
+		self.label11.pack()
+
+		self.label12 = Label(self, text="Multi-Regional & Regional = $" + str(self.g_mr))
+		self.label12.pack()
+
+		self.label13 = Label(self, text="Nearline = $" + str(self.g_near))
+		self.label13.pack()
+
+		self.label14 = Label(self, text="Coldline = $" + str(self.g_cold))
+		self.label14.pack()
+
+		#All of the Miserver labels and packing
+		self.label15 = Label(self, text="MiStorage Pricing (per month)", font=("Helvetica", 12, "bold"))
+		self.label15.pack()
+
+		self.label16 = Label(self, text="Base = $" + str(self.m_base))
+		self.label16.pack()
+
+		self.label17 = Label(self, text="Base & Snapshots = $" + str(self.m_bs))
+		self.label17.pack()
+
+		self.label18 = Label(self, text="Base & Replication = $" + str(self.m_br))
+		self.label18.pack()
+
+		self.label19 = Label(self, text="Snapshots & Replication = $" + str(self.m_sr))
+		self.label19.pack()
 
 class ComputingPage(Frame):
 	def __init__(self, parent, controller):
