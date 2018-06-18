@@ -40,8 +40,8 @@ class StartPage(Frame):
 		Frame.__init__(self, parent)
 
 		label = Label(self, text="Welcome to the Cloud Pricing App\nYou Can Compare Between Amazon, Google, and the University of Michigan\nPlease Make A Selection Below", font=("Helvetica", 16, "bold")).grid(row=0, padx=10, pady=10)
-		storage_page = Button(self, text="Explore Storage Pricing", padx=10, pady=10, command= lambda: controller.show_frame(StoragePage) ).grid(row=1, padx=10, pady=10)
-		compute_page = Button(self, text="Explore Computing Pricing", padx=10, pady=10, command= lambda: controller.show_frame(ComputingPage) ).grid(row=2, padx=10, pady=10)
+		storage_page = Button(self, text="Explore Storage Pricing", padx=20, pady=10, command= lambda: controller.show_frame(StoragePage) ).grid(row=1, padx=10)
+		compute_page = Button(self, text="Explore Computing Pricing", padx=10, pady=10, command= lambda: controller.show_frame(ComputingPage) ).grid(row=2, padx=10)
 
 #each page is a seperate class with specific functions.
 class StoragePage(Frame):
@@ -136,9 +136,6 @@ class StoragePage(Frame):
 		self.label19 = Label(self, text="Snapshots & Replication = $" + str(self.m_sr)).grid(row=13, column=1)
 
 class ComputingPage(Frame):
-
-	out1 = ""
-
 	def __init__(self, parent, controller):
 		Frame.__init__(self, parent)
 		self.con = controller
@@ -149,7 +146,7 @@ class ComputingPage(Frame):
 		self.button1 = Button(self, text="Pre-Built Computing", padx=10, pady=10, command=self.display_general)
 		self.button1.grid(row=1, padx=10, pady=5)
 
-		self.button3 = Button(self, text="Build Your Own", padx=10, pady=10, command=self.display_build)
+		self.button3 = Button(self, text="Build Your Own", padx=25, pady=10, command=self.display_build)
 		self.button3.grid(row=3, padx=10, pady=5)
 
 	def display_general(self):
@@ -167,7 +164,7 @@ class ComputingPage(Frame):
 		self.button3.grid_remove()
 
 	def drop_menu(self):
-		self.label2 = Label(self, text="Please Select What You Want To Sort By", font=("Helvetica", 16, "bold"))
+		self.label2 = Label(self, text="Select What You Want To Sort By", font=("Helvetica", 16, "bold"))
 		self.label2.grid(row=0, column=0, padx=10, pady=10)
 
 		self.button7 = Button(self, text="RAM", padx=10, pady=10, command=self.drop_menu_2)
@@ -218,10 +215,58 @@ class ComputingPage(Frame):
 		self.button6.grid(row=3, column=1, padx=10, pady=5)
 
 	def display_ram(self):
-		pass
+		self.ram_wanted = float(self.entry1.get())
+		self.storage_wanted = float(self.entry3.get())
+
+		self.label3.grid_remove()
+		self.entry1.grid_remove()
+		self.label5.grid_remove()
+		self.entry3.grid_remove()
+		self.button5.grid_remove()
+
+		self.google = ""
+		self.amazon = ""
+		self.miserver = ""
+		self.tmp = 0
+
+		if self.ram_wanted <= 2:
+			self.tmp = 24.27 + 0.17 * self.storage_wanted
+			self.google = "n1-standard-1 \t3.75(GB)\t1\t" + str(self.storage_wanted) + "\t$" + str(self.tmp)
+
+			self.tmp = 10.51 + 0.1 * self.storage_wanted
+			self.amazon = "t2.small\t2(GB)\t1\t" + str(self.storage_wanted) + "\t$" + str(self.tmp)
+
+			self.tmp = 16.795 + 0.0735 * self.storage_wanted
+			self.miserver = "server1\t2(GB)\t1\t" + str(self.storage_wanted) + "\t$" + str(self.tmp)
+
+		self.label7 = Label(self, text="Selected Machines Based on RAM Requirement\n[machine, RAM, # of CPUs, Memory, Cost/month]", font=("Helvetica", 16, "bold") )
+		self.label7.grid(row=0, column=0, padx=10, pady=10)
+
+		self.label8 = Label(self, text="Google Compute Engine: " + self.google)
+		self.label8.grid(row=1, column=0, padx=3, pady=7)
+
+		self.label9 = Label(self, text="Amazon EC2: " + self.amazon)
+		self.label9.grid(row=2, column=0, padx=3, pady=7)
+
+		self.label10 = Label(self, text="MiServer: " + self.miserver)
+		self.label10.grid(row=3, column=0, padx=3, pady=7)
+
 
 	def display_cpu(self):
-		pass
+		self.cpu_wanted = float(self.entry2.get())
+		self.storage_wanted = float(self.entry4.get())
+
+		self.label4.grid_remove()
+		self.entry2.grid_remove()
+		self.label6.grid_remove()
+		self.entry4.grid_remove()
+		self.button6.grid_remove()
+
+
+
+
+		self.label11 = Label(self, text="Selected Machines Based on CPU Requirement\n[machine, RAM, # of CPUs, Memory, Cost/month]", font=("Helvetica", 16, "bold") )
+		self.label11.grid(row=0, column=0, padx=10, pady=10)
 
 app = Application()
 #app.master.title('Cloud Cost Comparison')
