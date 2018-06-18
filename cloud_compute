@@ -39,14 +39,9 @@ class StartPage(Frame):
 	def __init__(self, parent, controller):
 		Frame.__init__(self, parent)
 
-		label = Label(self, text="Welcome to the Cloud Pricing App\nYou Can Compare Between Amazon, Google, and the University of Michigan\nPlease Make A Selection Below", font=("Helvetica", 16, "bold"))
-		label.pack(padx=10, pady=10)
-
-		storage_page = Button(self, text="Explore Storage Pricing", padx=10, pady=10, command= lambda: controller.show_frame(StoragePage) )
-		storage_page.pack()
-
-		compute_page = Button(self, text="Explore Computing Pricing", padx=10, pady=10, command= lambda: controller.show_frame(ComputingPage) )
-		compute_page.pack()
+		label = Label(self, text="Welcome to the Cloud Pricing App\nYou Can Compare Between Amazon, Google, and the University of Michigan\nPlease Make A Selection Below", font=("Helvetica", 16, "bold")).grid(row=0)
+		storage_page = Button(self, text="Explore Storage Pricing", padx=10, pady=10, command= lambda: controller.show_frame(StoragePage) ).grid(row=1)
+		compute_page = Button(self, text="Explore Computing Pricing", padx=10, pady=10, command= lambda: controller.show_frame(ComputingPage) ).grid(row=2)
 
 #each page is a seperate class with specific functions.
 class StoragePage(Frame):
@@ -55,32 +50,32 @@ class StoragePage(Frame):
 		self.par_controller = controller
 
 		self.label1 = Label(self, text="Storage Needed (GB)")
-		self.label1.pack()
+		self.label1.grid(row=0, column=0)
 		self.entry1 = Entry(self)
-		self.entry1.pack()
+		self.entry1.grid(row=0, column=1)
 
 		self.label2 = Label(self, text="Read Operations (10,000)")
-		self.label2.pack()
+		self.label2.grid(row=1, column=0)
 		self.entry2 = Entry(self)
-		self.entry2.pack()
+		self.entry2.grid(row=1, column=1)
 
 		self.label3 = Label(self, text="Write Operations (10,000)")
-		self.label3.pack()
+		self.label3.grid(row=2, column=0)
 		self.entry3 = Entry(self)
-		self.entry3.pack()
+		self.entry3.grid(row=2, column=1)
 
 		self.label4 = Label(self, text="Data Scanned (GB)")
-		self.label4.pack()
+		self.label4.grid(row=3, column=0)
 		self.entry4 = Entry(self)
-		self.entry4.pack()
+		self.entry4.grid(row=3, column=1)
 
 		self.label5 = Label(self, text="Data Returned (GB)")
-		self.label5.pack()
+		self.label5.grid(row=4, column=0)
 		self.entry5 = Entry(self)
-		self.entry5.pack()
+		self.entry5.grid(row=4, column=1)
 
 		self.calc_button = Button(self, text="Calculate Final Cost", padx=10, pady=10, command=self.get_input )
-		self.calc_button.pack()
+		self.calc_button.grid(columnspan=2, sticky="ew")
 
 	#Takes all the text entry input and puts them into variables
 	def get_input(self):
@@ -92,20 +87,20 @@ class StoragePage(Frame):
 
 		#Delete entries to make room for the final result
 		#I cannot make a new page without the variables updating correctly
-		self.entry1.pack_forget()
-		self.label1.pack_forget()
-		self.entry2.pack_forget()
-		self.label2.pack_forget()
-		self.entry3.pack_forget()
-		self.label3.pack_forget()
-		self.entry4.pack_forget()
-		self.label4.pack_forget()
-		self.entry5.pack_forget()
-		self.label5.pack_forget()
-		self.calc_button.pack_forget()
 
-		self.label6 = Label(self, text="Final Price Calculations", font=("Helvetica", 16, "bold"))
-		self.label6.pack()
+		self.entry1.grid_remove()
+		self.label1.grid_remove()
+		self.entry2.grid_remove()
+		self.label2.grid_remove()
+		self.entry3.grid_remove()
+		self.label3.grid_remove()
+		self.entry4.grid_remove()
+		self.label4.grid_remove()
+		self.entry5.grid_remove()
+		self.label5.grid_remove()
+		self.calc_button.grid_remove()
+
+		self.label6 = Label(self, text="Final Price Calculations", font=("Helvetica", 16, "bold")).grid(column=1)
 
 		#Calculate all of the pricing options
 		self.am_s3 = 0.023 * Application.storage_needed + 0.0007 * Application.data_return + 0.002 * Application.data_scan + 0.05 * Application.write_ops + 0.004 * Application.read_ops
@@ -122,46 +117,23 @@ class StoragePage(Frame):
 		self.m_sr = 0.01875 * Application.storage_needed
 
 		#All the Amazon labels and packing
-		self.label7 = Label(self, text="Amazon Pricing (per month)", font=("Helvetica", 12, "bold"))
-		self.label7.pack()
-
-		self.label8 = Label(self, text="S3 = $" + str(self.am_s3) )
-		self.label8.pack()
-
-		self.label9 = Label(self, text="S3 Infrequent Access = $" + str(self.am_s3ia))
-		self.label9.pack()
-
-		self.label10 = Label(self, text="Glacier = $" + str(self.am_glac))
-		self.label10.pack()
+		self.label7 = Label(self, text="Amazon Pricing (per month)", font=("Helvetica", 12, "bold")).grid(row=1, column=0)
+		self.label8 = Label(self, text="S3 = $" + str(self.am_s3) ).grid(row=2, column=1)
+		self.label9 = Label(self, text="S3 Infrequent Access = $" + str(self.am_s3ia)).grid(row=3, column=1)
+		self.label10 = Label(self, text="Glacier = $" + str(self.am_glac)).grid(row=4, column=1)
 
 		#All of the Google labels and packing
-		self.label11 = Label(self, text="Google Pricing (per month)", font=("Helvetica", 12, "bold"))
-		self.label11.pack()
-
-		self.label12 = Label(self, text="Multi-Regional & Regional = $" + str(self.g_mr))
-		self.label12.pack()
-
-		self.label13 = Label(self, text="Nearline = $" + str(self.g_near))
-		self.label13.pack()
-
-		self.label14 = Label(self, text="Coldline = $" + str(self.g_cold))
-		self.label14.pack()
+		self.label11 = Label(self, text="Google Pricing (per month)", font=("Helvetica", 12, "bold")).grid(row=5, column=0)
+		self.label12 = Label(self, text="Multi-Regional & Regional = $" + str(self.g_mr)).grid(row=6, column=1)
+		self.label13 = Label(self, text="Nearline = $" + str(self.g_near)).grid(row=7, column=1)
+		self.label14 = Label(self, text="Coldline = $" + str(self.g_cold)).grid(row=8, column=1)
 
 		#All of the Miserver labels and packing
-		self.label15 = Label(self, text="MiStorage Pricing (per month)", font=("Helvetica", 12, "bold"))
-		self.label15.pack()
-
-		self.label16 = Label(self, text="Base = $" + str(self.m_base))
-		self.label16.pack()
-
-		self.label17 = Label(self, text="Base & Snapshots = $" + str(self.m_bs))
-		self.label17.pack()
-
-		self.label18 = Label(self, text="Base & Replication = $" + str(self.m_br))
-		self.label18.pack()
-
-		self.label19 = Label(self, text="Snapshots & Replication = $" + str(self.m_sr))
-		self.label19.pack()
+		self.label15 = Label(self, text="MiStorage Pricing (per month)", font=("Helvetica", 12, "bold")).grid(row=9, column=0)
+		self.label16 = Label(self, text="Base = $" + str(self.m_base)).grid(row=10, column=1)
+		self.label17 = Label(self, text="Base & Snapshots = $" + str(self.m_bs)).grid(row=11, column=1)
+		self.label18 = Label(self, text="Base & Replication = $" + str(self.m_br)).grid(row=12, column=1)
+		self.label19 = Label(self, text="Snapshots & Replication = $" + str(self.m_sr)).grid(row=13, column=1)
 
 class ComputingPage(Frame):
 	def __init__(self, parent, controller):
