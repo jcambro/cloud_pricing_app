@@ -16,18 +16,19 @@ class Application(Tk):
 
 		#Tkfont.
 		#setup frame
-		container = Frame(self)
-		container.pack(side="top", fill="both", expand=True)
-		container.grid_rowconfigure(0, weight=1)
-		container.grid_columnconfigure(0, weight=1)
+		self.container = Frame(self)
+		self.container.pack(side="top", fill="both", expand=True)
+		self.container.grid_rowconfigure(0, weight=1)
+		self.container.grid_columnconfigure(0, weight=1)
+
 
 		self.frames = {}
 
 		#puts all the frames in a nice container.
 		for F in (StartPage, StoragePage, ComputingPage):
-			frame = F(container, self)
+			frame = F(self.container, self)
 			self.frames[F] = frame
-			frame.grid(row=0, column=0, sticky="nsew")
+			frame.grid(row=0, column=0, sticky="NSEW")
 
 		#Starts the application at the correct home page
 		self.show_frame(StartPage)
@@ -36,6 +37,12 @@ class Application(Tk):
 	def show_frame(self, context):
 		frame = self.frames[context]
 		frame.tkraise()
+
+	def reset_frame(self, context):
+		frame = context(self.container, self)
+		self.frames[context] = frame
+		frame.grid(row=0, column=0, sticky="NSEW")
+		self.show_frame(StartPage)
 
 class StartPage(Frame):
 	def __init__(self, parent, controller):
@@ -84,6 +91,14 @@ class StoragePage(Frame):
 		self.calc_button = Button(self, text="Calculate Final Cost", padx=10, pady=10, command=self.get_input )
 		self.calc_button.grid(columnspan=2, sticky="ew", pady=10)
 
+
+		self.home_button = Button(self, text="Home", padx=10, pady=10, command=self.go_home)
+		self.home_button.grid(row=14, column=3)
+
+	def go_home(self):
+		#self.destroy()
+		self.par_controller.reset_frame(StoragePage)
+
 	#Takes all the text entry input and puts them into variables
 	def get_input(self):
 		Application.storage_needed = float(self.entry1.get() )
@@ -94,7 +109,6 @@ class StoragePage(Frame):
 
 		#Delete entries to make room for the final result
 		#I cannot make a new page without the variables updating correctly
-
 		self.entry1.grid_remove()
 		self.label1.grid_remove()
 		self.entry2.grid_remove()
@@ -107,7 +121,7 @@ class StoragePage(Frame):
 		self.label5.grid_remove()
 		self.calc_button.grid_remove()
 
-		self.label6 = Label(self, text="Final Price Calculations", font=("Helvetica", 16, "bold")).grid(column=1)
+		self.label6 = Label(self, text="Final Price Calculations", font=("Helvetica", 16, "bold")).grid(row=0, column=1)
 
 		#Calculate all of the pricing options
 		self.am_s3 = 0.023 * Application.storage_needed + 0.0007 * Application.data_return + 0.002 * Application.data_scan + 0.05 * Application.write_ops + 0.004 * Application.read_ops
@@ -148,22 +162,55 @@ class ComputingPage(Frame):
 		self.con = controller
 
 		self.label1 = Label(self, text="Please Pick An Option", font=("Helvetica", 16, "bold"))
-		self.label1.grid(column=0, pady=10, padx=5)
+		self.label1.grid(column=0, pady=10, padx=5, columnspan=2)
 
 		self.button1 = Button(self, text="Pre-Built Computing", padx=10, pady=10, command=self.display_general)
-		self.button1.grid(row=1, padx=10, pady=5)
+		self.button1.grid(row=1, padx=10, pady=5, columnspan=2)
 
 		self.button3 = Button(self, text="Build Your Own", padx=25, pady=10, command=self.display_build)
-		self.button3.grid(row=3, padx=10, pady=5)
+		self.button3.grid(row=3, padx=10, pady=5, columnspan=2)
 
 	def display_general(self):
 		self.remove_begin_labels()
 		self.drop_menu()
-		pass
+
 
 	def display_build(self):
 		self.remove_begin_labels()
-		pass
+
+		self.label2 = Label(self, text="RAM (GB)")
+		self.label2.grid(row=0, column=0)
+		self.entry2 = Entry(self)
+		self.entry2.insert(10, "0")
+		self.entry2.grid(row=0, column=1, padx=10, pady=10)
+
+		self.label3 = Label(self, text="Number of CPUs")
+		self.label3.grid(row=1, column=0)
+		self.entry3 = Entry(self)
+		self.entry3.insert(10,"0")
+		self.entry3.grid(row=1, column=1, padx=10, pady=10)
+
+		self.label4 = Label(self, text="Memory (GB)")
+		self.label4.grid(row=2, column=0)
+		self.entry4 = Entry(self)
+		self.entry4.insert(10, "0")
+		self.entry4.grid(row=2, column=1, padx=10, pady=10)
+
+		self.button4 = Button(self, text="Calculate Price", padx=10, pady=10, command=self.calc_build )
+		self.button4.grid(columnspan=2, sticky="ew", pady=10)
+
+	def calc_build(self):
+		self.ram_wanted = float(self.entry2.get())
+		self.cpu_wanted = float(self.entry3.get())
+		self.storage_wanted = float(self.entry4.get())
+
+		self.label2.grid_remove()
+		self.entry2.grid_remove()
+		self.label3.grid_remove()
+		self.entry3.grid_remove()
+		self.label4.grid_remove()
+		self.entry4.grid_remove()
+		self.button4.grid_remove()
 
 	def remove_begin_labels(self):
 		self.label1.grid_remove()
@@ -189,12 +236,14 @@ class ComputingPage(Frame):
 		self.label3.grid(row=1, column=0, padx=5, pady=5)
 
 		self.entry1 = Entry(self)
+		self.entry1.insert(10, "0")
 		self.entry1.grid(row=1, column=1)
 
 		self.label5 = Label(self, text="Additional Storage needed (GB)")
 		self.label5.grid(row=2, column=0, padx=5, pady=5)
 
 		self.entry3 = Entry(self)
+		self.entry3.insert(10, "0")
 		self.entry3.grid(row=2, column=1)
 
 		self.button5 = Button(self, text="Display Prices", padx=5, pady=5, command=self.display_ram)
@@ -210,12 +259,14 @@ class ComputingPage(Frame):
 		self.label4.grid(row=1, column=0, padx=5, pady=5)
 
 		self.entry2 = Entry(self)
+		self.entry2.insert(10, "0")
 		self.entry2.grid(row=1, column=1)
 
 		self.label6 = Label(self, text="Additional Storage needed (GB)")
 		self.label6.grid(row=2, column=0, padx=5, pady=5)
 
 		self.entry4 = Entry(self)
+		self.entry4.insert(10, "0")
 		self.entry4.grid(row=2, column=1)
 
 		self.button6 = Button(self, text="Display Prices", padx=5, pady=5, command=self.display_cpu)
@@ -272,6 +323,48 @@ class ComputingPage(Frame):
 			self.tmp = 118.295 + 0.0735 * self.storage_wanted
 			self.miserver = "server3, 16(GB), 4, " + str(self.storage_wanted) + "(GB), $" + str(self.tmp)
 
+			self.extra = "Higher Memory Options"
+			self.am_ex1 = "Amazon EC2: "
+			self.g_ex1 = "Google Compute Engine: "
+
+			self.tmp = 122.64 + 0.1 * self.storage_wanted
+			self.am_ex2 = "r4.xlarge, 30.5(GB), 4, " + str(self.storage_wanted) + "(GB), $" + str(self.tmp)
+
+			self.tmp = 121 + 0.17 * self.storage_wanted
+			self.g_ex2 = "n1-highmem-4, 26(GB), 4, " + str(self.storage_wanted) + "(GB), $" + str(self.tmp)
+
+		elif self.ram_wanted <= 31:
+			self.google = "Consult higher memory options"
+			self.amazon = "Consult higher memory options"
+			self.tmp = 7.25 * self.ram_wanted + 2.295 + 0.0735 * self.storage_wanted
+			self.miserver = "custom_server, " + str(self.ram_wanted) + "(GB), 4, " + str(self.storage_wanted) + "(GB), $" + str(self.tmp)
+
+			self.extra = "Higher Memory Options"
+			self.am_ex1 = "Amazon EC2: "
+			self.g_ex1 = "Google Compute Engine: "
+
+			self.tmp = 122.64 + 0.1 * self.storage_wanted
+			self.am_ex2 = "r4.xlarge, 30.5(GB), 4, " + str(self.storage_wanted) + "(GB), $" + str(self.tmp)
+
+			self.tmp = 121 + 0.17 * self.storage_wanted
+			self.g_ex2 = "n1-highmem-4, 26(GB), 4, " + str(self.storage_wanted) + "(GB), $" + str(self.tmp)
+
+		else:
+			self.google = "Consult higher memory options"
+			self.amazon = "Consult higher memory options"
+			self.tmp = 7.25 * self.ram_wanted + 2.295 + 0.0735 * self.storage_wanted
+			self.miserver = "custom_server, " + str(self.ram_wanted) + "(GB), 8, "  + str(self.storage_wanted) + "(GB), $" + str(self.tmp)
+
+			self.extra = "The Highest Memory Options recorded"
+			self.am_ex1 = "Amazon EC2: "
+			self.g_ex1 = "Google Compute Engine: "
+
+			self.tmp = 245.28 + 0.1 * self.storage_wanted
+			self.am_ex2 = "r4.2xlarge, 61(GB), 8, " + str(self.storage_wanted) + "(GB), $" + str(self.tmp)
+
+			self.tmp = 121 + 0.17 * self.storage_wanted
+			self.g_ex2 = "n1-highmem-8, 52(GB), 8, " + str(self.storage_wanted) + "(GB), $" + str(self.tmp)
+
 
 		self.label7 = Label(self, text="Selected Machines Based on RAM Requirement\n[machine, RAM, # of CPUs, Storage, Cost/month]", font=("Helvetica", 16, "bold") )
 		self.label7.grid(row=0, column=0, padx=10, pady=10, columnspan=2)
@@ -320,8 +413,109 @@ class ComputingPage(Frame):
 		self.entry4.grid_remove()
 		self.button6.grid_remove()
 
-		self.label11 = Label(self, text="Selected Machines Based on CPU Requirement\n[machine, RAM, # of CPUs, Storage, Cost/month]", font=("Helvetica", 16, "bold") )
-		self.label11.grid(row=0, column=0, padx=10, pady=10)
+		self.google = ""
+		self.amazon = ""
+		self.miserver = ""
+		self.tmp = 0
+
+		self.extra = ""
+		self.am_ex1 = ""
+		self.g_ex1 = ""
+		self.am_ex2 = ""
+		self.g_ex2 = ""
+
+		if self.cpu_wanted <= 1:
+			self.tmp = 24.27 + 0.17 * self.storage_wanted
+			self.google = "n1-standard-1, 3.75(GB), 1, " + str(self.storage_wanted) + "(GB), $" + str(self.tmp)
+
+			self.tmp = 10.51 + 0.1 * self.storage_wanted
+			self.amazon = "t2.small, 2(GB), 1, " + str(self.storage_wanted) + "(GB), $" + str(self.tmp)
+
+			self.tmp = 16.795 + 0.0735 * self.storage_wanted
+			self.miserver = "server1, 2(GB), 1, " + str(self.storage_wanted) + "(GB), $" + str(self.tmp)
+
+		elif self.cpu_wanted <= 2:
+			self.tmp = 48.55 + 0.17 * self.storage_wanted
+			self.google = "n1-standard-2, 7.5(GB), 2, " + str(self.storage_wanted) + "(GB), $" + str(self.tmp)
+
+			self.tmp = 41.98 + 0.1 * self.storage_wanted
+			self.amazon = "t2.large, 4(GB), 2, " + str(self.storage_wanted) + "(GB), $" + str(self.tmp)
+
+			self.tmp = 31.295 + 0.0735 * self.storage_wanted
+			self.miserver = "server2, 4(GB), 2, " + str(self.storage_wanted) + "(GB), $" + str(self.tmp)
+
+		elif self.cpu_wanted <= 4:
+			self.tmp = 97.09 + 0.17 * self.storage_wanted
+			self.google = "n1-standard-4, 15(GB), 4, "  + str(self.storage_wanted) + "(GB), $" + str(self.tmp)
+
+			self.tmp = 83.95 + 0.1 * self.storage_wanted
+			self.amazon = "t2.xlarge, 16(GB), 4, " + str(self.storage_wanted) + "(GB), $" + str(self.tmp)
+
+			self.tmp = 118.295 + 0.0735 * self.storage_wanted
+			self.miserver = "server3, 16(GB), 4, " + str(self.storage_wanted) + "(GB), $" + str(self.tmp)
+
+			self.extra = "Higher Memory Options"
+			self.am_ex1 = "Amazon EC2: "
+			self.g_ex1 = "Google Compute Engine: "
+
+			self.tmp = 122.64 + 0.1 * self.storage_wanted
+			self.am_ex2 = "r4.xlarge, 30.5(GB), 4, " + str(self.storage_wanted) + "(GB), $" + str(self.tmp)
+
+			self.tmp = 121 + 0.17 * self.storage_wanted
+			self.g_ex2 = "n1-highmem-4, 26(GB), 4, " + str(self.storage_wanted) + "(GB), $" + str(self.tmp)
+
+		else:
+			self.google = "Consult higher CPU options"
+			self.amazon = "Consult higher CPU options"
+			self.tmp = 7.25 * self.ram_wanted + 2.295 + 0.0735 * self.storage_wanted
+			self.miserver = "custom_server, " + str(self.ram_wanted) + "(GB), 8, "  + str(self.storage_wanted) + "(GB), $" + str(self.tmp)
+
+			self.extra = "The Highest CPU Options recorded"
+			self.am_ex1 = "Amazon EC2: "
+			self.g_ex1 = "Google Compute Engine: "
+
+			self.tmp = 245.28 + 0.1 * self.storage_wanted
+			self.am_ex2 = "r4.2xlarge, 61(GB), 8, " + str(self.storage_wanted) + "(GB), $" + str(self.tmp)
+
+			self.tmp = 121 + 0.17 * self.storage_wanted
+			self.g_ex2 = "n1-highmem-8, 52(GB), 8, " + str(self.storage_wanted) + "(GB), $" + str(self.tmp)
+
+
+		self.label19 = Label(self, text="Selected Machines Based on CPU Requirement\n[machine, RAM, # of CPUs, Storage, Cost/month]", font=("Helvetica", 16, "bold") )
+		self.label19.grid(row=0, column=0, padx=10, pady=10, columnspa=2)
+
+		self.label20 = Label(self, text="Google Compute Engine: ")
+		self.label20.grid(row=1, column=0, padx=3, pady=7)
+
+		self.label21 = Label(self, text=self.google)
+		self.label21.grid(row=1, column=1, padx=3, pady=7)
+
+		self.label22 = Label(self, text="Amazon EC2: ")
+		self.label22.grid(row=2, column=0, padx=3, pady=7)
+
+		self.label23 = Label(self, text=self.amazon)
+		self.label23.grid(row=2, column=1, padx=3, pady=7)
+
+		self.label24 = Label(self, text="MiServer: ")
+		self.label24.grid(row=3, column=0, padx=3, pady=7)
+
+		self.label25 = Label(self, text=self.miserver)
+		self.label25.grid(row=3, column=1, padx=3, pady=7)
+
+		self.label26 = Label(self, text=self.extra)
+		self.label26.grid(row=4, padx=3, pady=10, columnspan=2)
+
+		self.label27 = Label(self, text=self.g_ex1)
+		self.label27.grid(row=5, column=0, padx=3, pady=7)
+
+		self.label28 = Label(self, text=self.g_ex2)
+		self.label28.grid(row=5, column=1, padx=3, pady=7)
+
+		self.label29 = Label(self, text=self.am_ex1)
+		self.label29.grid(row=6, column=0, padx=3, pady=7)
+
+		self.label30 = Label(self, text=self.am_ex2)
+		self.label30.grid(row=6, column=1, padx=3, pady=7)
 
 app = Application()
 app.title('Cloud Cost Comparison')
