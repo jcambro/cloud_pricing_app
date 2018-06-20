@@ -5,9 +5,10 @@
 from Tkinter import *
 
 
-my_font = ("Helvetica", 12)
-major_font = ("Helvetica", 25, "bold")
-minor_font = ("Helvetica", 16, "bold")
+
+my_font = ("Helvetica", 20)
+major_font = ("Helvetica", 30, "bold")
+minor_font = ("Helvetica", 26, "bold")
 
 class Application(Tk):
 	storage_needed = 0
@@ -21,17 +22,21 @@ class Application(Tk):
 
 		#Tkfont.
 		#setup frame
+		#container 2 is used to center the frames.
 		self.container = Frame(self)
-		self.container.pack(side="top", fill="both", expand=True)
+		self.container2 = Frame(self)
+		self.container.config(width=1150, height=600)
+
+		self.container.pack(side="top", fill="both", expand=True, padx=10, pady=10)
 		self.container.grid_rowconfigure(0, weight=1)
 		self.container.grid_columnconfigure(0, weight=1)
-
+		self.container2.place(in_=self.container, anchor="c", relx=0.5, rely=0.5)
 
 		self.frames = {}
 
 		#puts all the frames in a nice container.
 		for F in (StartPage, StoragePage, ComputingPage):
-			frame = F(self.container, self)
+			frame = F(self.container2, self)
 			self.frames[F] = frame
 			frame.grid(row=0, column=0, sticky="NSEW")
 
@@ -44,7 +49,7 @@ class Application(Tk):
 		frame.tkraise()
 
 	def reset_frame(self, context):
-		frame = context(self.container, self)
+		frame = context(self.container2, self)
 		self.frames[context] = frame
 		frame.grid(row=0, column=0, sticky="NSEW")
 		self.show_frame(StartPage)
@@ -54,7 +59,7 @@ class StartPage(Frame):
 		Frame.__init__(self, parent)
 
 		label = Label(self, text="Welcome to the Cloud Pricing App" , font=major_font).grid(row=0, padx=10, pady=10)
-		label2 = Label(self, text="You Can Compare Between Amazon, Google, and the University of Michigan\nPlease Make A Selection Below", font=minor_font).grid(row=1, padx=10, pady=10)
+		label2 = Label(self, text="Compare Between Amazon, Google, and the University of Michigan\nPlease Make A Selection Below", font=minor_font).grid(row=1, padx=10, pady=10)
 		storage_page = Button(self, text="Explore Storage Pricing", font=my_font, padx=20, pady=10, command= lambda: controller.show_frame(StoragePage) ).grid(row=2, padx=10)
 		compute_page = Button(self, text="Explore Computing Pricing",font=my_font, padx=10, pady=10, command= lambda: controller.show_frame(ComputingPage) ).grid(row=3, padx=10)
 
@@ -66,31 +71,31 @@ class StoragePage(Frame):
 
 		self.label1 = Label(self, text="Storage Needed (GB)", font=my_font)
 		self.label1.grid(row=1, column=0)
-		self.entry1 = Entry(self)
+		self.entry1 = Entry(self, font=my_font)
 		self.entry1.insert(10, "0")
 		self.entry1.grid(row=1, column=1, padx=10, pady=10)
 
 		self.label2 = Label(self, text="Read Operations (10,000)", font=my_font)
 		self.label2.grid(row=2, column=0)
-		self.entry2 = Entry(self)
+		self.entry2 = Entry(self, font=my_font)
 		self.entry2.insert(10,"0")
 		self.entry2.grid(row=2, column=1, padx=10, pady=10)
 
 		self.label3 = Label(self, text="Write Operations (10,000)", font=my_font)
 		self.label3.grid(row=3, column=0)
-		self.entry3 = Entry(self)
+		self.entry3 = Entry(self, font=my_font)
 		self.entry3.insert(10, "0")
 		self.entry3.grid(row=3, column=1, padx=10, pady=10)
 
 		self.label4 = Label(self, text="Data Scanned (GB)", font=my_font)
 		self.label4.grid(row=4, column=0)
-		self.entry4 = Entry(self)
+		self.entry4 = Entry(self, font=my_font)
 		self.entry4.insert(10, "0")
 		self.entry4.grid(row=4, column=1, padx=10, pady=10)
 
 		self.label5 = Label(self, text="Data Returned (GB)", font=my_font)
 		self.label5.grid(row=5, column=0)
-		self.entry5 = Entry(self)
+		self.entry5 = Entry(self, font=my_font)
 		self.entry5.insert(10, "0")
 		self.entry5.grid(row=5, column=1, padx=10, pady=10)
 
@@ -194,19 +199,19 @@ class ComputingPage(Frame):
 
 		self.label2 = Label(self, text="RAM (GB)", font=my_font)
 		self.label2.grid(row=1, column=1)
-		self.entry2 = Entry(self)
+		self.entry2 = Entry(self, font=my_font)
 		self.entry2.insert(10, "0")
 		self.entry2.grid(row=1, column=2, padx=10, pady=10)
 
 		self.label3 = Label(self, text="Number of CPUs", font=my_font)
 		self.label3.grid(row=2, column=1)
-		self.entry3 = Entry(self)
+		self.entry3 = Entry(self, font=my_font)
 		self.entry3.insert(10,"0")
 		self.entry3.grid(row=2, column=2, padx=10, pady=10)
 
 		self.label4 = Label(self, text="Memory (GB)", font=my_font)
 		self.label4.grid(row=3, column=1)
-		self.entry4 = Entry(self)
+		self.entry4 = Entry(self, font=my_font)
 		self.entry4.insert(10, "0")
 		self.entry4.grid(row=3, column=2, padx=10, pady=10)
 
@@ -226,6 +231,31 @@ class ComputingPage(Frame):
 		self.entry4.grid_remove()
 		self.button4.grid_remove()
 		self.build_title.grid_remove()
+
+		self.calc_title = Label(self, text="Final Price Calculation", font=major_font).grid(row=1, column=0, columnspan=2)
+		self.intro = "Prices are based on a machine with: \n" + str(self.ram_wanted) + "(GB) of RAM \n" + str(self.cpu_wanted) + " CPUs\n " + str(self.storage_wanted) + "(GB) of Storage"
+		self.into_label = Label(self, text=self.intro, padx=5, pady=5, font=minor_font).grid(row=2, column=0, columnspan=2)
+
+		self.extra_price = 0
+
+		self.miserver_price = 2.295 + 7.25 * self.ram_wanted + 0.0735 * self.storage_wanted
+
+		if (6.5 * self.cpu_wanted) < self.ram_wanted:
+			self.extra_ram = self.ram_wanted - (6.5 * self.cpu_wanted)
+			self.extra_price = self.extra_ram * 4.88005
+			self.ram_wanted -= self.extra_ram
+
+		self.google_price = 16.95 * self.cpu_wanted + 2.35 * self.ram_wanted + 0.04 * self.storage_wanted + self.extra_price
+		self.google_title = Label(self, text="Google Compute Engine: ", pady=5, font=my_font).grid(row=3, column=0)
+		self.google_p = Label(self, text="$" + str(self.google_price),pady=5, font=my_font).grid(row=3, column=1)
+
+		self.amazon_title = Label(self, text="Amazon EC2: ",pady=5, font=my_font).grid(row=4, column=0)
+		self.amazon_p = Label(self, text="Does not offer custom machines", pady=5, font=my_font).grid(row=4, column=1)
+
+
+		self.mi_title = Label(self, text="MiServer: ", pady=5, font=my_font).grid(row=5, column=0)
+		self.mi_p = Label(self, text="$" + str(self.miserver_price), pady=5, font=my_font).grid(row=5, column=1)
+
 
 	def remove_begin_labels(self):
 		self.label1.grid_remove()
@@ -253,14 +283,14 @@ class ComputingPage(Frame):
 		self.label33 = Label(self, text="How much is required (GB)?", font=my_font)
 		self.label33.grid(row=3, column=1, padx=5, pady=5)
 
-		self.entry1 = Entry(self)
+		self.entry1 = Entry(self, font=my_font)
 		self.entry1.insert(10, "0")
 		self.entry1.grid(row=3, column=2)
 
 		self.label5 = Label(self, text="Additional Storage needed (GB)", font=my_font)
 		self.label5.grid(row=4, column=1, padx=5, pady=5)
 
-		self.entry3 = Entry(self)
+		self.entry3 = Entry(self, font=my_font)
 		self.entry3.insert(10, "0")
 		self.entry3.grid(row=4, column=2)
 
@@ -279,14 +309,14 @@ class ComputingPage(Frame):
 		self.label44 = Label(self, text="How many are required?", font=my_font)
 		self.label44.grid(row=2, column=1, padx=5, pady=5)
 
-		self.entry2 = Entry(self)
+		self.entry2 = Entry(self, font=my_font)
 		self.entry2.insert(10, "0")
 		self.entry2.grid(row=2, column=2)
 
 		self.label6 = Label(self, text="Additional Storage needed (GB)", font=my_font)
 		self.label6.grid(row=3, column=1, padx=5, pady=5)
 
-		self.entry4 = Entry(self)
+		self.entry4 = Entry(self, font=my_font)
 		self.entry4.insert(10, "0")
 		self.entry4.grid(row=3, column=2)
 
@@ -382,10 +412,10 @@ class ComputingPage(Frame):
 			self.g_ex1 = "Google Compute Engine: "
 
 			self.tmp = 245.28 + 0.1 * self.storage_wanted
-			self.am_ex2 = "r4.2xlarge, 61(GB), 8, " + str(self.storage_wanted) + "(GB), $" + str(self.tmp)
+			self.am_ex2 = "r4.2xlarge, 61(GB), 8, " + str(self.storage_wanted) + "(GB), $" + str(self.tmp) + "/ month"
 
 			self.tmp = 121 + 0.17 * self.storage_wanted
-			self.g_ex2 = "n1-highmem-8, 52(GB), 8, " + str(self.storage_wanted) + "(GB), $" + str(self.tmp)
+			self.g_ex2 = "n1-highmem-8, 52(GB), 8, " + str(self.storage_wanted) + "(GB), $" + str(self.tmp) + "/ month"
 
 
 		self.label7 = Label(self, text="Selected Machines Based on RAM Requirement\n[Machine, RAM, # of CPUs, Storage, Cost/month]", font=major_font )
@@ -409,7 +439,7 @@ class ComputingPage(Frame):
 		self.label13 = Label(self, text=self.miserver, font=my_font)
 		self.label13.grid(row=3, column=2, padx=3, pady=7)
 
-		self.label14 = Label(self, text=self.extra, font=my_font)
+		self.label14 = Label(self, text=self.extra, font=minor_font)
 		self.label14.grid(row=4, column=1, padx=3, pady=10, columnspan=2)
 
 		self.label15 = Label(self, text=self.g_ex1, font=my_font)
@@ -525,7 +555,7 @@ class ComputingPage(Frame):
 		self.label25 = Label(self, text=self.miserver, font=my_font)
 		self.label25.grid(row=3, column=2, padx=3, pady=7)
 
-		self.label26 = Label(self, text=self.extra, font=my_font)
+		self.label26 = Label(self, text=self.extra, font=minor_font)
 		self.label26.grid(row=4, column=1, padx=3, pady=10, columnspan=2)
 
 		self.label27 = Label(self, text=self.g_ex1, font=my_font)
