@@ -4,11 +4,12 @@
 
 from Tkinter import *
 
-
+#helvetica
 
 my_font = ("Helvetica", 20)
 major_font = ("Helvetica", 30, "bold")
 minor_font = ("Helvetica", 26, "bold")
+
 
 class Application(Tk):
 	storage_needed = 0
@@ -16,6 +17,7 @@ class Application(Tk):
 	write_ops = 0
 	data_scan = 0
 	data_return = 0
+
 
 	def __init__(self, *args, **kwargs):
 		Tk.__init__(self, *args, **kwargs)
@@ -137,6 +139,9 @@ class StoragePage(Frame):
 		self.am_s3 = 0.023 * Application.storage_needed + 0.0007 * Application.data_return + 0.002 * Application.data_scan + 0.05 * Application.write_ops + 0.004 * Application.read_ops
 		self.am_s3ia = 0.0125 * Application.storage_needed + 0.01 * Application.data_return + 0.002 * Application.data_scan + 0.1 * Application.write_ops + 0.01 * Application.read_ops
 		self.am_glac = 0.004 * Application.storage_needed + 0.0025 * Application.data_return + 0.001 * Application.data_scan + 0.5 * Application.write_ops + 0.25 * Application.read_ops
+		self.am_s3 *= 0.95
+		self.am_s3ia *= 0.95
+		self.am_glac *= 0.95
 
 		self.g_mr = 0.026 * Application.storage_needed + 0.05 * Application.write_ops + 0.05 * Application.read_ops
 		self.g_near = 0.01 * Application.storage_needed + 0.01 * Application.data_return + 0.1 * Application.write_ops + 0.1 * Application.read_ops
@@ -233,7 +238,7 @@ class ComputingPage(Frame):
 		self.build_title.grid_remove()
 
 		self.calc_title = Label(self, text="Final Price Calculation", font=major_font).grid(row=1, column=0, columnspan=2)
-		self.intro = "Prices are based on a machine with: \n" + str(self.ram_wanted) + "(GB) of RAM \n" + str(self.cpu_wanted) + " CPUs\n " + str(self.storage_wanted) + "(GB) of Storage"
+		self.intro = "Prices are based on a machine with: \n" + str(self.ram_wanted) + "(GB) of RAM \n" + str(self.cpu_wanted) + " CPU(s)\n " + str(self.storage_wanted) + "(GB) of Storage"
 		self.into_label = Label(self, text=self.intro, padx=5, pady=5, font=minor_font).grid(row=2, column=0, columnspan=2)
 
 		self.extra_price = 0
