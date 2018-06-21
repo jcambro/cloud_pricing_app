@@ -385,9 +385,13 @@ class ComputingPage(Frame):
 			self.tmp = 121 + 0.17 * self.storage_wanted
 			self.g_ex2 = "n1-highmem-4, 26(GB), 4, " + str(self.storage_wanted) + "(GB), $" + str(self.tmp)
 
-		elif self.ram_wanted <= 31:
-			self.google = "Consult higher memory options"
-			self.amazon = "Consult higher memory options"
+		elif self.ram_wanted <= 32:
+			self.tmp = 194.18 + 0.17 * self.storage_wanted
+			self.google = "n1-standard-8, 30(GB), 8, " + str(self.storage_wanted) + "(GB), $" + str(self.tmp)
+
+			self.tmp = 167.90 + 0.1 * self.storage_wanted
+			self.amazon = "t2.2xlarge, 32(GB), 8, " + str(self.storage_wanted) + "(GB), $" + str(self.tmp)
+
 			self.tmp = 7.25 * self.ram_wanted + 2.295 + 0.0735 * self.storage_wanted
 			self.miserver = "custom_server, " + str(self.ram_wanted) + "(GB), 4, " + str(self.storage_wanted) + "(GB), $" + str(self.tmp)
 
@@ -507,31 +511,34 @@ class ComputingPage(Frame):
 			self.tmp = 118.295 + 0.0735 * self.storage_wanted
 			self.miserver = "server3, 16(GB), 4, " + str(self.storage_wanted) + "(GB), $" + str(self.tmp)
 
-			self.extra = "Higher Memory Options"
+			self.extra = "Optimized CPU Options"
 			self.am_ex1 = "Amazon EC2: "
 			self.g_ex1 = "Google Compute Engine: "
 
-			self.tmp = 122.64 + 0.1 * self.storage_wanted
-			self.am_ex2 = "r4.xlarge, 30.5(GB), 4, " + str(self.storage_wanted) + "(GB), $" + str(self.tmp)
+			self.tmp = 78.84 + 0.1 * self.storage_wanted
+			self.am_ex2 = "c5.xlarge, 8(GB), 4, " + str(self.storage_wanted) + "(GB), $" + str(self.tmp)
 
-			self.tmp = 121 + 0.17 * self.storage_wanted
-			self.g_ex2 = "n1-highmem-4, 26(GB), 4, " + str(self.storage_wanted) + "(GB), $" + str(self.tmp)
+			self.tmp = 72.46 + 0.17 * self.storage_wanted
+			self.g_ex2 = "n1-highcpu-4, 3.6(GB), 4, " + str(self.storage_wanted) + "(GB), $" + str(self.tmp)
 
 		else:
-			self.google = "Consult higher CPU options"
-			self.amazon = "Consult higher CPU options"
-			self.tmp = 7.25 * self.ram_wanted + 2.295 + 0.0735 * self.storage_wanted
-			self.miserver = "custom_server, " + str(self.ram_wanted) + "(GB), 8, "  + str(self.storage_wanted) + "(GB), $" + str(self.tmp)
+			self.tmp = 194.18 + 0.17 * self.storage_wanted
+			self.google = "n1-standard-8, 30(GB), 8, " + str(self.storage_wanted) + "(GB), $" + str(self.tmp)
 
-			self.extra = "The Highest CPU Options recorded"
+			self.tmp = 167.90 + 0.1 * self.storage_wanted
+			self.amazon = "t2.2xlarge, 32(GB), 8, " + str(self.storage_wanted) + "(GB), $" + str(self.tmp)
+
+			self.miserver = "You will have to build a custom server"
+
+			self.extra = "The Best CPU Options recorded"
 			self.am_ex1 = "Amazon EC2: "
 			self.g_ex1 = "Google Compute Engine: "
 
-			self.tmp = 245.28 + 0.1 * self.storage_wanted
-			self.am_ex2 = "r4.2xlarge, 61(GB), 8, " + str(self.storage_wanted) + "(GB), $" + str(self.tmp)
+			self.tmp = 315.36 + 0.1 * self.storage_wanted
+			self.am_ex2 = "c5.4xlarge, 32(GB), 16, " + str(self.storage_wanted) + "(GB), $" + str(self.tmp)
 
-			self.tmp = 121 + 0.17 * self.storage_wanted
-			self.g_ex2 = "n1-highmem-8, 52(GB), 8, " + str(self.storage_wanted) + "(GB), $" + str(self.tmp)
+			self.tmp = 289.84 + 0.17 * self.storage_wanted
+			self.g_ex2 = "n1-highcpu-16, 14.4(GB), 16, " + str(self.storage_wanted) + "(GB), $" + str(self.tmp)
 
 
 		self.label19 = Label(self, text="Selected Machines Based on CPU Requirement\n[Machine, RAM, # of CPUs, Storage, Cost/month]", font=major_font )
