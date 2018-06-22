@@ -61,8 +61,8 @@ class StartPage(Frame):
 	def __init__(self, parent, controller):
 		Frame.__init__(self, parent)
 		self.config(bg="gray40")
-		label = Label(self, text="Welcome to the Cloud Pricing App", bg="gray40", fg="white",font=major_font).grid(row=0, padx=10, pady=10)
-		label2 = Label(self, text="Compare Between Amazon, Google, and the University of Michigan\nPlease Make A Selection Below", bg="gray40", fg="white", font=minor_font).grid(row=1, padx=10, pady=10)
+		label = Label(self, text="Welcome to Cloud Cost Comparison", bg="gray40", fg="white",font=major_font).grid(row=0, padx=10, pady=15)
+		label2 = Label(self, text="Compare Between Amazon, Google, and the University of Michigan\nPlease Make A Selection Below", bg="gray40", fg="white", font=minor_font).grid(row=1, padx=10, pady=15)
 		storage_page = Button(self, text="Explore Storage Pricing", font=my_font, height=2, width=25, bg="blue4", fg="white", activebackground="blue3", activeforeground="white", command= lambda: controller.show_frame(StoragePage) ).grid(row=2, padx=10, pady=5)
 		compute_page = Button(self, text="Explore Computing Pricing",font=my_font, height=2, width=25, bg="blue4", fg="white", activebackground="blue3", activeforeground="white", command= lambda: controller.show_frame(ComputingPage) ).grid(row=3, padx=10, pady=5)
 
