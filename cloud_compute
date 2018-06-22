@@ -27,7 +27,8 @@ class Application(Tk):
 		#container 2 is used to center the frames.
 		self.container = Frame(self)
 		self.container2 = Frame(self)
-		self.container.config(width=1150, height=600)
+		self.container2.config(bg="black")
+		self.container.config(width=1150, height=600, bg="gray40")
 
 		self.container.pack(side="top", fill="both", expand=True, padx=10, pady=10)
 		self.container.grid_rowconfigure(0, weight=1)
@@ -59,54 +60,55 @@ class Application(Tk):
 class StartPage(Frame):
 	def __init__(self, parent, controller):
 		Frame.__init__(self, parent)
-
-		label = Label(self, text="Welcome to the Cloud Pricing App" , font=major_font).grid(row=0, padx=10, pady=10)
-		label2 = Label(self, text="Compare Between Amazon, Google, and the University of Michigan\nPlease Make A Selection Below", font=minor_font).grid(row=1, padx=10, pady=10)
-		storage_page = Button(self, text="Explore Storage Pricing", font=my_font, padx=20, pady=10, command= lambda: controller.show_frame(StoragePage) ).grid(row=2, padx=10)
-		compute_page = Button(self, text="Explore Computing Pricing",font=my_font, padx=10, pady=10, command= lambda: controller.show_frame(ComputingPage) ).grid(row=3, padx=10)
+		self.config(bg="gray40")
+		label = Label(self, text="Welcome to the Cloud Pricing App", bg="gray40", fg="white",font=major_font).grid(row=0, padx=10, pady=10)
+		label2 = Label(self, text="Compare Between Amazon, Google, and the University of Michigan\nPlease Make A Selection Below", bg="gray40", fg="white", font=minor_font).grid(row=1, padx=10, pady=10)
+		storage_page = Button(self, text="Explore Storage Pricing", font=my_font, padx=20, pady=10, bg="blue4", fg="white", activebackground="blue3", activeforeground="white", command= lambda: controller.show_frame(StoragePage) ).grid(row=2, padx=10)
+		compute_page = Button(self, text="Explore Computing Pricing",font=my_font, padx=10, pady=10, bg="blue4", fg="white", activebackground="blue3", activeforeground="white", command= lambda: controller.show_frame(ComputingPage) ).grid(row=3, padx=10)
 
 #each page is a seperate class with specific functions.
 class StoragePage(Frame):
 	def __init__(self, parent, controller):
 		Frame.__init__(self, parent)
+		self.config(bg="gray40")
 		self.par_controller = controller
 
-		self.label1 = Label(self, text="Storage Needed (GB)", font=my_font)
+		self.label1 = Label(self, text="Storage Needed (GB)", bg="gray40", fg="white", font=my_font)
 		self.label1.grid(row=1, column=0)
 		self.entry1 = Entry(self, font=my_font)
 		self.entry1.insert(10, "0")
 		self.entry1.grid(row=1, column=1, padx=10, pady=10)
 
-		self.label2 = Label(self, text="Read Operations (10,000)", font=my_font)
+		self.label2 = Label(self, text="Read Operations (10,000)", bg="gray40", fg="white", font=my_font)
 		self.label2.grid(row=2, column=0)
 		self.entry2 = Entry(self, font=my_font)
 		self.entry2.insert(10,"0")
 		self.entry2.grid(row=2, column=1, padx=10, pady=10)
 
-		self.label3 = Label(self, text="Write Operations (10,000)", font=my_font)
+		self.label3 = Label(self, text="Write Operations (10,000)", bg="gray40", fg="white", font=my_font)
 		self.label3.grid(row=3, column=0)
 		self.entry3 = Entry(self, font=my_font)
 		self.entry3.insert(10, "0")
 		self.entry3.grid(row=3, column=1, padx=10, pady=10)
 
-		self.label4 = Label(self, text="Data Scanned (GB)", font=my_font)
+		self.label4 = Label(self, text="Data Scanned (GB)", bg="gray40", fg="white", font=my_font)
 		self.label4.grid(row=4, column=0)
 		self.entry4 = Entry(self, font=my_font)
 		self.entry4.insert(10, "0")
 		self.entry4.grid(row=4, column=1, padx=10, pady=10)
 
-		self.label5 = Label(self, text="Data Returned (GB)", font=my_font)
+		self.label5 = Label(self, text="Data Returned (GB)", bg="gray40", fg="white", font=my_font)
 		self.label5.grid(row=5, column=0)
 		self.entry5 = Entry(self, font=my_font)
 		self.entry5.insert(10, "0")
 		self.entry5.grid(row=5, column=1, padx=10, pady=10)
 
-		self.calc_button = Button(self, text="Calculate Final Cost",font=my_font, padx=10, pady=10, command=self.get_input )
+		self.calc_button = Button(self, text="Calculate Final Cost",font=my_font, bg="blue4", fg="white", activebackground="blue3", activeforeground="white", padx=10, pady=10, command=self.get_input )
 		self.calc_button.grid(columnspan=2, sticky="ew", pady=10)
 
 
-		self.home_button = Button(self, text="Home", font=my_font, padx=1, pady=1, command=self.go_home)
-		self.home_button.grid(row=0, column=0, sticky=NW)
+		self.home_button = Button(self, text="Home", font=my_font, bg="blue4", fg="white", activebackground="blue3", activeforeground="white", padx=1, pady=1, command=self.go_home)
+		self.home_button.grid(row=0, column=0, sticky=W)
 
 	def go_home(self):
 		self.par_controller.reset_frame(StoragePage)
@@ -133,7 +135,7 @@ class StoragePage(Frame):
 		self.label5.grid_remove()
 		self.calc_button.grid_remove()
 
-		self.label6 = Label(self, text="Final Price Calculations", font=major_font).grid(row=0, column=1, sticky=W)
+		self.label6 = Label(self, text="Final Price Calculations", bg="gray40", fg="white", font=major_font).grid(row=0, column=1, sticky=W)
 
 		#Calculate all of the pricing options
 		self.am_s3 = 0.023 * Application.storage_needed + 0.0007 * Application.data_return + 0.002 * Application.data_scan + 0.05 * Application.write_ops + 0.004 * Application.read_ops
@@ -153,40 +155,41 @@ class StoragePage(Frame):
 		self.m_sr = 0.01875 * Application.storage_needed
 
 		#All the Amazon labels and packing
-		self.label7 = Label(self, text="Amazon Pricing (per month)", font=minor_font).grid(row=1, column=0)
-		self.label8 = Label(self, text="S3 = $" + str(self.am_s3), font=my_font ).grid(row=2, column=1)
-		self.label9 = Label(self, text="S3 Infrequent Access = $" + str(self.am_s3ia), font=my_font).grid(row=3, column=1)
-		self.label10 = Label(self, text="Glacier = $" + str(self.am_glac), font=my_font).grid(row=4, column=1)
+		self.label7 = Label(self, text="Amazon Pricing (per month)", bg="gray40", fg="white", font=minor_font).grid(row=1, column=0)
+		self.label8 = Label(self, text="S3 = $" + str(self.am_s3), bg="gray40", fg="white", font=my_font ).grid(row=2, column=1)
+		self.label9 = Label(self, text="S3 Infrequent Access = $" + str(self.am_s3ia), bg="gray40", fg="white", font=my_font).grid(row=3, column=1)
+		self.label10 = Label(self, text="Glacier = $" + str(self.am_glac), bg="gray40", fg="white", font=my_font).grid(row=4, column=1)
 
 		#All of the Google labels and packing
-		self.label11 = Label(self, text="Google Pricing (per month)", font=minor_font).grid(row=5, column=0)
-		self.label12 = Label(self, text="Multi-Regional & Regional = $" + str(self.g_mr), font=my_font).grid(row=6, column=1)
-		self.label13 = Label(self, text="Nearline = $" + str(self.g_near), font=my_font).grid(row=7, column=1)
-		self.label14 = Label(self, text="Coldline = $" + str(self.g_cold), font=my_font).grid(row=8, column=1)
+		self.label11 = Label(self, text="Google Pricing (per month)", bg="gray40", fg="white", font=minor_font).grid(row=5, column=0)
+		self.label12 = Label(self, text="Multi-Regional & Regional = $" + str(self.g_mr), bg="gray40", fg="white", font=my_font).grid(row=6, column=1)
+		self.label13 = Label(self, text="Nearline = $" + str(self.g_near), bg="gray40", fg="white", font=my_font).grid(row=7, column=1)
+		self.label14 = Label(self, text="Coldline = $" + str(self.g_cold), bg="gray40", fg="white", font=my_font).grid(row=8, column=1)
 
 		#All of the Miserver labels and packing
-		self.label15 = Label(self, text="MiStorage Pricing (per month)", font=minor_font).grid(row=9, column=0)
-		self.label16 = Label(self, text="Base = $" + str(self.m_base), font=my_font).grid(row=10, column=1)
-		self.label17 = Label(self, text="Base & Snapshots = $" + str(self.m_bs), font=my_font).grid(row=11, column=1)
-		self.label18 = Label(self, text="Base & Replication = $" + str(self.m_br), font=my_font).grid(row=12, column=1)
-		self.label19 = Label(self, text="Snapshots & Replication = $" + str(self.m_sr), font=my_font).grid(row=13, column=1)
+		self.label15 = Label(self, text="MiStorage Pricing (per month)", bg="gray40", fg="white", font=minor_font).grid(row=9, column=0)
+		self.label16 = Label(self, text="Base = $" + str(self.m_base), bg="gray40", fg="white", font=my_font).grid(row=10, column=1)
+		self.label17 = Label(self, text="Base & Snapshots = $" + str(self.m_bs), bg="gray40", fg="white", font=my_font).grid(row=11, column=1)
+		self.label18 = Label(self, text="Base & Replication = $" + str(self.m_br), bg="gray40", fg="white", font=my_font).grid(row=12, column=1)
+		self.label19 = Label(self, text="Snapshots & Replication = $" + str(self.m_sr), bg="gray40", fg="white", font=my_font).grid(row=13, column=1)
 
 class ComputingPage(Frame):
 	def __init__(self, parent, controller):
 		Frame.__init__(self, parent)
+		self.config(bg="gray40")
 		self.con = controller
 
-		self.label1 = Label(self, text="Please Pick An Option", font=major_font)
+		self.label1 = Label(self, text="Please Pick An Option", bg="gray40", fg="white", font=major_font)
 		self.label1.grid(column=1, pady=10, padx=5, columnspan=2)
 
-		self.button1 = Button(self, text="Pre-Built Computing", font=my_font, padx=10, pady=10, command=self.display_general)
+		self.button1 = Button(self, text="Pre-Built Computing", font=my_font, bg="blue4", fg="white", activebackground="blue3", activeforeground="white", padx=10, pady=10, command=self.display_general)
 		self.button1.grid(row=1, column=1 ,padx=10, pady=5, columnspan=2)
 
-		self.button3 = Button(self, text="Build Your Own", font=my_font, padx=25, pady=10, command=self.display_build)
+		self.button3 = Button(self, text="Build Your Own", font=my_font, bg="blue4", fg="white", activebackground="blue3", activeforeground="white", padx=25, pady=10, command=self.display_build)
 		self.button3.grid(row=3, column=1, padx=10, pady=5, columnspan=2)
 
-		self.home_button = Button(self, text="Home", font=my_font, padx=1, pady=1, command=self.go_home)
-		self.home_button.grid(row=0, column=0, sticky=NW)
+		self.home_button = Button(self, text="Home", font=my_font, bg="blue4", fg="white", activebackground="blue3", activeforeground="white", padx=1, pady=1, command=self.go_home)
+		self.home_button.grid(row=0, column=0, sticky=W)
 
 	def go_home(self):
 		self.con.reset_frame(ComputingPage)
@@ -199,28 +202,28 @@ class ComputingPage(Frame):
 	def display_build(self):
 		self.remove_begin_labels()
 
-		self.build_title = Label(self, text="Enter Your Specifications", font=major_font)
+		self.build_title = Label(self, text="Enter Your Specifications", bg="gray40", fg="white", font=major_font)
 		self.build_title.grid(row=0, column=1, columnspan=2)
 
-		self.label2 = Label(self, text="RAM (GB)", font=my_font)
+		self.label2 = Label(self, text="RAM (GB)", bg="gray40", fg="white", font=my_font)
 		self.label2.grid(row=1, column=1)
 		self.entry2 = Entry(self, font=my_font)
 		self.entry2.insert(10, "0")
 		self.entry2.grid(row=1, column=2, padx=10, pady=10)
 
-		self.label3 = Label(self, text="Number of CPUs", font=my_font)
+		self.label3 = Label(self, text="Number of CPUs", bg="gray40", fg="white", font=my_font)
 		self.label3.grid(row=2, column=1)
 		self.entry3 = Entry(self, font=my_font)
 		self.entry3.insert(10,"0")
 		self.entry3.grid(row=2, column=2, padx=10, pady=10)
 
-		self.label4 = Label(self, text="Memory (GB)", font=my_font)
+		self.label4 = Label(self, text="Memory (GB)", bg="gray40", fg="white", font=my_font)
 		self.label4.grid(row=3, column=1)
 		self.entry4 = Entry(self, font=my_font)
 		self.entry4.insert(10, "0")
 		self.entry4.grid(row=3, column=2, padx=10, pady=10)
 
-		self.button4 = Button(self, text="Calculate Price", font=my_font, padx=10, pady=10, command=self.calc_build )
+		self.button4 = Button(self, text="Calculate Price", font=my_font, bg="blue4", fg="white", activebackground="blue3", activeforeground="white", padx=10, pady=10, command=self.calc_build )
 		self.button4.grid(column=1, columnspan=2, sticky="ew", pady=10)
 
 	def calc_build(self):
@@ -237,9 +240,9 @@ class ComputingPage(Frame):
 		self.button4.grid_remove()
 		self.build_title.grid_remove()
 
-		self.calc_title = Label(self, text="Final Price Calculation", font=major_font).grid(row=1, column=0, columnspan=2)
+		self.calc_title = Label(self, text="Final Price Calculation", bg="gray40", fg="white", font=major_font).grid(row=1, column=0, columnspan=2)
 		self.intro = "Prices are based on a machine with: \n" + str(self.ram_wanted) + "(GB) of RAM \n" + str(self.cpu_wanted) + " CPU(s)\n " + str(self.storage_wanted) + "(GB) of Storage"
-		self.into_label = Label(self, text=self.intro, padx=5, pady=5, font=minor_font).grid(row=2, column=0, columnspan=2)
+		self.into_label = Label(self, text=self.intro, padx=5, pady=5, bg="gray40", fg="white", font=minor_font).grid(row=2, column=0, columnspan=2)
 
 		self.extra_price = 0
 
@@ -251,15 +254,15 @@ class ComputingPage(Frame):
 			self.ram_wanted -= self.extra_ram
 
 		self.google_price = 16.95 * self.cpu_wanted + 2.35 * self.ram_wanted + 0.04 * self.storage_wanted + self.extra_price
-		self.google_title = Label(self, text="Google Compute Engine: ", pady=5, font=my_font).grid(row=3, column=0)
-		self.google_p = Label(self, text="$" + str(self.google_price),pady=5, font=my_font).grid(row=3, column=1)
+		self.google_title = Label(self, text="Google Compute Engine: ", bg="gray40", fg="white", pady=5, font=my_font).grid(row=3, column=0)
+		self.google_p = Label(self, text="$" + str(self.google_price), bg="gray40", fg="white", pady=5, font=my_font).grid(row=3, column=1)
 
-		self.amazon_title = Label(self, text="Amazon EC2: ",pady=5, font=my_font).grid(row=4, column=0)
-		self.amazon_p = Label(self, text="Does not offer custom machines", pady=5, font=my_font).grid(row=4, column=1)
+		self.amazon_title = Label(self, text="Amazon EC2: ", bg="gray40", fg="white", pady=5, font=my_font).grid(row=4, column=0)
+		self.amazon_p = Label(self, text="Does not offer custom machines", bg="gray40", fg="white", pady=5, font=my_font).grid(row=4, column=1)
 
 
-		self.mi_title = Label(self, text="MiServer: ", pady=5, font=my_font).grid(row=5, column=0)
-		self.mi_p = Label(self, text="$" + str(self.miserver_price), pady=5, font=my_font).grid(row=5, column=1)
+		self.mi_title = Label(self, text="MiServer: ", bg="gray40", fg="white", pady=5, font=my_font).grid(row=5, column=0)
+		self.mi_p = Label(self, text="$" + str(self.miserver_price), bg="gray40", fg="white", pady=5, font=my_font).grid(row=5, column=1)
 
 
 	def remove_begin_labels(self):
@@ -268,13 +271,13 @@ class ComputingPage(Frame):
 		self.button3.grid_remove()
 
 	def drop_menu(self):
-		self.label2 = Label(self, text="Select What You Want To Sort By", font=major_font)
+		self.label2 = Label(self, text="Select What You Want To Sort By", bg="gray40", fg="white", font=major_font)
 		self.label2.grid(row=0, column=1, padx=10, pady=10)
 
-		self.button7 = Button(self, text="RAM",font=my_font, padx=46, pady=5, command=self.drop_menu_2)
+		self.button7 = Button(self, text="RAM",font=my_font, bg="blue4", fg="white", activebackground="blue3", activeforeground="white", padx=46, pady=5, command=self.drop_menu_2)
 		self.button7.grid(row=1, column=1, padx=10)
 
-		self.button4 = Button(self, text="Number of CPUs",font=my_font, padx=10, pady=5, command=self.drop_menu_3)
+		self.button4 = Button(self, text="Number of CPUs", bg="blue4", fg="white", activebackground="blue3", activeforeground="white", font=my_font, padx=10, pady=5, command=self.drop_menu_3)
 		self.button4.grid(row=2, column=1, padx=10)
 
 	def drop_menu_2(self):
@@ -282,24 +285,24 @@ class ComputingPage(Frame):
 		self.button4.grid_remove()
 		self.button7.grid_remove()
 
-		self.label3 = Label(self, text="You have selected RAM", font=minor_font)
+		self.label3 = Label(self, text="You have selected RAM", bg="gray40", fg="white", font=minor_font)
 		self.label3.grid(row=0, column=1, padx=5, pady=5, columnspan=2)
 
-		self.label33 = Label(self, text="How much is required (GB)?", font=my_font)
+		self.label33 = Label(self, text="How much is required (GB)?", bg="gray40", fg="white", font=my_font)
 		self.label33.grid(row=3, column=1, padx=5, pady=5)
 
 		self.entry1 = Entry(self, font=my_font)
 		self.entry1.insert(10, "0")
 		self.entry1.grid(row=3, column=2)
 
-		self.label5 = Label(self, text="Additional Storage needed (GB)", font=my_font)
+		self.label5 = Label(self, text="Additional Storage needed (GB)", bg="gray40", fg="white", font=my_font)
 		self.label5.grid(row=4, column=1, padx=5, pady=5)
 
 		self.entry3 = Entry(self, font=my_font)
 		self.entry3.insert(10, "0")
 		self.entry3.grid(row=4, column=2)
 
-		self.button5 = Button(self, text="Display Options",font=my_font, padx=5, pady=5, command=self.display_ram)
+		self.button5 = Button(self, text="Display Options",font=my_font, bg="blue4", fg="white", activebackground="blue3", activeforeground="white", padx=5, pady=5, command=self.display_ram)
 		self.button5.grid(row=5, column=2, padx=10, pady=5)
 
 
@@ -308,24 +311,24 @@ class ComputingPage(Frame):
 		self.button4.grid_remove()
 		self.button7.grid_remove()
 
-		self.label4 = Label(self, text="You have selected CPUs", font=minor_font)
+		self.label4 = Label(self, text="You have selected CPUs", bg="gray40", fg="white", font=minor_font)
 		self.label4.grid(row=0, column=1, padx=5, pady=5, columnspan=2)
 
-		self.label44 = Label(self, text="How many are required?", font=my_font)
+		self.label44 = Label(self, text="How many are required?", bg="gray40", fg="white", font=my_font)
 		self.label44.grid(row=2, column=1, padx=5, pady=5)
 
 		self.entry2 = Entry(self, font=my_font)
 		self.entry2.insert(10, "0")
 		self.entry2.grid(row=2, column=2)
 
-		self.label6 = Label(self, text="Additional Storage needed (GB)", font=my_font)
+		self.label6 = Label(self, text="Additional Storage needed (GB)", bg="gray40", fg="white", font=my_font)
 		self.label6.grid(row=3, column=1, padx=5, pady=5)
 
 		self.entry4 = Entry(self, font=my_font)
 		self.entry4.insert(10, "0")
 		self.entry4.grid(row=3, column=2)
 
-		self.button6 = Button(self, text="Display Options", font=my_font, padx=5, pady=5, command=self.display_cpu)
+		self.button6 = Button(self, text="Display Options", font=my_font, bg="blue4", fg="white", activebackground="blue3", activeforeground="white", padx=5, pady=5, command=self.display_cpu)
 		self.button6.grid(row=4, column=2, padx=10, pady=5)
 
 	def display_ram(self):
@@ -416,7 +419,7 @@ class ComputingPage(Frame):
 			self.tmp = 7.25 * self.ram_wanted + 2.295 + 0.0735 * self.storage_wanted
 			self.miserver = "custom_server, " + str(self.ram_wanted) + "(GB), 8, "  + str(self.storage_wanted) + "(GB), $" + str(self.tmp)
 
-			self.extra = "The Highest Memory Options recorded"
+			self.extra = "The Highest Memory Options Recorded"
 			self.am_ex1 = "Amazon EC2: "
 			self.g_ex1 = "Google Compute Engine: "
 
@@ -427,40 +430,40 @@ class ComputingPage(Frame):
 			self.g_ex2 = "n1-highmem-8, 52(GB), 8, " + str(self.storage_wanted) + "(GB), $" + str(self.tmp) + "/ month"
 
 
-		self.label7 = Label(self, text="Selected Machines Based on RAM Requirement\n[Machine, RAM, # of CPUs, Storage, Cost/month]", font=major_font )
+		self.label7 = Label(self, text="Selected Machines Based on RAM Requirement\n[Machine, RAM, # of CPUs, Storage, Cost/month]", bg="gray40", fg="white", font=major_font )
 		self.label7.grid(row=0, column=1, padx=10, pady=10, columnspan=2)
 
-		self.label8 = Label(self, text="Google Compute Engine: ", font=my_font)
+		self.label8 = Label(self, text="Google Compute Engine: ", bg="gray40", fg="white", font=my_font)
 		self.label8.grid(row=1, column=1, padx=3, pady=7)
 
-		self.label9 = Label(self, text=self.google, font=my_font)
+		self.label9 = Label(self, text=self.google, bg="gray40", fg="white", font=my_font)
 		self.label9.grid(row=1, column=2, padx=3, pady=7)
 
-		self.label10 = Label(self, text="Amazon EC2: ", font=my_font)
+		self.label10 = Label(self, text="Amazon EC2: ", bg="gray40", fg="white", font=my_font)
 		self.label10.grid(row=2, column=1, padx=3, pady=7)
 
-		self.label11 = Label(self, text=self.amazon, font=my_font)
+		self.label11 = Label(self, text=self.amazon, bg="gray40", fg="white", font=my_font)
 		self.label11.grid(row=2, column=2, padx=3, pady=7)
 
-		self.label12 = Label(self, text="MiServer: ", font=my_font)
+		self.label12 = Label(self, text="MiServer: ", bg="gray40", fg="white", font=my_font)
 		self.label12.grid(row=3, column=1, padx=3, pady=7)
 
-		self.label13 = Label(self, text=self.miserver, font=my_font)
+		self.label13 = Label(self, text=self.miserver, bg="gray40", fg="white", font=my_font)
 		self.label13.grid(row=3, column=2, padx=3, pady=7)
 
-		self.label14 = Label(self, text=self.extra, font=minor_font)
+		self.label14 = Label(self, text=self.extra, bg="gray40", fg="white", font=minor_font)
 		self.label14.grid(row=4, column=1, padx=3, pady=10, columnspan=2)
 
-		self.label15 = Label(self, text=self.g_ex1, font=my_font)
+		self.label15 = Label(self, text=self.g_ex1, bg="gray40", fg="white", font=my_font)
 		self.label15.grid(row=5, column=1, padx=3, pady=7)
 
-		self.label16 = Label(self, text=self.g_ex2, font=my_font)
+		self.label16 = Label(self, text=self.g_ex2, bg="gray40", fg="white", font=my_font)
 		self.label16.grid(row=5, column=2, padx=3, pady=7)
 
-		self.label17 = Label(self, text=self.am_ex1, font=my_font)
+		self.label17 = Label(self, text=self.am_ex1, bg="gray40", fg="white", font=my_font)
 		self.label17.grid(row=6, column=1, padx=3, pady=7)
 
-		self.label18 = Label(self, text=self.am_ex2, font=my_font)
+		self.label18 = Label(self, text=self.am_ex2, bg="gray40", fg="white", font=my_font)
 		self.label18.grid(row=6, column=2, padx=3, pady=7)
 
 
@@ -535,7 +538,7 @@ class ComputingPage(Frame):
 
 			self.miserver = "You will have to build a custom server"
 
-			self.extra = "The Best CPU Options recorded"
+			self.extra = "The Best CPU Options Recorded"
 			self.am_ex1 = "Amazon EC2: "
 			self.g_ex1 = "Google Compute Engine: "
 
@@ -546,42 +549,43 @@ class ComputingPage(Frame):
 			self.g_ex2 = "n1-highcpu-16, 14.4(GB), 16, " + str(self.storage_wanted) + "(GB), $" + str(self.tmp)
 
 
-		self.label19 = Label(self, text="Selected Machines Based on CPU Requirement\n[Machine, RAM, # of CPUs, Storage, Cost/month]", font=major_font )
+		self.label19 = Label(self, text="Selected Machines Based on CPU Requirement\n[Machine, RAM, # of CPUs, Storage, Cost/month]", bg="gray40", fg="white", font=major_font )
 		self.label19.grid(row=0, column=1, padx=10, pady=10, columnspa=2)
 
-		self.label20 = Label(self, text="Google Compute Engine: ", font=my_font)
+		self.label20 = Label(self, text="Google Compute Engine: ", bg="gray40", fg="white", font=my_font)
 		self.label20.grid(row=1, column=1, padx=3, pady=7)
 
-		self.label21 = Label(self, text=self.google, font=my_font)
+		self.label21 = Label(self, text=self.google, bg="gray40", fg="white", font=my_font)
 		self.label21.grid(row=1, column=2, padx=3, pady=7)
 
-		self.label22 = Label(self, text="Amazon EC2: ", font=my_font)
+		self.label22 = Label(self, text="Amazon EC2: ", bg="gray40", fg="white", font=my_font)
 		self.label22.grid(row=2, column=1, padx=3, pady=7)
 
-		self.label23 = Label(self, text=self.amazon, font=my_font)
+		self.label23 = Label(self, text=self.amazon, bg="gray40", fg="white", font=my_font)
 		self.label23.grid(row=2, column=2, padx=3, pady=7)
 
-		self.label24 = Label(self, text="MiServer: ", font=my_font)
+		self.label24 = Label(self, text="MiServer: ", bg="gray40", fg="white", font=my_font)
 		self.label24.grid(row=3, column=1, padx=3, pady=7)
 
-		self.label25 = Label(self, text=self.miserver, font=my_font)
+		self.label25 = Label(self, text=self.miserver, bg="gray40", fg="white", font=my_font)
 		self.label25.grid(row=3, column=2, padx=3, pady=7)
 
-		self.label26 = Label(self, text=self.extra, font=minor_font)
+		self.label26 = Label(self, text=self.extra, bg="gray40", fg="white", font=minor_font)
 		self.label26.grid(row=4, column=1, padx=3, pady=10, columnspan=2)
 
-		self.label27 = Label(self, text=self.g_ex1, font=my_font)
+		self.label27 = Label(self, text=self.g_ex1, bg="gray40", fg="white", font=my_font)
 		self.label27.grid(row=5, column=1, padx=3, pady=7)
 
-		self.label28 = Label(self, text=self.g_ex2, font=my_font)
+		self.label28 = Label(self, text=self.g_ex2, bg="gray40", fg="white", font=my_font)
 		self.label28.grid(row=5, column=2, padx=3, pady=7)
 
-		self.label29 = Label(self, text=self.am_ex1, font=my_font)
+		self.label29 = Label(self, text=self.am_ex1, bg="gray40", fg="white", font=my_font)
 		self.label29.grid(row=6, column=1, padx=3, pady=7)
 
-		self.label30 = Label(self, text=self.am_ex2, font=my_font)
+		self.label30 = Label(self, text=self.am_ex2, bg="gray40", fg="white", font=my_font)
 		self.label30.grid(row=6, column=2, padx=3, pady=7)
 
 app = Application()
 app.title('Cloud Cost Comparison')
+app.resizable(width=False, height=False)
 app.mainloop()
