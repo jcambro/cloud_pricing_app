@@ -80,38 +80,41 @@ class StoragePage(Frame):
 		self.config(bg="gray40")
 		self.par_controller = controller
 
+		self.width_spacer = Label(self, width=30, bg="gray40", fg="white")
+		self.width_spacer.grid(row=1, column=0)
+
 		self.label1 = Label(self, text="Storage Needed (GB)", bg="gray40", fg="white", font=my_font)
-		self.label1.grid(row=1, column=0)
+		self.label1.grid(row=1, column=1)
 		self.entry1 = Entry(self, font=my_font)
 		self.entry1.insert(10, "0")
-		self.entry1.grid(row=1, column=1, padx=10, pady=10)
+		self.entry1.grid(row=1, column=2, padx=10, pady=10)
 
 		self.label2 = Label(self, text="Read Operations (10,000)", bg="gray40", fg="white", font=my_font)
-		self.label2.grid(row=2, column=0)
+		self.label2.grid(row=2, column=1)
 		self.entry2 = Entry(self, font=my_font)
 		self.entry2.insert(10,"0")
-		self.entry2.grid(row=2, column=1, padx=10, pady=10)
+		self.entry2.grid(row=2, column=2, padx=10, pady=10)
 
 		self.label3 = Label(self, text="Write Operations (10,000)", bg="gray40", fg="white", font=my_font)
-		self.label3.grid(row=3, column=0)
+		self.label3.grid(row=3, column=1)
 		self.entry3 = Entry(self, font=my_font)
 		self.entry3.insert(10, "0")
-		self.entry3.grid(row=3, column=1, padx=10, pady=10)
+		self.entry3.grid(row=3, column=2, padx=10, pady=10)
 
 		self.label4 = Label(self, text="Data Scanned (GB)", bg="gray40", fg="white", font=my_font)
-		self.label4.grid(row=4, column=0)
+		self.label4.grid(row=4, column=1)
 		self.entry4 = Entry(self, font=my_font)
 		self.entry4.insert(10, "0")
-		self.entry4.grid(row=4, column=1, padx=10, pady=10)
+		self.entry4.grid(row=4, column=2, padx=10, pady=10)
 
 		self.label5 = Label(self, text="Data Returned (GB)", bg="gray40", fg="white", font=my_font)
-		self.label5.grid(row=5, column=0)
+		self.label5.grid(row=5, column=1)
 		self.entry5 = Entry(self, font=my_font)
 		self.entry5.insert(10, "0")
-		self.entry5.grid(row=5, column=1, padx=10, pady=10)
+		self.entry5.grid(row=5, column=2, padx=10, pady=10)
 
 		self.calc_button = Button(self, text="Calculate Final Cost",font=my_font, bg="blue4", fg="white", activebackground="blue3", activeforeground="white", padx=10, pady=10, command=self.get_input )
-		self.calc_button.grid(columnspan=2, sticky="ew", pady=10)
+		self.calc_button.grid(row=6, column=1, columnspan=2, sticky="ew", pady=10)
 
 
 		self.home_button = Button(self, text="Home", font=my_font, bg="blue4", fg="white", activebackground="blue3", activeforeground="white", padx=1, pady=1, command=self.go_home)
@@ -141,6 +144,7 @@ class StoragePage(Frame):
 		self.entry5.grid_remove()
 		self.label5.grid_remove()
 		self.calc_button.grid_remove()
+		self.width_spacer.grid_remove()
 
 		self.label6 = Label(self, text="Final Price Calculations", bg="gray40", fg="white", font=major_font).grid(row=0, column=1, sticky=W)
 
