@@ -414,12 +414,15 @@ class ComputingPage(Frame):
 			self.g_ex2 = "n1-highmem-4, 26(GB), 4, " + str(self.storage_wanted) + "(GB), $" + str(self.tmp)
 
 		else:
-			self.google = "Consult higher memory options"
+			self.tmp = 388.36 + 0.17 * self.storage_wanted
+			self.google = "n1-standard-16, 60(GB), 16, " + str(self.storage_wanted) + "(GB), $" + str(self.tmp)
+
 			self.amazon = "Consult higher memory options"
+
 			self.tmp = 7.25 * self.ram_wanted + 2.295 + 0.0735 * self.storage_wanted
 			self.miserver = "custom_server, " + str(self.ram_wanted) + "(GB), 8, "  + str(self.storage_wanted) + "(GB), $" + str(self.tmp)
 
-			self.extra = "The Highest Memory Options Recorded"
+			self.extra = "The Highest Memory Optimized Options Recorded"
 			self.am_ex1 = "Amazon EC2: "
 			self.g_ex1 = "Google Compute Engine: "
 
@@ -538,7 +541,7 @@ class ComputingPage(Frame):
 
 			self.miserver = "You will have to build a custom server"
 
-			self.extra = "The Best CPU Options Recorded"
+			self.extra = "The Best CPU Optimized Options Recorded"
 			self.am_ex1 = "Amazon EC2: "
 			self.g_ex1 = "Google Compute Engine: "
 
@@ -550,7 +553,7 @@ class ComputingPage(Frame):
 
 
 		self.label19 = Label(self, text="Selected Machines Based on CPU Requirement\n[Machine, RAM, # of CPUs, Storage, Cost/month]", bg="gray40", fg="white", font=major_font )
-		self.label19.grid(row=0, column=1, padx=10, pady=10, columnspa=2)
+		self.label19.grid(row=0, column=1, padx=10, pady=10, columnspan=2)
 
 		self.label20 = Label(self, text="Google Compute Engine: ", bg="gray40", fg="white", font=my_font)
 		self.label20.grid(row=1, column=1, padx=3, pady=7)
