@@ -61,6 +61,13 @@ class StartPage(Frame):
 	def __init__(self, parent, controller):
 		Frame.__init__(self, parent)
 		self.config(bg="gray40")
+
+		rows = 0
+		while rows < 50:
+		    self.grid_rowconfigure(rows, weight=1)
+		    self.grid_columnconfigure(rows,weight=1)
+		    rows += 1
+
 		label = Label(self, text="Welcome to Cloud Cost Comparison", bg="gray40", fg="white",font=major_font).grid(row=0, padx=10, pady=15)
 		label2 = Label(self, text="Compare Between Amazon, Google, and the University of Michigan\nPlease Make A Selection Below", bg="gray40", fg="white", font=minor_font).grid(row=1, padx=10, pady=15)
 		storage_page = Button(self, text="Explore Storage Pricing", font=my_font, height=2, width=25, bg="blue4", fg="white", activebackground="blue3", activeforeground="white", command= lambda: controller.show_frame(StoragePage) ).grid(row=2, padx=10, pady=5)
@@ -179,14 +186,21 @@ class ComputingPage(Frame):
 		self.config(bg="gray40")
 		self.con = controller
 
+
+		self.width_spacer = Label(self, width=34, bg="gray40", fg="white")
+		self.width_spacer.grid(row=0, column=1)
+		self.height_spacer = Label(self, height=23, bg="gray40", fg="white")
+		self.height_spacer.grid(row=7, column=1)
+
+
 		self.label1 = Label(self, text="Please Pick An Option", bg="gray40", fg="white", font=major_font)
-		self.label1.grid(column=1, pady=10, padx=5, columnspan=2)
+		self.label1.grid(column=10, row=0, pady=10, padx=5, columnspan=2)
 
 		self.button1 = Button(self, text="Pre-Built Computing", height=2, width=15, font=my_font, bg="blue4", fg="white", activebackground="blue3", activeforeground="white", command=self.display_general)
-		self.button1.grid(row=1, column=1 ,padx=10, pady=5, columnspan=2)
+		self.button1.grid(row=3, column=10 ,padx=10, pady=5, columnspan=2)
 
 		self.button3 = Button(self, text="Build Your Own", font=my_font, height=2, width=15, bg="blue4", fg="white", activebackground="blue3", activeforeground="white", command=self.display_build)
-		self.button3.grid(row=3, column=1, padx=10, pady=5, columnspan=2)
+		self.button3.grid(row=6, column=10, padx=10, pady=5, columnspan=2)
 
 		self.home_button = Button(self, text="Home", font=my_font, bg="blue4", fg="white", activebackground="blue3", activeforeground="white", padx=1, pady=1, command=self.go_home)
 		self.home_button.grid(row=0, column=0, sticky=W)
@@ -201,6 +215,12 @@ class ComputingPage(Frame):
 
 	def display_build(self):
 		self.remove_begin_labels()
+
+		self.height_spacer2 = Label(self, height=18, bg="gray40", fg="white")
+		self.height_spacer2.grid(row=5, column=0)
+
+		self.width_spacer5 = Label(self, width=35, bg="gray40", fg="white")
+		self.width_spacer5.grid(row=1, column=0)
 
 		self.build_title = Label(self, text="Enter Your Specifications", bg="gray40", fg="white", font=major_font)
 		self.build_title.grid(row=0, column=1, columnspan=2)
@@ -224,7 +244,7 @@ class ComputingPage(Frame):
 		self.entry4.grid(row=3, column=2, padx=10, pady=10)
 
 		self.button4 = Button(self, text="Calculate Price", font=my_font, bg="blue4", fg="white", activebackground="blue3", activeforeground="white", padx=10, pady=10, command=self.calc_build )
-		self.button4.grid(column=1, columnspan=2, sticky="ew", pady=10)
+		self.button4.grid(column=1, row=4, columnspan=2, sticky="ew", pady=10)
 
 	def calc_build(self):
 		self.ram_wanted = float(self.entry2.get())
@@ -239,10 +259,12 @@ class ComputingPage(Frame):
 		self.entry4.grid_remove()
 		self.button4.grid_remove()
 		self.build_title.grid_remove()
+		self.height_spacer2.grid_remove()
+		self.width_spacer5.grid_remove()
 
-		self.calc_title = Label(self, text="Final Price Calculation", bg="gray40", fg="white", font=major_font).grid(row=1, column=0, columnspan=2)
+		self.calc_title = Label(self, text="Final Price Calculation", bg="gray40", fg="white", font=major_font).grid(row=1, column=1, columnspan=2)
 		self.intro = "Prices are based on a machine with: \n" + str(self.ram_wanted) + "(GB) of RAM \n" + str(self.cpu_wanted) + " CPU(s)\n " + str(self.storage_wanted) + "(GB) of Storage"
-		self.into_label = Label(self, text=self.intro, padx=5, pady=5, bg="gray40", fg="white", font=minor_font).grid(row=2, column=0, columnspan=2)
+		self.into_label = Label(self, text=self.intro, padx=5, pady=5, bg="gray40", fg="white", font=minor_font).grid(row=2, column=1, columnspan=2)
 
 		self.extra_price = 0
 
@@ -254,23 +276,36 @@ class ComputingPage(Frame):
 			self.ram_wanted -= self.extra_ram
 
 		self.google_price = 16.95 * self.cpu_wanted + 2.35 * self.ram_wanted + 0.04 * self.storage_wanted + self.extra_price
-		self.google_title = Label(self, text="Google Compute Engine: ", bg="gray40", fg="white", pady=5, font=my_font).grid(row=3, column=0)
-		self.google_p = Label(self, text="$" + str(self.google_price), bg="gray40", fg="white", pady=5, font=my_font).grid(row=3, column=1)
+		self.google_title = Label(self, text="Google Compute Engine: ", bg="gray40", fg="white", pady=5, font=my_font).grid(row=3, column=1)
+		self.google_p = Label(self, text="$" + str(self.google_price), bg="gray40", fg="white", pady=5, font=my_font).grid(row=3, column=2)
 
-		self.amazon_title = Label(self, text="Amazon EC2: ", bg="gray40", fg="white", pady=5, font=my_font).grid(row=4, column=0)
-		self.amazon_p = Label(self, text="Does not offer custom machines", bg="gray40", fg="white", pady=5, font=my_font).grid(row=4, column=1)
+		self.amazon_title = Label(self, text="Amazon EC2: ", bg="gray40", fg="white", pady=5, font=my_font).grid(row=4, column=1)
+		self.amazon_p = Label(self, text="Does not offer custom machines", bg="gray40", fg="white", pady=5, font=my_font).grid(row=4, column=2)
 
 
-		self.mi_title = Label(self, text="MiServer: ", bg="gray40", fg="white", pady=5, font=my_font).grid(row=5, column=0)
-		self.mi_p = Label(self, text="$" + str(self.miserver_price), bg="gray40", fg="white", pady=5, font=my_font).grid(row=5, column=1)
+		self.mi_title = Label(self, text="MiServer: ", bg="gray40", fg="white", pady=5, font=my_font).grid(row=5, column=1)
+		self.mi_p = Label(self, text="$" + str(self.miserver_price), bg="gray40", fg="white", pady=5, font=my_font).grid(row=5, column=2)
 
+		self.height_spacer3 = Label(self, height=10, bg="gray40", fg="white")
+		self.height_spacer3.grid(column=0, row=6)
+
+		self.width_spacer6 = Label(self, width=27, bg="gray40", fg="white")
+		self.width_spacer6.grid(column=0, row=1)
 
 	def remove_begin_labels(self):
 		self.label1.grid_remove()
 		self.button1.grid_remove()
 		self.button3.grid_remove()
+		self.height_spacer.grid_remove()
+		self.width_spacer.grid_remove()
 
 	def drop_menu(self):
+
+		self.width_spacer2 = Label(self, width=30, bg="gray40", fg="white")
+		self.width_spacer2.grid(row=1, column=0)
+
+		self.height_spacer.grid(row=3, column=0)
+
 		self.label2 = Label(self, text="Select What You Want To Sort By", bg="gray40", fg="white", font=major_font)
 		self.label2.grid(row=0, column=1, padx=10, pady=10)
 
@@ -284,6 +319,13 @@ class ComputingPage(Frame):
 		self.label2.grid_remove()
 		self.button4.grid_remove()
 		self.button7.grid_remove()
+		self.width_spacer2.grid_remove()
+		self.height_spacer.grid_remove()
+
+		self.height_spacer.grid(row=6, column=0)
+
+		self.width_spacer3 = Label(self, width=25, bg="gray40", fg="white")
+		self.width_spacer3.grid(row=1, column=0)
 
 		self.label3 = Label(self, text="You have selected RAM", bg="gray40", fg="white", font=minor_font)
 		self.label3.grid(row=0, column=1, padx=5, pady=5, columnspan=2)
@@ -310,6 +352,13 @@ class ComputingPage(Frame):
 		self.label2.grid_remove()
 		self.button4.grid_remove()
 		self.button7.grid_remove()
+		self.width_spacer2.grid_remove()
+		self.height_spacer.grid_remove()
+
+		self.height_spacer.grid(row=6, column=0)
+
+		self.width_spacer4 = Label(self, width=25, bg="gray40", fg="white")
+		self.width_spacer4.grid(row=1, column=0)
 
 		self.label4 = Label(self, text="You have selected CPUs", bg="gray40", fg="white", font=minor_font)
 		self.label4.grid(row=0, column=1, padx=5, pady=5, columnspan=2)
@@ -341,6 +390,8 @@ class ComputingPage(Frame):
 		self.label5.grid_remove()
 		self.entry3.grid_remove()
 		self.button5.grid_remove()
+		self.height_spacer.grid_remove()
+		self.width_spacer3.grid_remove()
 
 		self.google = ""
 		self.amazon = ""
@@ -480,6 +531,8 @@ class ComputingPage(Frame):
 		self.label6.grid_remove()
 		self.entry4.grid_remove()
 		self.button6.grid_remove()
+		self.height_spacer.grid_remove()
+		self.width_spacer4.grid_remove()
 
 		self.google = ""
 		self.amazon = ""
