@@ -1,11 +1,10 @@
 #! /usr/bin/python2
 
-#Created by John Ambrose
+#Created by John Ambrose 6-26-18
 
 from Tkinter import *
 
-#helvetica
-
+#Changes font on all labels
 my_font = ("Helvetica", 20)
 major_font = ("Helvetica", 30, "bold")
 minor_font = ("Helvetica", 26, "bold")
@@ -51,6 +50,7 @@ class Application(Tk):
 		frame = self.frames[context]
 		frame.tkraise()
 
+	#For the home button. Reinitializes a page in the dictionary for a fresh start.
 	def reset_frame(self, context):
 		frame = context(self.container2, self)
 		self.frames[context] = frame
@@ -62,18 +62,11 @@ class StartPage(Frame):
 		Frame.__init__(self, parent)
 		self.config(bg="gray40")
 
-		rows = 0
-		while rows < 50:
-		    self.grid_rowconfigure(rows, weight=1)
-		    self.grid_columnconfigure(rows,weight=1)
-		    rows += 1
-
 		label = Label(self, text="Welcome to Cloud Cost Comparison", bg="gray40", fg="white",font=major_font).grid(row=0, padx=10, pady=15)
 		label2 = Label(self, text="Compare Between Amazon, Google, and the University of Michigan\nPlease Make A Selection Below", bg="gray40", fg="white", font=minor_font).grid(row=1, padx=10, pady=15)
 		storage_page = Button(self, text="Explore Storage Pricing", font=my_font, height=2, width=25, bg="blue4", fg="white", activebackground="blue3", activeforeground="white", command= lambda: controller.show_frame(StoragePage) ).grid(row=2, padx=10, pady=5)
 		compute_page = Button(self, text="Explore Computing Pricing",font=my_font, height=2, width=25, bg="blue4", fg="white", activebackground="blue3", activeforeground="white", command= lambda: controller.show_frame(ComputingPage) ).grid(row=3, padx=10, pady=5)
 
-#each page is a seperate class with specific functions.
 class StoragePage(Frame):
 	def __init__(self, parent, controller):
 		Frame.__init__(self, parent)
@@ -149,17 +142,22 @@ class StoragePage(Frame):
 		self.label6 = Label(self, text="Final Price Calculations", bg="gray40", fg="white", font=major_font).grid(row=0, column=1, sticky=W)
 
 		#Calculate all of the pricing options
+		#AMAZON
 		self.am_s3 = 0.023 * Application.storage_needed + 0.0007 * Application.data_return + 0.002 * Application.data_scan + 0.05 * Application.write_ops + 0.004 * Application.read_ops
 		self.am_s3ia = 0.0125 * Application.storage_needed + 0.01 * Application.data_return + 0.002 * Application.data_scan + 0.1 * Application.write_ops + 0.01 * Application.read_ops
 		self.am_glac = 0.004 * Application.storage_needed + 0.0025 * Application.data_return + 0.001 * Application.data_scan + 0.5 * Application.write_ops + 0.25 * Application.read_ops
+
+		#Amazon Discount
 		self.am_s3 *= 0.95
 		self.am_s3ia *= 0.95
 		self.am_glac *= 0.95
 
+		#GOOGLE
 		self.g_mr = 0.026 * Application.storage_needed + 0.05 * Application.write_ops + 0.05 * Application.read_ops
 		self.g_near = 0.01 * Application.storage_needed + 0.01 * Application.data_return + 0.1 * Application.write_ops + 0.1 * Application.read_ops
 		self.g_cold = 0.007 * Application.storage_needed + 0.05 * Application.data_return + 0.1 * Application.write_ops + 0.1 * Application.read_ops
 
+		#MICHIGAN
 		self.m_base = 0.0075 * Application.storage_needed
 		self.m_bs = 0.009375 * Application.storage_needed
 		self.m_br = 0.015 * Application.storage_needed
@@ -190,12 +188,10 @@ class ComputingPage(Frame):
 		self.config(bg="gray40")
 		self.con = controller
 
-
 		self.width_spacer = Label(self, width=34, bg="gray40", fg="white")
 		self.width_spacer.grid(row=0, column=1)
 		self.height_spacer = Label(self, height=23, bg="gray40", fg="white")
 		self.height_spacer.grid(row=7, column=1)
-
 
 		self.label1 = Label(self, text="Please Pick An Option", bg="gray40", fg="white", font=major_font)
 		self.label1.grid(column=10, row=0, pady=10, padx=5, columnspan=2)
@@ -348,7 +344,7 @@ class ComputingPage(Frame):
 		self.entry3.insert(10, "0")
 		self.entry3.grid(row=4, column=2)
 
-		self.button5 = Button(self, text="Display Options",font=my_font, bg="blue4", fg="white", activebackground="blue3", activeforeground="white", padx=5, pady=5, command=self.display_ram)
+		self.button5 = Button(self, text="Display Options", font=my_font, bg="blue4", fg="white", activebackground="blue3", activeforeground="white", padx=5, pady=5, command=self.display_ram)
 		self.button5.grid(row=5, column=2, padx=10, pady=5)
 
 
@@ -438,7 +434,7 @@ class ComputingPage(Frame):
 			self.tmp = 118.295 + 0.0735 * self.storage_wanted
 			self.miserver = "server3, 16(GB), 4, " + str(self.storage_wanted) + "(GB), $" + str(self.tmp)
 
-			self.extra = "Higher Memory Options"
+			self.extra = "Memory Optimized Options"
 			self.am_ex1 = "Amazon EC2: "
 			self.g_ex1 = "Google Compute Engine: "
 
@@ -458,7 +454,7 @@ class ComputingPage(Frame):
 			self.tmp = 7.25 * self.ram_wanted + 2.295 + 0.0735 * self.storage_wanted
 			self.miserver = "custom_server, " + str(self.ram_wanted) + "(GB), 4, " + str(self.storage_wanted) + "(GB), $" + str(self.tmp)
 
-			self.extra = "Higher Memory Options"
+			self.extra = "Memory Optimized Options"
 			self.am_ex1 = "Amazon EC2: "
 			self.g_ex1 = "Google Compute Engine: "
 
