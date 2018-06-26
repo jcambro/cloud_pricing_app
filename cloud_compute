@@ -11,12 +11,6 @@ minor_font = ("Helvetica", 26, "bold")
 
 
 class Application(Tk):
-	storage_needed = 0
-	read_ops = 0
-	write_ops = 0
-	data_scan = 0
-	data_return = 0
-
 
 	def __init__(self, *args, **kwargs):
 		Tk.__init__(self, *args, **kwargs)
