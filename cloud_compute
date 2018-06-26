@@ -11,7 +11,6 @@ minor_font = ("Helvetica", 26, "bold")
 
 
 class Application(Tk):
-
 	def __init__(self, *args, **kwargs):
 		Tk.__init__(self, *args, **kwargs)
 
@@ -231,7 +230,7 @@ class ComputingPage(Frame):
 		self.entry3.insert(10,"0")
 		self.entry3.grid(row=2, column=2, padx=10, pady=10)
 
-		self.label4 = Label(self, text="Memory (GB)", bg="gray40", fg="white", font=my_font)
+		self.label4 = Label(self, text="Disk Space (GB)", bg="gray40", fg="white", font=my_font)
 		self.label4.grid(row=3, column=1)
 		self.entry4 = Entry(self, font=my_font)
 		self.entry4.insert(10, "0")
@@ -257,7 +256,7 @@ class ComputingPage(Frame):
 		self.width_spacer5.grid_remove()
 
 		self.calc_title = Label(self, text="Final Price Calculation", bg="gray40", fg="white", font=major_font).grid(row=1, column=1, columnspan=2)
-		self.intro = "Prices are based on a machine with: \n" + str(self.ram_wanted) + "(GB) of RAM \n" + str(self.cpu_wanted) + " CPU(s)\n " + str(self.storage_wanted) + "(GB) of Storage"
+		self.intro = "Prices are based on a machine with: \n" + str(self.ram_wanted) + "(GB) of RAM \n" + str(self.cpu_wanted) + " CPU(s)\n " + str(self.storage_wanted) + "(GB) of Disk Space"
 		self.into_label = Label(self, text=self.intro, padx=5, pady=5, bg="gray40", fg="white", font=minor_font).grid(row=2, column=1, columnspan=2)
 
 		self.extra_price = 0
@@ -331,7 +330,7 @@ class ComputingPage(Frame):
 		self.entry1.insert(10, "0")
 		self.entry1.grid(row=3, column=2)
 
-		self.label5 = Label(self, text="Additional Storage needed (GB)", bg="gray40", fg="white", font=my_font)
+		self.label5 = Label(self, text="Additional Disk Space Needed (GB)", bg="gray40", fg="white", font=my_font)
 		self.label5.grid(row=4, column=1, padx=5, pady=5)
 
 		self.entry3 = Entry(self, font=my_font)
@@ -364,7 +363,7 @@ class ComputingPage(Frame):
 		self.entry2.insert(10, "0")
 		self.entry2.grid(row=2, column=2)
 
-		self.label6 = Label(self, text="Additional Storage needed (GB)", bg="gray40", fg="white", font=my_font)
+		self.label6 = Label(self, text="Additional Disk Space Needed (GB)", bg="gray40", fg="white", font=my_font)
 		self.label6.grid(row=3, column=1, padx=5, pady=5)
 
 		self.entry4 = Entry(self, font=my_font)
@@ -478,7 +477,7 @@ class ComputingPage(Frame):
 			self.g_ex2 = "n1-highmem-8, 52(GB), 8, " + str(self.storage_wanted) + "(GB), $" + str(self.tmp) + "/ month"
 
 
-		self.label7 = Label(self, text="Selected Machines Based on RAM Requirement\n[Machine, RAM, # of CPUs, Storage, Cost/month]", bg="gray40", fg="white", font=major_font )
+		self.label7 = Label(self, text="Selected Machines Based on RAM Requirement\n[Machine, RAM, # of CPUs, Disk, Cost/month]", bg="gray40", fg="white", font=major_font )
 		self.label7.grid(row=0, column=1, padx=10, pady=10, columnspan=2)
 
 		self.label8 = Label(self, text="Google Compute Engine: ", bg="gray40", fg="white", font=my_font)
@@ -599,7 +598,7 @@ class ComputingPage(Frame):
 			self.g_ex2 = "n1-highcpu-16, 14.4(GB), 16, " + str(self.storage_wanted) + "(GB), $" + str(self.tmp)
 
 
-		self.label19 = Label(self, text="Selected Machines Based on CPU Requirement\n[Machine, RAM, # of CPUs, Storage, Cost/month]", bg="gray40", fg="white", font=major_font )
+		self.label19 = Label(self, text="Selected Machines Based on CPU Requirement\n[Machine, RAM, # of CPUs, Disk, Cost/month]", bg="gray40", fg="white", font=major_font )
 		self.label19.grid(row=0, column=1, padx=10, pady=10, columnspan=2)
 
 		self.label20 = Label(self, text="Google Compute Engine: ", bg="gray40", fg="white", font=my_font)
