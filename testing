@@ -1,0 +1,109 @@
+#! /usr/bin/python2
+
+#Created by John Ambrose 6-26-18
+
+from Tkinter import *
+
+#Changes font on all labels
+my_font = ("Helvetica", 20)
+major_font = ("Helvetica", 30, "bold")
+minor_font = ("Helvetica", 26, "bold")
+
+
+
+my_entry_value = 12
+
+
+
+
+class Application(Tk):
+	def __init__(self, *args, **kwargs):
+		Tk.__init__(self, *args, **kwargs)
+
+		#Tkfont.
+		#setup frame
+		#container 2 is used to center the frames.
+		self.container = Frame(self)
+		self.container2 = Frame(self)
+		self.container2.config(bg="black")
+		self.container.config(width=1150, height=600, bg="gray40")
+
+		self.container.pack(side="top", fill="both", expand=True, padx=10, pady=10)
+		self.container.grid_rowconfigure(0, weight=1)
+		self.container.grid_columnconfigure(0, weight=1)
+		self.container2.place(in_=self.container, anchor="c", relx=0.5, rely=0.5)
+
+		self.frames = {}
+
+		#puts all the frames in a nice container.
+		for F in (StartPage, PageOne):
+			frame = F(self.container2, self)
+			self.frames[F] = frame
+			frame.grid(row=0, column=0, sticky="NSEW")
+
+		#Starts the application at the correct home page
+		self.show_frame(StartPage)
+
+	#need a function for this so a button can change pages
+	def show_frame(self, context):
+		frame = self.frames[context]
+		frame.tkraise()
+
+	#For the home button. Reinitializes a page in the dictionary for a fresh start.
+	def reset_frame(self, context):
+		frame = context(self.container2, self)
+		self.frames[context] = frame
+		frame.grid(row=0, column=0, sticky="NSEW")
+		self.show_frame(StartPage)
+
+class StartPage(Frame):
+	def __init__(self, parent, controller):
+		Frame.__init__(self, parent)
+		self.config(bg="gray40")
+		self.par_controller = controller
+
+		self.entry1 = Entry(self, font=my_font)
+		self.entry1.insert(10, "0")
+		self.entry1.grid(row=1, column=2, padx=10, pady=10)
+
+		self.calc_button = Button(self, text="Do Something", font=my_font, bg="blue4", fg="white", activebackground="blue3", activeforeground="white", padx=10, pady=10, command=self.get_input )
+		self.calc_button.grid(row=1, column=3)
+
+
+
+	def get_input(self):
+
+		my_entry_value = float(self.entry1.get() )
+
+		print "Value in get_input " + str(my_entry_value)
+		self.par_controller.show_frame(PageOne)
+
+
+
+class PageOne(Frame):
+	def __init__(self, parent, controller):
+		Frame.__init__(self, parent)
+		self.config(bg="gray40")
+		self.par_controller = controller
+
+		self.label = Label(self, text="PageOne: Entry Value = " + str(my_entry_value) ).grid(row=0, column=0)
+
+
+		print "Value in PageONE " + str(my_entry_value)
+
+
+	'''
+ 	I need to get this function to run
+	'''
+	def update(self):
+		print "I made it to the update, the new value of the entry is: " + str(my_entry_value)
+
+
+
+
+
+#####Main loop
+app = Application()
+app.title('Testing')
+app.resizable(width=False, height=False)
+app.mainloop()
