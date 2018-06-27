@@ -97,9 +97,7 @@ class PageOne(Frame):
 	'''
 	def update(self):
 		print "I made it to the update, the new value of the entry is: " + str(my_entry_value)
-
-
-
+		self.label = Label(self, text="PageOne: Entry Value = " + str(my_entry_value) ).grid(row=0, column=0)
 
 
 #####Main loop
