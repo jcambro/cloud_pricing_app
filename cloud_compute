@@ -430,7 +430,7 @@ class ComputingPage(Frame):
 			self.tmp = 245.28 + 0.1 * self.storage_wanted
 			self.am_ex2 = "r4.2xlarge, 61(GB), 8, " + str(self.storage_wanted) + "(GB), $" + str(self.tmp) + "/ month"
 
-			self.tmp = 121 + 0.17 * self.storage_wanted
+			self.tmp = 242 + 0.17 * self.storage_wanted
 			self.g_ex2 = "n1-highmem-8, 52(GB), 8, " + str(self.storage_wanted) + "(GB), $" + str(self.tmp) + "/ month"
 
 
