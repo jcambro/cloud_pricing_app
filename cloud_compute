@@ -10,6 +10,10 @@ my_font = ("Helvetica", 20)
 major_font = ("Helvetica", 30, "bold")
 minor_font = ("Helvetica", 26, "bold")
 
+def clear_grid(the_page):
+	for widge in the_page.grid_slaves():
+		widge.grid_remove()
+
 
 class Application(Tk):
 	def __init__(self, *args, **kwargs):
@@ -120,19 +124,9 @@ class StoragePage(Frame):
 
 		#Delete entries to make room for the final result
 		#I cannot make a new page without the variables updating correctly
-		self.entry1.grid_remove()
-		self.label1.grid_remove()
-		self.entry2.grid_remove()
-		self.label2.grid_remove()
-		self.entry3.grid_remove()
-		self.label3.grid_remove()
-		self.entry4.grid_remove()
-		self.label4.grid_remove()
-		self.entry5.grid_remove()
-		self.label5.grid_remove()
-		self.calc_button.grid_remove()
-		self.width_spacer.grid_remove()
+		clear_grid(self)
 
+		self.home_button.grid(row=0, column=0, sticky=W)
 		self.label6 = Label(self, text="Final Price Calculations", bg="gray40", fg="white", font=major_font).grid(row=0, column=1, sticky=W)
 
 		#Calculate all of the pricing options
@@ -198,12 +192,14 @@ class ComputingPage(Frame):
 		self.con.reset_frame(ComputingPage)
 
 	def display_general(self):
-		self.remove_begin_labels()
+		clear_grid(self)
+		self.home_button.grid(row=0, column=0, sticky=W)
 		self.drop_menu()
 
 
 	def display_build(self):
-		self.remove_begin_labels()
+		clear_grid(self)
+		self.home_button.grid(row=0, column=0, sticky=W)
 
 		self.height_spacer2 = Label(self, height=18, bg="gray40", fg="white")
 		self.height_spacer2.grid(row=5, column=0)
@@ -240,16 +236,8 @@ class ComputingPage(Frame):
 		self.cpu_wanted = float(self.entry3.get())
 		self.storage_wanted = float(self.entry4.get())
 
-		self.label2.grid_remove()
-		self.entry2.grid_remove()
-		self.label3.grid_remove()
-		self.entry3.grid_remove()
-		self.label4.grid_remove()
-		self.entry4.grid_remove()
-		self.button4.grid_remove()
-		self.build_title.grid_remove()
-		self.height_spacer2.grid_remove()
-		self.width_spacer5.grid_remove()
+		clear_grid(self)
+		self.home_button.grid(row=0, column=0, sticky=W)
 
 		self.calc_title = Label(self, text="Final Price Calculation", bg="gray40", fg="white", font=major_font).grid(row=1, column=1, columnspan=2)
 		self.intro = "Prices are based on a machine with: \n" + str(self.ram_wanted) + "(GB) of RAM \n" + str(self.cpu_wanted) + " CPU(s)\n " + str(self.storage_wanted) + "(GB) of Disk Space"
@@ -273,13 +261,6 @@ class ComputingPage(Frame):
 		self.width_spacer6 = Label(self, width=27, bg="gray40", fg="white")
 		self.width_spacer6.grid(column=0, row=1)
 
-	def remove_begin_labels(self):
-		self.label1.grid_remove()
-		self.button1.grid_remove()
-		self.button3.grid_remove()
-		self.height_spacer.grid_remove()
-		self.width_spacer.grid_remove()
-
 	def drop_menu(self):
 
 		self.width_spacer2 = Label(self, width=30, bg="gray40", fg="white")
@@ -297,11 +278,8 @@ class ComputingPage(Frame):
 		self.button4.grid(row=2, column=1, padx=10, pady=5)
 
 	def drop_menu_2(self):
-		self.label2.grid_remove()
-		self.button4.grid_remove()
-		self.button7.grid_remove()
-		self.width_spacer2.grid_remove()
-		self.height_spacer.grid_remove()
+		clear_grid(self)
+		self.home_button.grid(row=0, column=0, sticky=W)
 
 		self.height_spacer.grid(row=6, column=0)
 
@@ -330,11 +308,8 @@ class ComputingPage(Frame):
 
 
 	def drop_menu_3(self):
-		self.label2.grid_remove()
-		self.button4.grid_remove()
-		self.button7.grid_remove()
-		self.width_spacer2.grid_remove()
-		self.height_spacer.grid_remove()
+		clear_grid(self)
+		self.home_button.grid(row=0, column=0, sticky=W)
 
 		self.height_spacer.grid(row=6, column=0)
 
@@ -365,14 +340,8 @@ class ComputingPage(Frame):
 		self.ram_wanted = float(self.entry1.get())
 		self.storage_wanted = int(self.entry3.get())
 
-		self.label3.grid_remove()
-		self.label33.grid_remove()
-		self.entry1.grid_remove()
-		self.label5.grid_remove()
-		self.entry3.grid_remove()
-		self.button5.grid_remove()
-		self.height_spacer.grid_remove()
-		self.width_spacer3.grid_remove()
+		clear_grid(self)
+		self.home_button.grid(row=0, column=0, sticky=W)
 
 		self.google = ""
 		self.amazon = ""
@@ -506,14 +475,8 @@ class ComputingPage(Frame):
 		self.cpu_wanted = float(self.entry2.get())
 		self.storage_wanted = float(self.entry4.get())
 
-		self.label4.grid_remove()
-		self.label44.grid_remove()
-		self.entry2.grid_remove()
-		self.label6.grid_remove()
-		self.entry4.grid_remove()
-		self.button6.grid_remove()
-		self.height_spacer.grid_remove()
-		self.width_spacer4.grid_remove()
+		clear_grid(self)
+		self.home_button.grid(row=0, column=0, sticky=W)
 
 		self.google = ""
 		self.amazon = ""

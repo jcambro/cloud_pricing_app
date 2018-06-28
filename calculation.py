@@ -83,27 +83,4 @@ def mi_build_price(cpu, RAM, storage):
     price = 2.295 + 7.25 * RAM + 0.0735 * storage
     return price
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 ###
