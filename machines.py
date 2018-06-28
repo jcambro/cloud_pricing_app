@@ -5,6 +5,7 @@ amazon_normal = [("t2.small, 2(GB), 1, ", 10.51),
                 ("t2.large, 4(GB), 2, ", 41.98),
                 ("t2.xlarge, 16(GB), 4, ", 97.09),
                 ("t2.2xlarge, 32(GB), 8, ", 167.90),
+                ("m5.4xlarge, 64(GB), 16, ", 358.43)
                 ]
 
 amazon_optimized = [("c5.xlarge, 8(GB), 4, ", 78.84),
@@ -68,3 +69,46 @@ def get_cpu_machine(CPU, storage):
     output[2] = machine[2][0] + str(storage) + "(GB), $" + str(tmp)
 
     return output
+
+def get_ram_machine(RAM, storage):
+    #default value
+    machine = [amazon_normal[0], google_normal[0], miserver_normal[0]]
+    output = ["", "", ""]
+
+    if RAM <= 2:
+        machine[0] = amazon_normal[0]
+        machine[1] = google_normal[0]
+        machine[2] = miserver_normal[0]
+    elif RAM <= 4:
+        machine[0] = amazon_normal[1]
+        machine[1] = google_normal[1]
+        machine[2] = miserver_normal[1]
+    elif RAM <= 16:
+        machine[0] = amazon_normal[2]
+        machine[1] = google_normal[2]
+        machine[2] = miserver_normal[2]
+    elif RAM <= 32:
+        machine[0] = amazon_normal[3]
+        machine[1] = google_normal[3]
+        machine[2] = miserver_normal[3]
+    else:
+        machine[0] = amazon_normal[4]
+        machine[1] = google_normal[4]
+        machine[2] = miserver_normal[4]
+
+    #amazon pricing is in the first slot of output
+    tmp = machine[0][1] + 0.1 * storage
+    output[0] = machine[0][0] + str(storage) + "(GB), $" + str(tmp)
+
+    #Google Pricing
+    tmp = machine[1][1] + 0.17 * storage
+    output[1] = machine[1][0] + str(storage) + "(GB), $" + str(tmp)
+
+    #miserver Pricing
+    tmp = machine[2][1] + 0.0735 * storage
+    output[2] = machine[2][0] + str(storage) + "(GB), $" + str(tmp)
+
+    return output
+
+
+#STILL need to do the optimized cases

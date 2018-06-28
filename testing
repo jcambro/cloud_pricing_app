@@ -71,7 +71,7 @@ class StartPage(Frame):
 		self.calc_button = Button(self, text="Do Something", font=my_font, bg="blue4", fg="white", activebackground="blue3", activeforeground="white", padx=10, pady=10, command=self.get_input )
 		self.calc_button.grid(row=1, column=3)
 
-		self.mac = machines.get_cpu_machine(4, 500)
+		self.mac = machines.get_ram_machine(59, 500)
 		print str(self.mac[0])
 		print str(self.mac[1])
 		print str(self.mac[2])
