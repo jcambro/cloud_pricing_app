@@ -3,6 +3,7 @@
 #Created by John Ambrose 6-26-18
 
 from Tkinter import *
+import calculation
 
 #Changes font on all labels
 my_font = ("Helvetica", 20)
@@ -69,12 +70,22 @@ class StartPage(Frame):
 		self.calc_button = Button(self, text="Do Something", font=my_font, bg="blue4", fg="white", activebackground="blue3", activeforeground="white", padx=10, pady=10, command=self.get_input )
 		self.calc_button.grid(row=1, column=3)
 
+		self.price = 0.0
+		self.storage = 1500
+		self.d_return = 200
+		self.write_ops = 23
+		self.read_ops = 45
+		self.d_scan = 12
+
+		self.price = calculation.am_s3_price(self.storage, self.d_return, self.d_scan, self.write_ops, self.read_ops)
+
+		print str(self.price)
+
 
 
 	def get_input(self):
 
 		my_entry_value = float(self.entry1.get() )
-
 		print "Value in get_input " + str(my_entry_value)
 		self.par_controller.show_frame(PageOne)
 

@@ -3,6 +3,7 @@
 #Created by John Ambrose 6-26-18
 
 from Tkinter import *
+import calculation
 
 #Changes font on all labels
 my_font = ("Helvetica", 20)
@@ -19,7 +20,7 @@ class Application(Tk):
 		#container 2 is used to center the frames.
 		self.container = Frame(self)
 		self.container2 = Frame(self)
-		self.container2.config(bg="black")
+		self.container2.config(bg="black", width=1200, height=650)
 		self.container.config(width=1150, height=600, bg="gray40")
 
 		self.container.pack(side="top", fill="both", expand=True, padx=10, pady=10)
@@ -136,25 +137,20 @@ class StoragePage(Frame):
 
 		#Calculate all of the pricing options
 		#AMAZON
-		self.am_s3 = 0.023 * Application.storage_needed + 0.0007 * Application.data_return + 0.002 * Application.data_scan + 0.05 * Application.write_ops + 0.004 * Application.read_ops
-		self.am_s3ia = 0.0125 * Application.storage_needed + 0.01 * Application.data_return + 0.002 * Application.data_scan + 0.1 * Application.write_ops + 0.01 * Application.read_ops
-		self.am_glac = 0.004 * Application.storage_needed + 0.0025 * Application.data_return + 0.001 * Application.data_scan + 0.5 * Application.write_ops + 0.25 * Application.read_ops
-
-		#Amazon Discount
-		self.am_s3 *= 0.95
-		self.am_s3ia *= 0.95
-		self.am_glac *= 0.95
+		self.am_s3 = calculation.aws_s3_price(Application.storage_needed, Application.data_return, Application.data_scan, Application.write_ops, Application.read_ops)
+		self.am_s3ia = calculation.aws_s3ia_price(Application.storage_needed, Application.data_return, Application.data_scan, Application.write_ops, Application.read_ops)
+		self.am_glac = calculation.aws_glacier_price(Application.storage_needed, Application.data_return, Application.data_scan, Application.write_ops, Application.read_ops)
 
 		#GOOGLE
-		self.g_mr = 0.026 * Application.storage_needed + 0.05 * Application.write_ops + 0.05 * Application.read_ops
-		self.g_near = 0.01 * Application.storage_needed + 0.01 * Application.data_return + 0.1 * Application.write_ops + 0.1 * Application.read_ops
-		self.g_cold = 0.007 * Application.storage_needed + 0.05 * Application.data_return + 0.1 * Application.write_ops + 0.1 * Application.read_ops
-
+		self.g_mr = calculation.google_mr_price(Application.storage_needed, Application.data_return, Application.data_scan, Application.write_ops, Application.read_ops)
+		self.g_near = calculation.google_near_price(Application.storage_needed, Application.data_return, Application.data_scan, Application.write_ops, Application.read_ops)
+		self.g_cold = calculation.google_cold_price(Application.storage_needed, Application.data_return, Application.data_scan, Application.write_ops, Application.read_ops)
 		#MICHIGAN
-		self.m_base = 0.0075 * Application.storage_needed
-		self.m_bs = 0.009375 * Application.storage_needed
-		self.m_br = 0.015 * Application.storage_needed
-		self.m_sr = 0.01875 * Application.storage_needed
+		self.m_base = calculation.mi_base_price(Application.storage_needed, Application.data_return, Application.data_scan, Application.write_ops, Application.read_ops)
+		self.m_bs = calculation.mi_bs_price(Application.storage_needed, Application.data_return, Application.data_scan, Application.write_ops, Application.read_ops)
+		self.m_br = calculation.mi_br_price(Application.storage_needed, Application.data_return, Application.data_scan, Application.write_ops, Application.read_ops)
+		self.m_sr = calculation.mi_sr_price(Application.storage_needed, Application.data_return, Application.data_scan, Application.write_ops, Application.read_ops)
+
 
 		#All the Amazon labels and packing
 		self.label7 = Label(self, text="Amazon Pricing (per month)", bg="gray40", fg="white", font=minor_font).grid(row=1, column=0)
@@ -636,5 +632,5 @@ class ComputingPage(Frame):
 
 app = Application()
 app.title('Cloud Cost Comparison')
-app.resizable(width=False, height=False)
+#app.resizable(width=False, height=False)
 app.mainloop()
