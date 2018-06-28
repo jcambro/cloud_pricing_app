@@ -4,6 +4,7 @@
 
 from Tkinter import *
 import calculation
+import machines
 
 #Changes font on all labels
 my_font = ("Helvetica", 20)

@@ -4,6 +4,7 @@
 
 from Tkinter import *
 import calculation
+import machines
 
 #Changes font on all labels
 my_font = ("Helvetica", 20)
@@ -70,7 +71,10 @@ class StartPage(Frame):
 		self.calc_button = Button(self, text="Do Something", font=my_font, bg="blue4", fg="white", activebackground="blue3", activeforeground="white", padx=10, pady=10, command=self.get_input )
 		self.calc_button.grid(row=1, column=3)
 
-		print str(self.price)
+		self.mac = machines.get_cpu_machine(4, 500)
+		print str(self.mac[0])
+		print str(self.mac[1])
+		print str(self.mac[2])
 
 
 	def get_input(self):
