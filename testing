@@ -5,6 +5,7 @@
 from Tkinter import *
 import calculation
 import machines
+import pages
 
 #Changes font on all labels
 my_font = ("Helvetica", 20)
@@ -38,13 +39,13 @@ class Application(Tk):
 		self.frames = {}
 
 		#puts all the frames in a nice container.
-		for F in (StartPage, PageOne):
+		for F in (StartPage, PageOne, pages.IntroPage):
 			frame = F(self.container2, self)
 			self.frames[F] = frame
 			frame.grid(row=0, column=0, sticky="NSEW")
 
 		#Starts the application at the correct home page
-		self.show_frame(StartPage)
+		self.show_frame(pages.IntroPage)
 
 	#need a function for this so a button can change pages
 	def show_frame(self, context):
