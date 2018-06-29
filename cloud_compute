@@ -342,7 +342,7 @@ class ComputingPage(Frame):
 		self.storage_wanted = int(self.entry3.get())
 
 		clear_grid(self)
-		self.home_button.grid(row=0, column=0, sticky=W)
+		self.home_button.grid(row=0, column=0, sticky=NW)
 		self.tmp = 0
 
 		#Comes back as a list [Amazon, Google, Miserver]
@@ -353,6 +353,7 @@ class ComputingPage(Frame):
 		self.miserver = self.matches[2]
 
 		#List is ordered [Title, EC2 title, Amazon machine, compute engine title, google machine]
+		#Returns any optimized machines available
 		self.optim = machines.get_ram_optimized(self.ram_wanted, self.storage_wanted)
 
 		self.extra = self.optim[0]
@@ -361,8 +362,10 @@ class ComputingPage(Frame):
 		self.g_ex1 = self.optim[3]
 		self.g_ex2 = self.optim[4]
 
+		self.entered_text = str(self.ram_wanted) + "GB of RAM and " + str(self.storage_wanted) + "GB of Disk Space"
 
-		self.label7 = Label(self, text="Selected Machines Based on RAM Requirement\n[Machine, RAM, # of CPUs, Disk, Cost/month]", bg="gray40", fg="white", font=major_font )
+
+		self.label7 = Label(self, text="Selected Machines Based on RAM Requirement\n" + self.entered_text + "\n[Machine, RAM, # of CPUs, Disk, Cost/month]", bg="gray40", fg="white", font=major_font )
 		self.label7.grid(row=0, column=1, padx=10, pady=10, columnspan=2)
 
 		self.label8 = Label(self, text="Google Compute Engine: ", bg="gray40", fg="white", font=my_font)
@@ -404,7 +407,7 @@ class ComputingPage(Frame):
 		self.storage_wanted = float(self.entry4.get())
 
 		clear_grid(self)
-		self.home_button.grid(row=0, column=0, sticky=W)
+		self.home_button.grid(row=0, column=0, sticky=NW)
 
 		self.matches = machines.get_cpu_machine(self.cpu_wanted, self.storage_wanted)
 		self.tmp = 0
@@ -415,6 +418,7 @@ class ComputingPage(Frame):
 		self.miserver = self.matches[2]
 
 		#List is ordered [Title, EC2 title, Amazon machine, compute engine title, google machine]
+		#Returns any optimized machines available
 		self.optim = machines.get_cpu_optimized(self.cpu_wanted, self.storage_wanted)
 
 		self.extra = self.optim[0]
@@ -423,8 +427,9 @@ class ComputingPage(Frame):
 		self.g_ex1 = self.optim[3]
 		self.g_ex2 = self.optim[4]
 
+		self.entered_text = str(self.cpu_wanted) + " CPUs and " + str(self.storage_wanted) + "GB of Disk Space"
 
-		self.label19 = Label(self, text="Selected Machines Based on CPU Requirement\n[Machine, RAM, # of CPUs, Disk, Cost/month]", bg="gray40", fg="white", font=major_font )
+		self.label19 = Label(self, text="Selected Machines Based on CPU Requirement\n" + self.entered_text + "\n[Machine, RAM, # of CPUs, Disk, Cost/month]", bg="gray40", fg="white", font=major_font )
 		self.label19.grid(row=0, column=1, padx=10, pady=10, columnspan=2)
 
 		self.label20 = Label(self, text="Google Compute Engine: ", bg="gray40", fg="white", font=my_font)
