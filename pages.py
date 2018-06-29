@@ -27,7 +27,7 @@ class StoragePage(Frame):
 		self.config(bg="gray40")
 		self.par_controller = controller
 
-		self.width_spacer = Label(self, width=30, bg="gray40", fg="white")
+		self.width_spacer = Label(self, width=25, bg="gray40", fg="white")
 		self.width_spacer.grid(row=1, column=0)
 
 		self.label1 = Label(self, text="Storage Needed (GB)", bg="gray40", fg="white", font=my_font)
@@ -36,13 +36,13 @@ class StoragePage(Frame):
 		self.entry1.insert(10, "0")
 		self.entry1.grid(row=1, column=2, padx=10, pady=10)
 
-		self.label2 = Label(self, text="Read Operations (per 10,000 operations)", bg="gray40", fg="white", font=my_font)
+		self.label2 = Label(self, text="Read Operations (in thousands)", bg="gray40", fg="white", font=my_font)
 		self.label2.grid(row=2, column=1)
 		self.entry2 = Entry(self, font=my_font)
 		self.entry2.insert(10,"0")
 		self.entry2.grid(row=2, column=2, padx=10, pady=10)
 
-		self.label3 = Label(self, text="Write Operations (per 10,000 operations)", bg="gray40", fg="white", font=my_font)
+		self.label3 = Label(self, text="Write Operations (in thousands)", bg="gray40", fg="white", font=my_font)
 		self.label3.grid(row=3, column=1)
 		self.entry3 = Entry(self, font=my_font)
 		self.entry3.insert(10, "0")
@@ -206,16 +206,16 @@ class ComputingPage(Frame):
 		self.google_p = Label(self, text="$" + str(self.google_price), bg="gray40", fg="white", pady=5, font=my_font).grid(row=3, column=2)
 
 		#get a custom amazon machine based on RAM for comparrison.
-		self.amazon_custom = machines.get_ram_machine(self.ram_wanted, self.storage_wanted)
+		self.amazon_custom = machines.find_comparable(self.ram_wanted, self.cpu_wanted, self.storage_wanted)
 		self.amazon_title = Label(self, text="Amazon EC2: ", bg="gray40", fg="white", pady=5, font=my_font).grid(row=6, column=1)
-		self.amazon_p = Label(self, text=self.amazon_custom[0], bg="gray40", fg="white", pady=5, font=my_font).grid(row=6, column=2)
+		self.amazon_p = Label(self, text=self.amazon_custom, bg="gray40", fg="white", pady=5, font=my_font).grid(row=6, column=2)
 
 		self.close_label = Label(self, text = "A Comparable Amazon Machine",bg="gray40", fg="white", pady=10, font=minor_font).grid(row=5, column=1, columnspan=2)
 
 		self.mi_title = Label(self, text="MiServer: ", bg="gray40", fg="white", pady=5, font=my_font).grid(row=4, column=1)
 		self.mi_p = Label(self, text="$" + str(self.miserver_price), bg="gray40", fg="white", pady=5, font=my_font).grid(row=4, column=2)
 
-		self.height_spacer3 = Label(self, height=10, bg="gray40", fg="white")
+		self.height_spacer3 = Label(self, height=7, bg="gray40", fg="white")
 		self.height_spacer3.grid(column=0, row=8)
 
 		self.width_spacer6 = Label(self, width=27, bg="gray40", fg="white")

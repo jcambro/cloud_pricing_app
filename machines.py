@@ -174,3 +174,26 @@ def get_ram_optimized(RAM, storage):
     output[4] = machine[1][0] + str(storage) + "(GB), $" + str(tmp)
 
     return output
+
+#This function is specifically for amazon during the build your own section
+def find_comparable(RAM, CPU, storage):
+    output = ""
+
+    #Protects div by 0 error
+    if CPU == 0:
+        answers = get_ram_machine(RAM, storage)
+        output = answers[0]
+    elif (RAM / CPU) >= 6:
+        #Probably want a RAM optimized machine
+        all_answers = get_ram_optimized(RAM, storage)
+        output = all_answers[2]
+    elif (RAM / CPU) <= 2:
+        #probably want a cpu optimized machine
+        all_answers = get_cpu_optimized(CPU, storage)
+        output = all_answers[2]
+    else:
+        #Take a normal machine based on RAM.
+        all_answers = get_ram_machine(RAM, storage)
+        output = all_answers[0]
+
+    return output
