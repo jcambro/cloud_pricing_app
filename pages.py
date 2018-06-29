@@ -205,14 +205,18 @@ class ComputingPage(Frame):
 		self.google_title = Label(self, text="Google Compute Engine: ", bg="gray40", fg="white", pady=5, font=my_font).grid(row=3, column=1)
 		self.google_p = Label(self, text="$" + str(self.google_price), bg="gray40", fg="white", pady=5, font=my_font).grid(row=3, column=2)
 
-		self.amazon_title = Label(self, text="Amazon EC2: ", bg="gray40", fg="white", pady=5, font=my_font).grid(row=4, column=1)
-		self.amazon_p = Label(self, text="Does not offer custom machines", bg="gray40", fg="white", pady=5, font=my_font).grid(row=4, column=2)
+		#get a custom amazon machine based on RAM for comparrison.
+		self.amazon_custom = machines.get_ram_machine(self.ram_wanted, self.storage_wanted)
+		self.amazon_title = Label(self, text="Amazon EC2: ", bg="gray40", fg="white", pady=5, font=my_font).grid(row=6, column=1)
+		self.amazon_p = Label(self, text=self.amazon_custom[0], bg="gray40", fg="white", pady=5, font=my_font).grid(row=6, column=2)
 
-		self.mi_title = Label(self, text="MiServer: ", bg="gray40", fg="white", pady=5, font=my_font).grid(row=5, column=1)
-		self.mi_p = Label(self, text="$" + str(self.miserver_price), bg="gray40", fg="white", pady=5, font=my_font).grid(row=5, column=2)
+		self.close_label = Label(self, text = "A Comparable Amazon Machine",bg="gray40", fg="white", pady=10, font=minor_font).grid(row=5, column=1, columnspan=2)
+
+		self.mi_title = Label(self, text="MiServer: ", bg="gray40", fg="white", pady=5, font=my_font).grid(row=4, column=1)
+		self.mi_p = Label(self, text="$" + str(self.miserver_price), bg="gray40", fg="white", pady=5, font=my_font).grid(row=4, column=2)
 
 		self.height_spacer3 = Label(self, height=10, bg="gray40", fg="white")
-		self.height_spacer3.grid(column=0, row=6)
+		self.height_spacer3.grid(column=0, row=8)
 
 		self.width_spacer6 = Label(self, width=27, bg="gray40", fg="white")
 		self.width_spacer6.grid(column=0, row=1)
