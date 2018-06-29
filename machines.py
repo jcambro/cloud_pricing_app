@@ -110,5 +110,67 @@ def get_ram_machine(RAM, storage):
 
     return output
 
+def get_cpu_optimized(CPU, storage):
+    #List is ordered [Title, EC2, Amazon machine, compute engine, google machine]
+    machine = [amazon_optimized[0], google_optimized[0]]
+    output = ["", "", "", "", ""]
+    tmp = 0
+    output[0] = "Optimized CPU Options"
+    output[1] = "Amazon EC2: "
+    output[3] = "Google Compute Engine: "
 
-#STILL need to do the optimized cases
+    if CPU <=2:
+        output[0] = ""
+        output[1] = ""
+        output[3] = ""
+
+        #returns right away to avoid the calculation step.
+        return output
+    elif CPU <=4:
+        machine[0] = amazon_optimized[0]
+        machine[1] = google_optimized[0]
+    else:
+        machine[0] = amazon_optimized[1]
+        machine[1] = google_optimized[1]
+
+    tmp = machine[0][1] + 0.1 * storage
+    output[2] = machine[0][0] + str(storage) + "(GB), $" + str(tmp)
+
+    tmp = machine[1][1] + 0.17 * storage
+    output[4] = machine[1][0] + str(storage) + "(GB), $" + str(tmp)
+
+    return output
+
+def get_ram_optimized(RAM, storage):
+    #List is ordered [Title, EC2, Amazon machine, compute engine, google machine]
+    machine = [amazon_optimized[2], google_optimized[2]]
+    output = ["", "", "", "", ""]
+    tmp = 0
+    output[0] = "Memory Optimized Options"
+    output[1] = "Amazon EC2: "
+    output[3] = "Google Compute Engine: "
+
+    if RAM <=4:
+        output[0] = ""
+        output[1] = ""
+        output[3] = ""
+
+        #returns right away to avoid the calculation step.
+        return output
+    elif RAM <=16:
+        machine[0] = amazon_optimized[2]
+        machine[1] = google_optimized[2]
+    elif RAM <=32:
+        machine[0] = amazon_optimized[2]
+        machine[1] = google_optimized[2]
+    else:
+        machine[0] = amazon_optimized[3]
+        machine[1] = google_optimized[3]
+
+    tmp = machine[0][1] + 0.1 * storage
+    output[2] = machine[0][0] + str(storage) + "(GB), $" + str(tmp)
+
+    tmp = machine[1][1] + 0.17 * storage
+    output[4] = machine[1][0] + str(storage) + "(GB), $" + str(tmp)
+
+    return output
