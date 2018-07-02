@@ -21,37 +21,44 @@ def aws_glacier_price(storage, d_return, d_scan, write_ops, read_ops):
     return price
 
 #=============== Storage: Google ===============================================
+#Multiregional
 def google_mr_price(storage, d_return, d_scan, write_ops, read_ops):
     price =  0.026 * storage + 0.00 * d_return + 0.00 * d_scan + 0.005 * write_ops + 0.005 * read_ops
     price *= gg_discount
     return price
 
+#Nearline
 def google_near_price(storage, d_return, d_scan, write_ops, read_ops):
     price = 0.01 * storage + 0.01 * d_return + 0.00 * d_scan + 0.01 * write_ops + 0.01 * read_ops
     price *= gg_discount
     return price
 
+#Coldline
 def google_cold_price(storage, d_return, d_scan, write_ops, read_ops):
     price = 0.007 * storage + 0.05 * d_return + 0.00 * d_scan + 0.01 * write_ops + 0.01 * read_ops
     price *= gg_discount
     return price
 
 #=============== Storage: MiStorage ============================================
+#No Extras
 def mi_base_price(storage, d_return, d_scan, write_ops, read_ops):
     price =  0.0075 * storage + 0.00 * d_return + 0.00 * d_scan + 0.00 * write_ops + 0.00 * read_ops
     price *= mi_discount
     return price
 
+#base and snapshots
 def mi_bs_price(storage, d_return, d_scan, write_ops, read_ops):
     price = 0.009375 * storage + 0.00 * d_return + 0.00 * d_scan + 0.00 * write_ops + 0.00 * read_ops
     price *= mi_discount
     return price
 
+#base and replication
 def mi_br_price(storage, d_return, d_scan, write_ops, read_ops):
     price = 0.015 * storage + 0.00 * d_return + 0.00 * d_scan + 0.00 * write_ops + 0.00 * read_ops
     price *= mi_discount
     return price
 
+#snapshots and replication
 def mi_sr_price(storage, d_return, d_scan, write_ops, read_ops):
     price = 0.01875 * storage + 0.00 * d_return + 0.00 * d_scan + 0.00 * write_ops + 0.00 * read_ops
     price *= mi_discount
