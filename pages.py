@@ -232,7 +232,8 @@ class ComputingPage(Frame):
 		self.width_spacer2 = Label(self, width=30, bg=backg, fg=foreg)
 		self.width_spacer2.grid(row=1, column=0)
 
-		self.height_spacer.grid(row=3, column=0)
+		self.height_spacer = Label(self, height=15, bg=backg, fg=foreg)
+		self.height_spacer.grid(row=4, column=0)
 
 		self.label2 = Label(self, text="Select What You Want To Sort By", bg=backg, fg=foreg, font=major_font)
 		self.label2.grid(row=0, column=1, padx=10, pady=10)
@@ -242,6 +243,9 @@ class ComputingPage(Frame):
 
 		self.button4 = Button(self, text="Number of CPUs", bg=button_backg, fg=foreg, activebackground=active_bg, activeforeground=active_fg, font=my_font, height=2, width=20, command=self.drop_menu_3)
 		self.button4.grid(row=2, column=1, padx=10, pady=5)
+
+		self.button8 = Button(self, text="Display All Options", font=my_font, height=2, width=20, bg=button_backg, fg=foreg, activebackground=active_bg, activeforeground=active_fg, command=self.display_all)
+		self.button8.grid(row=3, column=1, padx=10, pady=5)
 
 	def drop_menu_2(self):
 		clear_grid(self)
@@ -272,6 +276,58 @@ class ComputingPage(Frame):
 		self.button5 = Button(self, text="Display Options", font=my_font, bg=button_backg, fg=foreg, activebackground=active_bg, activeforeground=active_fg, padx=5, pady=5, command=self.display_ram)
 		self.button5.grid(row=5, column=2, padx=10, pady=5)
 
+	def display_all(self):
+		#displays all the recorded machines available
+		clear_grid(self)
+		self.home_button.grid(row=0, column=0, sticky=W)
+
+		self.all_title = Label(self, text="All Machines Recorded [Machine, RAM, CPU, Price/Month]", bg=backg, fg=foreg, font=minor_font)
+		self.all_title.grid(row=1, column=0, columnspan=3)
+
+		self.label31 = Label(self, text="Google Compute Engine", bg=backg, fg=foreg, font=minor_font)
+		self.label31.grid(row=2, column=0)
+
+		self.google_out = machines.get_all_google()
+		self.label32 = Label(self, text=self.google_out[0], bg=backg, fg=foreg, font=my_font)
+		self.label32.grid(row=3, column=0, padx=7)
+
+		self.label33 = Label(self, text="CPU Optimized", bg=backg, fg=foreg, font=my_font)
+		self.label33.grid(row=4, column=0)
+
+		self.label34 = Label(self, text=self.google_out[1], bg=backg, fg=foreg, font=my_font)
+		self.label34.grid(row=5, column=0)
+
+		self.label35 = Label(self, text="Ram Optimized", bg=backg, fg=foreg, font=my_font)
+		self.label35.grid(row=6, column=0)
+
+		self.label36 = Label(self, text=self.google_out[2], bg=backg, fg=foreg, font=my_font)
+		self.label36.grid(row=7, column=0)
+
+		self.label37 = Label(self, text="Amazon EC2", bg=backg, fg=foreg, font=minor_font)
+		self.label37.grid(row=2, column=1)
+
+		self.amazon_out = machines.get_all_amazon()
+		self.label38 = Label(self, text=self.amazon_out[0], bg=backg, fg=foreg, font=my_font)
+		self.label38.grid(row=3, column=1, padx=7)
+
+		self.label39 = Label(self, text="CPU Optimized", bg=backg, fg=foreg, font=my_font)
+		self.label39.grid(row=4, column=1)
+
+		self.label40 = Label(self, text=self.amazon_out[1], bg=backg, fg=foreg, font=my_font)
+		self.label40.grid(row=5, column=1)
+
+		self.label41 = Label(self, text="Ram Optimized", bg=backg, fg=foreg, font=my_font)
+		self.label41.grid(row=6, column=1)
+
+		self.label42 = Label(self, text=self.amazon_out[2], bg=backg, fg=foreg, font=my_font)
+		self.label42.grid(row=7, column=1)
+
+		self.label43 = Label(self, text="MiServer", bg=backg, fg=foreg, font=minor_font)
+		self.label43.grid(row=2, column=2)
+
+		self.miserver_out = machines.get_all_miserver()
+		self.label44 = Label(self, text=self.miserver_out, bg=backg, fg=foreg, font=my_font)
+		self.label44.grid(row=3, column=2, padx=7)
 
 	def drop_menu_3(self):
 		clear_grid(self)

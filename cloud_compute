@@ -14,8 +14,8 @@ class Application(Tk):
 		#container 2 is used to center the frames.
 		self.container = Frame(self)
 		self.container2 = Frame(self)
-		self.container2.config(bg="black", width=1200, height=650)
-		self.container.config(width=1150, height=600, bg="gray40")
+		self.container2.config(bg="black", width=1400, height=750)
+		self.container.config(width=1350, height=700, bg="gray40")
 
 		self.container.pack(side="top", fill="both", expand=True, padx=10, pady=10)
 		self.container.grid_rowconfigure(0, weight=1)

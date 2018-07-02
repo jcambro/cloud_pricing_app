@@ -197,3 +197,54 @@ def find_comparable(RAM, CPU, storage):
         output = all_answers[0]
 
     return output
+
+def get_all_amazon():
+    #Output will be in the form [normal, cpu optimized, RAM optimized]
+    output = ["", "", ""]
+    normal = ""
+    cpu = ""
+    ram = ""
+
+    for i in amazon_normal:
+        normal += i[0] + " $" + str(i[1]) + "\n"
+
+    for x in range(0, 2):
+        cpu += amazon_optimized[x][0] + " $" + str(amazon_optimized[x][1]) + "\n"
+
+    for y in range(2, 4):
+        ram += amazon_optimized[y][0] + " $" + str(amazon_optimized[y][1]) + "\n"
+
+    output[0] = normal
+    output[1] = cpu
+    output[2] = ram
+    return output
+
+def get_all_google():
+    #Output will be in the form [normal, cpu optimized, RAM optimized]
+    output = ["", "", ""]
+    normal = ""
+    cpu = ""
+    ram = ""
+
+    for i in google_normal:
+        normal += i[0] + " $" + str(i[1]) + "\n"
+
+    for x in range(0, 2):
+        cpu += google_optimized[x][0] + " $" + str(google_optimized[x][1]) + "\n"
+
+    for y in range(2, 4):
+        ram += google_optimized[y][0] + " $" + str(google_optimized[y][1]) + "\n"
+
+    output[0] = normal
+    output[1] = cpu
+    output[2] = ram
+    return output
+
+def get_all_miserver():
+    #miserver does not have special servers so we can just return a string instead. 
+    output = ""
+
+    for i in miserver_normal:
+        output += i[0] + " $" + str(i[1]) + "\n"
+
+    return output
