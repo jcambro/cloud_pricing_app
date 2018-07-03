@@ -25,7 +25,8 @@ class Application(Tk):
 		self.frames = {}
 
 		#puts all the frames in a nice container.
-		for F in (pages.StartPage, pages.StoragePage, pages.ComputingPage):
+		#for F in (pages.StartPage, pages.StoragePage, pages.ComputingPage):
+		for F in (pages.StartPage, pages.StoragePage, pages.ComputingIntro, pages.ComputingOwnBuild, pages.ComputingPreBuilt, pages.ComputingAll, pages.ComputingRAM, pages.ComputingCPU, ):
 			frame = F(self.container2, self)
 			self.frames[F] = frame
 			frame.grid(row=0, column=0, sticky="NSEW")
@@ -37,6 +38,7 @@ class Application(Tk):
 	def show_frame(self, context):
 		frame = self.frames[context]
 		frame.tkraise()
+		return frame
 
 	#For the home button. Reinitializes a page in the dictionary for a fresh start.
 	def reset_frame(self, context):
