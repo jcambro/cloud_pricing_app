@@ -241,7 +241,7 @@ def get_all_google():
     return output
 
 def get_all_miserver():
-    #miserver does not have special servers so we can just return a string instead. 
+    #miserver does not have special servers so we can just return a string instead.
     output = ""
 
     for i in miserver_normal:

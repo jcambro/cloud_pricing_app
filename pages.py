@@ -135,20 +135,64 @@ class ComputingIntro(Frame):
 
 		self.width_spacer = Label(self, width=34, bg=backg, fg=foreg)
 		self.width_spacer.grid(row=0, column=1)
-		self.height_spacer = Label(self, height=23, bg=backg, fg=foreg)
+		self.height_spacer = Label(self, height=17, bg=backg, fg=foreg)
 		self.height_spacer.grid(row=7, column=1)
 
 		self.label1 = Label(self, text="Please Pick An Option", bg=backg, fg=foreg, font=major_font)
 		self.label1.grid(column=10, row=0, pady=10, padx=5, columnspan=2)
 
-		self.button1 = Button(self, text="Pre-Built Computing", height=2, width=15, font=my_font, bg=button_backg, fg=foreg, activebackground=active_bg, activeforeground=active_fg, command= lambda: self.par_controller.show_frame(ComputingPreBuilt) )
+		self.button1 = Button(self, text="Pre-Built Computing", height=2, width=17, font=my_font, bg=button_backg, fg=foreg, activebackground=active_bg, activeforeground=active_fg, command= lambda: self.par_controller.show_frame(ComputingPreBuilt) )
 		self.button1.grid(row=3, column=10 ,padx=10, pady=5, columnspan=2)
 
-		self.button3 = Button(self, text="Build Your Own", font=my_font, height=2, width=15, bg=button_backg, fg=foreg, activebackground=active_bg, activeforeground=active_fg, command= lambda: self.par_controller.show_frame(ComputingOwnBuild) )
-		self.button3.grid(row=6, column=10, padx=10, pady=5, columnspan=2)
+		self.button3 = Button(self, text="Build Your Own", font=my_font, height=2, width=17, bg=button_backg, fg=foreg, activebackground=active_bg, activeforeground=active_fg, command= lambda: self.par_controller.show_frame(ComputingOwnBuild) )
+		self.button3.grid(row=4, column=10, padx=10, pady=5, columnspan=2)
+
+		self.button4 = Button(self, text="Explore AWS Options", font=my_font, height=2, width=17, bg=button_backg, fg=foreg, activebackground=active_bg, activeforeground=active_fg, command= lambda: self.par_controller.show_frame(AWS_Info) )
+		self.button4.grid(row=5, column=10, padx=10, pady=5, columnspan=2)
 
 		self.home_button = Button(self, text="Home", font=my_font, bg=button_backg, fg=foreg, activebackground=active_bg, activeforeground=active_fg, padx=1, pady=1, command=self.go_home)
 		self.home_button.grid(row=0, column=0, sticky=W)
+
+	def go_home(self):
+		self.par_controller.reset_frame(ComputingIntro)
+
+class AWS_Info(Frame):
+	def __init__(self, parent, controller):
+		Frame.__init__(self, parent)
+		self.config(bg=backg)
+		self.par_controller = controller
+
+
+		self.width_spacer = Label(self, width=14, bg=backg, fg=foreg)
+		self.width_spacer.grid(row=0, column=1)
+
+
+		self.home_button = Button(self, text="Home", font=my_font, bg=button_backg, fg=foreg, activebackground=active_bg, activeforeground=active_fg, padx=1, pady=1, command=self.go_home)
+		self.home_button.grid(row=0, column=0, sticky=W)
+
+		self.label1 = Label(self, text="AWS Types and Information", font=major_font, bg=backg, fg=foreg)
+		self.label1.grid(column=2, row=0, pady=5, padx=5, columnspan=2)
+
+		self.label2 = Label(self, text="Spot", font=minor_font, bg=backg, fg=foreg)
+		self.label2.grid(row=1, column=2)
+
+		self.label3 = Label(self, text="Reserved", font=minor_font, bg=backg, fg=foreg)
+		self.label3.grid(row=3, column=2)
+
+		self.label4 = Label(self, text="On-Demand", font=minor_font, bg=backg, fg=foreg)
+		self.label4.grid(row=5, column=2)
+
+		self.spot_info = "Spot Instances utilize spare AWS compute capacity. Amazon \nreserves the right to interupt computation with a two minute warning. \nSpot instances are meant for flexible applications that can easily \nbe paused and resumed."
+		self.label5 = Label(self, text=self.spot_info, font=my_font, bg=backg, fg=foreg)
+		self.label5.grid(row=2, column=2)
+
+		self.reserved_info = "Reserved instances provide users with steady EC2 availability. \nUsers are given capacity reservation to use \nimmediately when needed. Reserved instances are meant for\n steady state usage and can be purchased with a 1 or 2\n year commitment."
+		self.label6 = Label(self, text=self.reserved_info, font=my_font, bg=backg, fg=foreg)
+		self.label6.grid(row=4, column=2)
+
+		self.od_info = "On-Demand instances provide compute capacity per hour or per second. \nNo long term commitments are needed and users can \neasily increase or decrease compute capacity. On-Demand is meant \nfor short term and unpredictable loads."
+		self.label7 = Label(self, text=self.od_info, font=my_font, bg=backg, fg=foreg)
+		self.label7.grid(row=6, column=2)
 
 	def go_home(self):
 		self.par_controller.reset_frame(ComputingIntro)
