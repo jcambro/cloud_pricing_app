@@ -5,6 +5,7 @@ import machines
 my_font = ("Helvetica", 20)
 major_font = ("Helvetica", 30, "bold")
 minor_font = ("Helvetica", 26, "bold")
+small_font = ("Helvetica", 16)
 
 foreg = "white"
 backg = "gray40"
@@ -17,6 +18,7 @@ def clear_grid(the_page):
 	for widge in the_page.grid_slaves():
 		widge.grid_remove()
 
+#====================== Intro Page ============================================
 class StartPage(Frame):
 	def __init__(self, parent, controller):
 		Frame.__init__(self, parent)
@@ -27,6 +29,7 @@ class StartPage(Frame):
 		self.storage_page = Button(self, text="Explore Storage Pricing", font=my_font, height=2, width=25, bg=button_backg, fg=foreg, activebackground=active_bg, activeforeground=active_fg, command= lambda: controller.show_frame(StoragePage) ).grid(row=2, padx=10, pady=5)
 		self.compute_page = Button(self, text="Explore Computing Pricing",font=my_font, height=2, width=25, bg=button_backg, fg=foreg, activebackground=active_bg, activeforeground=active_fg, command= lambda: controller.show_frame(ComputingIntro) ).grid(row=3, padx=10, pady=5)
 
+#====================== Storage Varibale Input ================================
 class StoragePage(Frame):
 	def __init__(self, parent, controller):
 		Frame.__init__(self, parent)
@@ -69,7 +72,6 @@ class StoragePage(Frame):
 		self.calc_button = Button(self, text="Calculate Final Cost",font=my_font, bg=button_backg, fg=foreg, activebackground=active_bg, activeforeground=active_fg, padx=10, pady=10, command=self.get_input )
 		self.calc_button.grid(row=6, column=1, columnspan=2, sticky="ew", pady=10)
 
-
 		self.home_button = Button(self, text="Home", font=my_font, bg=button_backg, fg=foreg, activebackground=active_bg, activeforeground=active_fg, padx=1, pady=1, command=self.go_home)
 		self.home_button.grid(row=0, column=0, sticky=W)
 
@@ -107,7 +109,6 @@ class StoragePage(Frame):
 		self.m_br = calculation.mi_br_price(self.storage_needed, self.data_return, self.data_scan, self.write_ops, self.read_ops)
 		self.m_sr = calculation.mi_sr_price(self.storage_needed, self.data_return, self.data_scan, self.write_ops, self.read_ops)
 
-
 		#All the Amazon labels and packing
 		self.label7 = Label(self, text="Amazon Pricing (per month)", bg=backg, fg=foreg, font=minor_font).grid(row=1, column=0)
 		self.label8 = Label(self, text="S3 = $" + str(self.am_s3), bg=backg, fg=foreg, font=my_font ).grid(row=2, column=1)
@@ -127,6 +128,7 @@ class StoragePage(Frame):
 		self.label18 = Label(self, text="Base & Replication = $" + str(self.m_br), bg=backg, fg=foreg, font=my_font).grid(row=12, column=1)
 		self.label19 = Label(self, text="Snapshots & Replication = $" + str(self.m_sr), bg=backg, fg=foreg, font=my_font).grid(row=13, column=1)
 
+#====================== Computing first selection ==============================
 class ComputingIntro(Frame):
 	def __init__(self, parent, controller):
 		Frame.__init__(self, parent)
@@ -147,7 +149,7 @@ class ComputingIntro(Frame):
 		self.button3 = Button(self, text="Build Your Own", font=my_font, height=2, width=17, bg=button_backg, fg=foreg, activebackground=active_bg, activeforeground=active_fg, command= lambda: self.par_controller.show_frame(ComputingOwnBuild) )
 		self.button3.grid(row=4, column=10, padx=10, pady=5, columnspan=2)
 
-		self.button4 = Button(self, text="Explore AWS Options", font=my_font, height=2, width=17, bg=button_backg, fg=foreg, activebackground=active_bg, activeforeground=active_fg, command= lambda: self.par_controller.show_frame(AWS_Info) )
+		self.button4 = Button(self, text="View AWS Options", font=my_font, height=2, width=17, bg=button_backg, fg=foreg, activebackground=active_bg, activeforeground=active_fg, command= lambda: self.par_controller.show_frame(AWS_Info) )
 		self.button4.grid(row=5, column=10, padx=10, pady=5, columnspan=2)
 
 		self.home_button = Button(self, text="Home", font=my_font, bg=button_backg, fg=foreg, activebackground=active_bg, activeforeground=active_fg, padx=1, pady=1, command=self.go_home)
@@ -156,16 +158,15 @@ class ComputingIntro(Frame):
 	def go_home(self):
 		self.par_controller.reset_frame(ComputingIntro)
 
+#====================== AWS Info ==============================================
 class AWS_Info(Frame):
 	def __init__(self, parent, controller):
 		Frame.__init__(self, parent)
 		self.config(bg=backg)
 		self.par_controller = controller
 
-
 		self.width_spacer = Label(self, width=14, bg=backg, fg=foreg)
 		self.width_spacer.grid(row=0, column=1)
-
 
 		self.home_button = Button(self, text="Home", font=my_font, bg=button_backg, fg=foreg, activebackground=active_bg, activeforeground=active_fg, padx=1, pady=1, command=self.go_home)
 		self.home_button.grid(row=0, column=0, sticky=W)
@@ -183,20 +184,80 @@ class AWS_Info(Frame):
 		self.label4.grid(row=5, column=2)
 
 		self.spot_info = "Spot Instances utilize spare AWS compute capacity. Amazon \nreserves the right to interupt computation with a two minute warning. \nSpot instances are meant for flexible applications that can easily \nbe paused and resumed."
-		self.label5 = Label(self, text=self.spot_info, font=my_font, bg=backg, fg=foreg)
+		self.label5 = Label(self, text=self.spot_info, font=small_font, bg=backg, fg=foreg)
 		self.label5.grid(row=2, column=2)
 
 		self.reserved_info = "Reserved instances provide users with steady EC2 availability. \nUsers are given capacity reservation to use \nimmediately when needed. Reserved instances are meant for\n steady state usage and can be purchased with a 1 or 2\n year commitment."
-		self.label6 = Label(self, text=self.reserved_info, font=my_font, bg=backg, fg=foreg)
+		self.label6 = Label(self, text=self.reserved_info, font=small_font, bg=backg, fg=foreg)
 		self.label6.grid(row=4, column=2)
 
 		self.od_info = "On-Demand instances provide compute capacity per hour or per second. \nNo long term commitments are needed and users can \neasily increase or decrease compute capacity. On-Demand is meant \nfor short term and unpredictable loads."
-		self.label7 = Label(self, text=self.od_info, font=my_font, bg=backg, fg=foreg)
+		self.label7 = Label(self, text=self.od_info, font=small_font, bg=backg, fg=foreg)
 		self.label7.grid(row=6, column=2)
 
-	def go_home(self):
-		self.par_controller.reset_frame(ComputingIntro)
+		self.button1 = Button(self, text="Compare Prices", font=my_font, bg=button_backg, fg=foreg, activebackground=active_bg, activeforeground=active_fg, padx=5, pady=5, command= lambda: self.par_controller.show_frame(AWS_compare) )
+		self.button1.grid(row=7, column=2, padx=10, pady=5)
 
+	def go_home(self):
+		self.par_controller.reset_frame(AWS_Info)
+
+#====================== AWS cost compare ====================================
+class AWS_compare(Frame):
+	def __init__(self, parent, controller):
+		Frame.__init__(self, parent)
+		self.config(bg=backg)
+		self.par_controller = controller
+
+		self.home_button = Button(self, text="Home", font=my_font, bg=button_backg, fg=foreg, activebackground=active_bg, activeforeground=active_fg, padx=1, pady=1, command=self.go_home)
+		self.home_button.grid(row=0, column=0, sticky=W)
+
+		self.height_spacer = Label(self, height=15, bg=backg, fg=foreg)
+		self.height_spacer.grid(row=8, column=0)
+
+		self.width_spacer3 = Label(self, width=25, bg=backg, fg=foreg)
+		self.width_spacer3.grid(row=1, column=0)
+
+		self.label1 = Label(self, text="Compare AWS Prices", bg=backg, fg=foreg, font=minor_font)
+		self.label1.grid(row=0, column=1, padx=5, pady=5, columnspan=2)
+
+		self.label2 = Label(self, text="RAM required (GB)", bg=backg, fg=foreg, font=my_font)
+		self.label2.grid(row=3, column=1, padx=5, pady=5)
+
+		self.entry1 = Entry(self, font=my_font)
+		self.entry1.insert(10, "0")
+		self.entry1.grid(row=3, column=2)
+
+		self.label3 = Label(self, text="CPUs Needed", bg=backg, fg=foreg, font=my_font)
+		self.label3.grid(row=4, column=1, padx=5, pady=5)
+
+		self.entry2 = Entry(self, font=my_font)
+		self.entry2.insert(10, "0")
+		self.entry2.grid(row=4, column=2)
+
+		self.label4 = Label(self, text="Estimate of Hours per Month", bg=backg, fg=foreg, font=my_font)
+		self.label4.grid(row=5, column=1, padx=5, pady=5)
+
+		self.entry3 = Entry(self, font=my_font)
+		self.entry3.insert(10, "0")
+		self.entry3.grid(row=5, column=2)
+
+		self.button1 = Button(self, text="Display Options", font=my_font, bg=button_backg, fg=foreg, activebackground=active_bg, activeforeground=active_fg, padx=5, pady=5, command=self.display_compare)
+		self.button1.grid(row=6, column=2, padx=10, pady=5)
+
+	def go_home(self):
+		self.par_controller.reset_frame(AWS_compare)
+
+	def display_compare(self):
+		self.ram_wanted = float(self.entry1.get() )
+		self.cpu_wanted = float(self.entry2.get() )
+		self.hours = float(self.entry3.get() )
+
+		clear_grid(self)
+
+		self.home_button.grid(row=0, column=0, sticky=W)
+		self.label5 = Label(self, text="Final Price Calculations", bg=backg, fg=foreg, font=major_font).grid(row=0, column=1)
+
+#====================== Own Build Variables ====================================
 class ComputingOwnBuild(Frame):
 	def __init__(self, parent, controller):
 		Frame.__init__(self, parent)
@@ -273,6 +334,7 @@ class ComputingOwnBuild(Frame):
 		self.width_spacer6 = Label(self, width=27, bg=backg, fg=foreg)
 		self.width_spacer6.grid(column=0, row=1)
 
+#====================== Computing second selection  ============================
 class ComputingPreBuilt(Frame):
 	def __init__(self, parent, controller):
 		Frame.__init__(self, parent)
@@ -303,6 +365,7 @@ class ComputingPreBuilt(Frame):
 	def go_home(self):
 		self.par_controller.reset_frame(ComputingPreBuilt)
 
+#====================== Sort by RAM ============================================
 class ComputingRAM(Frame):
 	def __init__(self, parent, controller):
 		Frame.__init__(self, parent)
@@ -404,6 +467,7 @@ class ComputingRAM(Frame):
 		self.label18 = Label(self, text=self.am_ex2, bg=backg, fg=foreg, font=my_font)
 		self.label18.grid(row=6, column=2, padx=3, pady=7)
 
+#====================== Sort By CPU ============================================
 class ComputingCPU(Frame):
 	def __init__(self, parent, controller):
 		Frame.__init__(self, parent)
@@ -505,6 +569,7 @@ class ComputingCPU(Frame):
 		self.label30 = Label(self, text=self.am_ex2, bg=backg, fg=foreg, font=my_font)
 		self.label30.grid(row=6, column=2, padx=3, pady=7)
 
+#====================== Display All Options ====================================
 class ComputingAll(Frame):
 	def __init__(self, parent, controller):
 		Frame.__init__(self, parent)

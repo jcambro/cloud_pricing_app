@@ -1,17 +1,20 @@
 #Returns the correct machines for cloud computing app
 
 #Lists keep the machine together with the base price
-amazon_normal = [("t2.small, 2(GB), 1, ", 10.51),
-                ("t2.large, 4(GB), 2, ", 41.98),
-                ("t2.xlarge, 16(GB), 4, ", 97.09),
-                ("t2.2xlarge, 32(GB), 8, ", 167.90),
-                ("m5.4xlarge, 64(GB), 16, ", 358.43)
+
+#Amazon has (machine, reserved price, on-demand price/hour )
+#Others are (machine, reserved price / month)
+amazon_normal = [("t2.small, 2(GB), 1, ", 10.51, 0.023),
+                ("t2.large, 4(GB), 2, ", 41.98, 0.0928),
+                ("t2.xlarge, 16(GB), 4, ", 97.09, 0.1856),
+                ("t2.2xlarge, 32(GB), 8, ", 167.90, 0.3712),
+                ("m5.4xlarge, 64(GB), 16, ", 358.43, 0.768)
                 ]
 
-amazon_optimized = [("c5.xlarge, 8(GB), 4, ", 78.84),
-                    ("c5.4xlarge, 32(GB), 16, ", 315.36),
-                    ("r4.xlarge, 30.5(GB), 4, ", 122.64),
-                    ("r4.2xlarge, 61(GB), 8, ", 245.28),
+amazon_optimized = [("c5.xlarge, 8(GB), 4, ", 78.84, 0.17),
+                    ("c5.4xlarge, 32(GB), 16, ", 315.36, 0.68),
+                    ("r4.xlarge, 30.5(GB), 4, ", 122.64, 0.266),
+                    ("r4.2xlarge, 61(GB), 8, ", 245.28, 0.532),
                     ]
 
 google_normal = [("n1-standard-1, 3.75(GB), 1, ", 24.27),
