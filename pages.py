@@ -234,15 +234,22 @@ class AWS_compare(Frame):
 		self.entry2.insert(10, "0")
 		self.entry2.grid(row=4, column=2)
 
+		self.label5 = Label(self, text="Disk Space (GB)", bg=backg, fg=foreg, font=my_font)
+		self.label5.grid(row=5, column=1, padx=5, pady=5)
+
+		self.entry4 = Entry(self, font=my_font)
+		self.entry4.insert(10, "0")
+		self.entry4.grid(row=5, column=2)
+
 		self.label4 = Label(self, text="Estimate of Hours per Month", bg=backg, fg=foreg, font=my_font)
-		self.label4.grid(row=5, column=1, padx=5, pady=5)
+		self.label4.grid(row=6, column=1, padx=5, pady=5)
 
 		self.entry3 = Entry(self, font=my_font)
 		self.entry3.insert(10, "0")
-		self.entry3.grid(row=5, column=2)
+		self.entry3.grid(row=6, column=2)
 
 		self.button1 = Button(self, text="Display Options", font=my_font, bg=button_backg, fg=foreg, activebackground=active_bg, activeforeground=active_fg, padx=5, pady=5, command=self.display_compare)
-		self.button1.grid(row=6, column=2, padx=10, pady=5)
+		self.button1.grid(row=7, column=2, padx=10, pady=5)
 
 	def go_home(self):
 		self.par_controller.reset_frame(AWS_compare)
@@ -251,6 +258,7 @@ class AWS_compare(Frame):
 		self.ram_wanted = float(self.entry1.get() )
 		self.cpu_wanted = float(self.entry2.get() )
 		self.hours = float(self.entry3.get() )
+		self.storage_wanted = float(self.entry4.get() )
 
 		clear_grid(self)
 
@@ -259,10 +267,12 @@ class AWS_compare(Frame):
 
 		self.label5 = Label(self, text="Final Price Calculations", bg=backg, fg=foreg, font=major_font).grid(row=0, column=2)
 
-		self.intro = "Prices are based on a machine with: \n" + str(self.ram_wanted) + "(GB) of RAM \n" + str(self.cpu_wanted) + " CPU(s)\n " + str(self.hours) + " hours in use / month"
+		self.intro = "Prices are based on a machine with: \n" + str(self.ram_wanted) + "(GB) of RAM \n" + str(self.cpu_wanted) + " CPU(s)\n " + str(self.storage_wanted) + "(GB) of Disk Space\n" + str(self.hours)  + " hours in use / month"
 		self.label6 = Label(self, text=self.intro, bg=backg, fg=foreg, font=major_font).grid(row=1, column=2)
 
-
+		self.amazon_custom = machines.find_comparable(self.ram_wanted, self.cpu_wanted, self.storage_wanted, self.hours)
+		self.amazon_title = Label(self, text="Amazon EC2: ", bg=backg, fg=foreg, pady=5, font=my_font).grid(row=2, column=1)
+		self.amazon_p = Label(self, text=self.amazon_custom, bg=backg, fg=foreg, pady=5, font=my_font).grid(row=2, column=2)
 
 #====================== Own Build Variables ====================================
 class ComputingOwnBuild(Frame):
@@ -322,25 +332,25 @@ class ComputingOwnBuild(Frame):
 		clear_grid(self)
 		self.home_button.grid(row=0, column=0, sticky=W)
 
-		self.calc_title = Label(self, text="Final Price Calculation", bg=backg, fg=foreg, font=major_font).grid(row=1, column=1, columnspan=2)
+		self.calc_title = Label(self, text="Final Price Calculation", bg=backg, fg=foreg, font=major_font).grid(row=0, column=1, columnspan=2)
 		self.intro = "Prices are based on a machine with: \n" + str(self.ram_wanted) + "(GB) of RAM \n" + str(self.cpu_wanted) + " CPU(s)\n " + str(self.storage_wanted) + "(GB) of Disk Space\n" + str(self.hours) + " hours in use / month"
-		self.into_label = Label(self, text=self.intro, padx=5, pady=5, bg=backg, fg=foreg, font=minor_font).grid(row=2, column=1, columnspan=2)
+		self.into_label = Label(self, text=self.intro, padx=5, pady=5, bg=backg, fg=foreg, font=minor_font).grid(row=1, column=1, columnspan=2)
 
 		self.miserver_price = calculation.mi_build_price(self.cpu_wanted, self.ram_wanted, self.storage_wanted)
 		self.google_price = calculation.google_build_price(self.cpu_wanted, self.ram_wanted, self.storage_wanted)
 
-		self.google_title = Label(self, text="Google Compute Engine: ", bg=backg, fg=foreg, pady=5, font=my_font).grid(row=3, column=1)
-		self.google_p = Label(self, text="$" + str(self.google_price), bg=backg, fg=foreg, pady=5, font=my_font).grid(row=3, column=2)
+		self.google_title = Label(self, text="Google Compute Engine: ", bg=backg, fg=foreg, pady=5, font=my_font).grid(row=2, column=1)
+		self.google_p = Label(self, text="$" + str(self.google_price), bg=backg, fg=foreg, pady=5, font=my_font).grid(row=2, column=2)
 
 		#get a custom amazon machine based on RAM for comparrison.
 		self.amazon_custom = machines.find_comparable(self.ram_wanted, self.cpu_wanted, self.storage_wanted, self.hours)
-		self.amazon_title = Label(self, text="Amazon EC2: ", bg=backg, fg=foreg, pady=5, font=my_font).grid(row=6, column=1)
-		self.amazon_p = Label(self, text=self.amazon_custom, bg=backg, fg=foreg, pady=5, font=my_font).grid(row=6, column=2)
+		self.amazon_title = Label(self, text="Amazon EC2: ", bg=backg, fg=foreg, pady=5, font=my_font).grid(row=5, column=1)
+		self.amazon_p = Label(self, text=self.amazon_custom, bg=backg, fg=foreg, pady=5, font=my_font).grid(row=5, column=2)
 
-		self.close_label = Label(self, text = "A Comparable Amazon Machine", bg=backg, fg=foreg, pady=10, font=minor_font).grid(row=5, column=1, columnspan=2)
+		self.close_label = Label(self, text = "A Comparable Amazon Machine", bg=backg, fg=foreg, pady=10, font=minor_font).grid(row=4, column=1, columnspan=2)
 
-		self.mi_title = Label(self, text="MiServer: ", bg=backg, fg=foreg, pady=5, font=my_font).grid(row=4, column=1)
-		self.mi_p = Label(self, text="$" + str(self.miserver_price), bg=backg, fg=foreg, pady=5, font=my_font).grid(row=4, column=2)
+		self.mi_title = Label(self, text="MiServer: ", bg=backg, fg=foreg, pady=5, font=my_font).grid(row=3, column=1)
+		self.mi_p = Label(self, text="$" + str(self.miserver_price), bg=backg, fg=foreg, pady=5, font=my_font).grid(row=3, column=2)
 
 		self.height_spacer3 = Label(self, height=7, bg=backg, fg=foreg)
 		self.height_spacer3.grid(column=0, row=8)
