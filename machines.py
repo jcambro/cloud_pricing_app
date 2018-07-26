@@ -37,7 +37,7 @@ miserver_normal = [("server1, 2(GB), 1, ", 16.795),
                     ("server5, 64(GB), 8, ", 466.295),
                     ]
 
-def get_cpu_machine(CPU, storage):
+def get_cpu_machine(CPU, storage, hours):
     #default value
     machine = [amazon_normal[0], google_normal[0], miserver_normal[0]]
     output = ["", "", ""]
@@ -61,7 +61,10 @@ def get_cpu_machine(CPU, storage):
 
     #amazon pricing is in the first slot of output
     tmp = machine[0][1] + 0.1 * storage
-    output[0] = machine[0][0] + str(storage) + "(GB), $" + str(tmp)
+    output[0] = "Reserved: " + machine[0][0] + str(storage) + "(GB), $" + str(tmp) + "\n"
+
+    tmp = machine[0][2] * hours + 0.1 * storage
+    output[0] += "On-Demand: " + machine[0][0] + str(storage) + "(GB), $" + str(tmp)
 
     #Google Pricing
     tmp = machine[1][1] + 0.17 * storage
@@ -73,7 +76,7 @@ def get_cpu_machine(CPU, storage):
 
     return output
 
-def get_ram_machine(RAM, storage):
+def get_ram_machine(RAM, storage, hours):
     #default value
     machine = [amazon_normal[0], google_normal[0], miserver_normal[0]]
     output = ["", "", ""]
@@ -101,7 +104,10 @@ def get_ram_machine(RAM, storage):
 
     #amazon pricing is in the first slot of output
     tmp = machine[0][1] + 0.1 * storage
-    output[0] = machine[0][0] + str(storage) + "(GB), $" + str(tmp)
+    output[0] = "Reserved: " + machine[0][0] + str(storage) + "(GB), $" + str(tmp) + "\n"
+
+    tmp = machine[0][2] * hours + 0.1 * storage
+    output[0] += "On-Demand: " + machine[0][0] + str(storage) + "(GB), $" + str(tmp)
 
     #Google Pricing
     tmp = machine[1][1] + 0.17 * storage
@@ -113,7 +119,7 @@ def get_ram_machine(RAM, storage):
 
     return output
 
-def get_cpu_optimized(CPU, storage):
+def get_cpu_optimized(CPU, storage, hours):
     #List is ordered [Title, EC2, Amazon machine, compute engine, google machine]
     machine = [amazon_optimized[0], google_optimized[0]]
     output = ["", "", "", "", ""]
@@ -137,14 +143,17 @@ def get_cpu_optimized(CPU, storage):
         machine[1] = google_optimized[1]
 
     tmp = machine[0][1] + 0.1 * storage
-    output[2] = machine[0][0] + str(storage) + "(GB), $" + str(tmp)
+    output[2] = "Reserved: " + machine[0][0] + str(storage) + "(GB), $" + str(tmp) + "\n"
+
+    tmp = machine[0][2] * hours + 0.1 * storage
+    output[2] += "On-Demand: " + machine[0][0] + str(storage) + "(GB), $" + str(tmp)
 
     tmp = machine[1][1] + 0.17 * storage
     output[4] = machine[1][0] + str(storage) + "(GB), $" + str(tmp)
 
     return output
 
-def get_ram_optimized(RAM, storage):
+def get_ram_optimized(RAM, storage, hours):
     #List is ordered [Title, EC2, Amazon machine, compute engine, google machine]
     machine = [amazon_optimized[2], google_optimized[2]]
     output = ["", "", "", "", ""]
@@ -170,33 +179,38 @@ def get_ram_optimized(RAM, storage):
         machine[0] = amazon_optimized[3]
         machine[1] = google_optimized[3]
 
+    #Amazon
     tmp = machine[0][1] + 0.1 * storage
-    output[2] = machine[0][0] + str(storage) + "(GB), $" + str(tmp)
+    output[2] = "Reserved: " + machine[0][0] + str(storage) + "(GB), $" + str(tmp) + "\n"
 
+    tmp = machine[0][2] * hours + 0.1 * storage
+    output[2] += "On-Demand: " + machine[0][0] + str(storage) + "(GB), $" + str(tmp)
+
+    #Google
     tmp = machine[1][1] + 0.17 * storage
     output[4] = machine[1][0] + str(storage) + "(GB), $" + str(tmp)
 
     return output
 
 #This function is specifically for amazon during the build your own section
-def find_comparable(RAM, CPU, storage):
+def find_comparable(RAM, CPU, storage, hours):
     output = ""
 
     #Protects div by 0 error
     if CPU == 0:
-        answers = get_ram_machine(RAM, storage)
+        answers = get_ram_machine(RAM, storage, hours)
         output = answers[0]
     elif (RAM / CPU) >= 6:
         #Probably want a RAM optimized machine
-        all_answers = get_ram_optimized(RAM, storage)
+        all_answers = get_ram_optimized(RAM, storage, hours)
         output = all_answers[2]
     elif (RAM / CPU) <= 2:
         #probably want a cpu optimized machine
-        all_answers = get_cpu_optimized(CPU, storage)
+        all_answers = get_cpu_optimized(CPU, storage, hours)
         output = all_answers[2]
     else:
         #Take a normal machine based on RAM.
-        all_answers = get_ram_machine(RAM, storage)
+        all_answers = get_ram_machine(RAM, storage, hours)
         output = all_answers[0]
 
     return output

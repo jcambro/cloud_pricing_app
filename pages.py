@@ -268,7 +268,7 @@ class ComputingOwnBuild(Frame):
 		self.home_button.grid(row=0, column=0, sticky=W)
 
 		self.height_spacer2 = Label(self, height=18, bg=backg, fg=foreg)
-		self.height_spacer2.grid(row=5, column=0)
+		self.height_spacer2.grid(row=6, column=0)
 
 		self.width_spacer5 = Label(self, width=35, bg=backg, fg=foreg)
 		self.width_spacer5.grid(row=1, column=0)
@@ -294,8 +294,14 @@ class ComputingOwnBuild(Frame):
 		self.entry4.insert(10, "0")
 		self.entry4.grid(row=3, column=2, padx=10, pady=10)
 
+		self.label5 = Label(self, text="Hours In Use per Month", bg=backg, fg=foreg, font=my_font)
+		self.label5.grid(row=4, column=1)
+		self.entry5 = Entry(self, font=my_font)
+		self.entry5.insert(10, "0")
+		self.entry5.grid(row=4, column=2, padx=10, pady=10)
+
 		self.button4 = Button(self, text="Calculate Price", font=my_font, bg=button_backg, fg=foreg, activebackground=active_bg, activeforeground=active_fg, padx=10, pady=10, command=self.calc_build )
-		self.button4.grid(column=1, row=4, columnspan=2, sticky="ew", pady=10)
+		self.button4.grid(column=1, row=5, columnspan=2, sticky="ew", pady=10)
 
 	def go_home(self):
 		self.par_controller.reset_frame(ComputingOwnBuild)
@@ -304,6 +310,7 @@ class ComputingOwnBuild(Frame):
 		self.ram_wanted = float(self.entry2.get())
 		self.cpu_wanted = float(self.entry3.get())
 		self.storage_wanted = float(self.entry4.get())
+		self.hours = float(self.entry5.get())
 
 		clear_grid(self)
 		self.home_button.grid(row=0, column=0, sticky=W)
@@ -319,7 +326,7 @@ class ComputingOwnBuild(Frame):
 		self.google_p = Label(self, text="$" + str(self.google_price), bg=backg, fg=foreg, pady=5, font=my_font).grid(row=3, column=2)
 
 		#get a custom amazon machine based on RAM for comparrison.
-		self.amazon_custom = machines.find_comparable(self.ram_wanted, self.cpu_wanted, self.storage_wanted)
+		self.amazon_custom = machines.find_comparable(self.ram_wanted, self.cpu_wanted, self.storage_wanted, self.hours)
 		self.amazon_title = Label(self, text="Amazon EC2: ", bg=backg, fg=foreg, pady=5, font=my_font).grid(row=6, column=1)
 		self.amazon_p = Label(self, text=self.amazon_custom, bg=backg, fg=foreg, pady=5, font=my_font).grid(row=6, column=2)
 
@@ -376,7 +383,7 @@ class ComputingRAM(Frame):
 		self.home_button.grid(row=0, column=0, sticky=W)
 
 		self.height_spacer = Label(self, height=23, bg=backg, fg=foreg)
-		self.height_spacer.grid(row=6, column=0)
+		self.height_spacer.grid(row=8, column=0)
 
 		self.width_spacer3 = Label(self, width=25, bg=backg, fg=foreg)
 		self.width_spacer3.grid(row=1, column=0)
@@ -398,8 +405,15 @@ class ComputingRAM(Frame):
 		self.entry3.insert(10, "0")
 		self.entry3.grid(row=4, column=2)
 
+		self.label6 = Label(self, text="Hours In Use per Month", bg=backg, fg=foreg, font=my_font)
+		self.label6.grid(row=5, column=1, padx=5, pady=5)
+
+		self.entry4 = Entry(self, font=my_font)
+		self.entry4.insert(10, "0")
+		self.entry4.grid(row=5, column=2)
+
 		self.button5 = Button(self, text="Display Options", font=my_font, bg=button_backg, fg=foreg, activebackground=active_bg, activeforeground=active_fg, padx=5, pady=5, command=self.display_ram)
-		self.button5.grid(row=5, column=2, padx=10, pady=5)
+		self.button5.grid(row=6, column=2, padx=10, pady=5)
 
 	def go_home(self):
 		self.par_controller.reset_frame(ComputingRAM)
@@ -407,13 +421,14 @@ class ComputingRAM(Frame):
 	def display_ram(self):
 		self.ram_wanted = float(self.entry1.get())
 		self.storage_wanted = int(self.entry3.get())
+		self.hours = float(self.entry4.get())
 
 		clear_grid(self)
 		self.home_button.grid(row=0, column=0, sticky=NW)
 		self.tmp = 0
 
 		#Comes back as a list [Amazon, Google, Miserver]
-		self.matches = machines.get_ram_machine(self.ram_wanted, self.storage_wanted)
+		self.matches = machines.get_ram_machine(self.ram_wanted, self.storage_wanted, self.hours)
 
 		self.amazon = self.matches[0]
 		self.google = self.matches[1]
@@ -421,7 +436,7 @@ class ComputingRAM(Frame):
 
 		#List is ordered [Title, EC2 title, Amazon machine, compute engine title, google machine]
 		#Returns any optimized machines available
-		self.optim = machines.get_ram_optimized(self.ram_wanted, self.storage_wanted)
+		self.optim = machines.get_ram_optimized(self.ram_wanted, self.storage_wanted, self.hours)
 
 		self.extra = self.optim[0]
 		self.am_ex1 = self.optim[1]
@@ -500,8 +515,15 @@ class ComputingCPU(Frame):
 		self.entry4.insert(10, "0")
 		self.entry4.grid(row=3, column=2)
 
+		self.label7 = Label(self, text="Hours In Use per Month", bg=backg, fg=foreg, font=my_font)
+		self.label7.grid(row=4, column=1, padx=5, pady=5)
+
+		self.entry5 = Entry(self, font=my_font)
+		self.entry5.insert(10, "0")
+		self.entry5.grid(row=4, column=2)
+
 		self.button6 = Button(self, text="Display Options", font=my_font, bg=button_backg, fg=foreg, activebackground=active_bg, activeforeground=active_fg, padx=5, pady=5, command=self.display_cpu)
-		self.button6.grid(row=4, column=2, padx=10, pady=5)
+		self.button6.grid(row=5, column=2, padx=10, pady=5)
 
 	def go_home(self):
 		self.par_controller.reset_frame(ComputingCPU)
@@ -509,11 +531,12 @@ class ComputingCPU(Frame):
 	def display_cpu(self):
 		self.cpu_wanted = float(self.entry2.get())
 		self.storage_wanted = float(self.entry4.get())
+		self.hours = float(self.entry5.get())
 
 		clear_grid(self)
 		self.home_button.grid(row=0, column=0, sticky=NW)
 
-		self.matches = machines.get_cpu_machine(self.cpu_wanted, self.storage_wanted)
+		self.matches = machines.get_cpu_machine(self.cpu_wanted, self.storage_wanted, self.hours)
 		self.tmp = 0
 
 		#Comes back as a list [Amazon, Google, Miserver]
@@ -523,7 +546,7 @@ class ComputingCPU(Frame):
 
 		#List is ordered [Title, EC2 title, Amazon machine, compute engine title, google machine]
 		#Returns any optimized machines available
-		self.optim = machines.get_cpu_optimized(self.cpu_wanted, self.storage_wanted)
+		self.optim = machines.get_cpu_optimized(self.cpu_wanted, self.storage_wanted, self.hours)
 
 		self.extra = self.optim[0]
 		self.am_ex1 = self.optim[1]

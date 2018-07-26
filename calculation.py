@@ -6,18 +6,18 @@ mi_discount = 1.0
 
 #=============== Storage: Amazon ===============================================
 def aws_s3_price(storage, d_return, d_scan, write_ops, read_ops):
-    price = 0.023 * storage + 0.0007 * d_return + 0.002 * d_scan + 0.005 * write_ops + 0.0004 * read_ops
-    price *= aws_discount
+    price = 0.0150 * storage + 0.0007 * d_return + 0.002 * d_scan + 0.005 * write_ops + 0.0004 * read_ops
+    #price *= aws_discount
     return price
 
 def aws_s3ia_price(storage, d_return, d_scan, write_ops, read_ops):
-    price = 0.0125 * storage + 0.01 * d_return + 0.002 * d_scan + 0.01 * write_ops + 0.001 * read_ops
-    price *= aws_discount
+    price = 0.0096 * storage + 0.01 * d_return + 0.002 * d_scan + 0.01 * write_ops + 0.001 * read_ops
+    #price *= aws_discount
     return price
 
 def aws_glacier_price(storage, d_return, d_scan, write_ops, read_ops):
-    price = 0.004 * storage + 0.0025 * d_return + 0.001 * d_scan + 0.05 * write_ops + 0.205 * read_ops
-    price *= aws_discount
+    price = 0.0033 * storage + 0.0025 * d_return + 0.001 * d_scan + 0.05 * write_ops + 0.205 * read_ops
+    #price *= aws_discount
     return price
 
 #=============== Storage: Google ===============================================
