@@ -255,7 +255,14 @@ class AWS_compare(Frame):
 		clear_grid(self)
 
 		self.home_button.grid(row=0, column=0, sticky=W)
-		self.label5 = Label(self, text="Final Price Calculations", bg=backg, fg=foreg, font=major_font).grid(row=0, column=1)
+		self.width_spacer3.grid(row=0, column=1)
+
+		self.label5 = Label(self, text="Final Price Calculations", bg=backg, fg=foreg, font=major_font).grid(row=0, column=2)
+
+		self.intro = "Prices are based on a machine with: \n" + str(self.ram_wanted) + "(GB) of RAM \n" + str(self.cpu_wanted) + " CPU(s)\n " + str(self.hours) + " hours in use / month"
+		self.label6 = Label(self, text=self.intro, bg=backg, fg=foreg, font=major_font).grid(row=1, column=2)
+
+
 
 #====================== Own Build Variables ====================================
 class ComputingOwnBuild(Frame):
@@ -316,7 +323,7 @@ class ComputingOwnBuild(Frame):
 		self.home_button.grid(row=0, column=0, sticky=W)
 
 		self.calc_title = Label(self, text="Final Price Calculation", bg=backg, fg=foreg, font=major_font).grid(row=1, column=1, columnspan=2)
-		self.intro = "Prices are based on a machine with: \n" + str(self.ram_wanted) + "(GB) of RAM \n" + str(self.cpu_wanted) + " CPU(s)\n " + str(self.storage_wanted) + "(GB) of Disk Space"
+		self.intro = "Prices are based on a machine with: \n" + str(self.ram_wanted) + "(GB) of RAM \n" + str(self.cpu_wanted) + " CPU(s)\n " + str(self.storage_wanted) + "(GB) of Disk Space\n" + str(self.hours) + " hours in use / month"
 		self.into_label = Label(self, text=self.intro, padx=5, pady=5, bg=backg, fg=foreg, font=minor_font).grid(row=2, column=1, columnspan=2)
 
 		self.miserver_price = calculation.mi_build_price(self.cpu_wanted, self.ram_wanted, self.storage_wanted)
@@ -444,7 +451,7 @@ class ComputingRAM(Frame):
 		self.g_ex1 = self.optim[3]
 		self.g_ex2 = self.optim[4]
 
-		self.entered_text = str(self.ram_wanted) + "GB of RAM and " + str(self.storage_wanted) + "GB of Disk Space"
+		self.entered_text = str(self.ram_wanted) + "GB of RAM, " + str(self.storage_wanted) + "GB of Disk Space, and " + str(self.hours) + " hours of use / month"
 
 		self.label7 = Label(self, text="Selected Machines Based on RAM Requirement\n" + self.entered_text + "\n[Machine, RAM, # of CPUs, Disk, Cost/month]", bg=backg, fg=foreg, font=major_font )
 		self.label7.grid(row=0, column=1, padx=10, pady=10, columnspan=2)
@@ -554,7 +561,7 @@ class ComputingCPU(Frame):
 		self.g_ex1 = self.optim[3]
 		self.g_ex2 = self.optim[4]
 
-		self.entered_text = str(self.cpu_wanted) + " CPUs and " + str(self.storage_wanted) + "GB of Disk Space"
+		self.entered_text = str(self.cpu_wanted) + " CPUs, " + str(self.storage_wanted) + "GB of Disk Space, and " + str(self.hours) + " hours of use / month"
 
 		self.label19 = Label(self, text="Selected Machines Based on CPU Requirement\n" + self.entered_text + "\n[Machine, RAM, # of CPUs, Disk, Cost/month]", bg=backg, fg=foreg, font=major_font )
 		self.label19.grid(row=0, column=1, padx=10, pady=10, columnspan=2)
