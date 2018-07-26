@@ -15,12 +15,12 @@ class Application(Tk):
 		self.container = Frame(self)
 		self.container2 = Frame(self)
 		self.container2.config(bg="black", width=1400, height=750)
-		self.container.config(width=1350, height=700, bg="gray40")
+		self.container.config(width=1450, height=800, bg="gray40")
 
 		self.container.pack(side="top", fill="both", expand=True, padx=10, pady=10)
 		self.container.grid_rowconfigure(0, weight=1)
 		self.container.grid_columnconfigure(0, weight=1)
-		self.container2.place(in_=self.container, anchor="c", relx=0.5, rely=0.5)
+		self.container2.place(in_=self.container, anchor="center", relx=0.5, rely=0.5)
 
 		self.frames = {}
 
