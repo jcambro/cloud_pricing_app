@@ -29,7 +29,7 @@ class Application(Tk):
 				pages.ComputingAll, pages.ComputingRAM, pages.ComputingCPU, pages.AWS_Info, pages.AWS_compare, ):
 			frame = F(self.container2, self)
 			self.frames[F] = frame
-			frame.grid(row=0, column=0, sticky="NSEW")
+			frame.grid(row=0, column=0, sticky="nsew")
 
 		#Starts the application at the correct home page
 		self.show_frame(pages.StartPage)
@@ -44,7 +44,7 @@ class Application(Tk):
 	def reset_frame(self, context):
 		frame = context(self.container2, self)
 		self.frames[context] = frame
-		frame.grid(row=0, column=0, sticky="NSEW")
+		frame.grid(row=0, column=0, sticky="nsew")
 		self.show_frame(pages.StartPage)
 
 app = Application()
