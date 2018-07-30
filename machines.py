@@ -4,17 +4,17 @@
 
 #Amazon has (machine, reserved price, on-demand price/hour )
 #Others are (machine, reserved price / month)
-amazon_normal = [("t2.small, 2(GB), 1, ", 10.51, 0.023),
-                ("t2.large, 4(GB), 2, ", 41.98, 0.0928),
-                ("t2.xlarge, 16(GB), 4, ", 97.09, 0.1856),
-                ("t2.2xlarge, 32(GB), 8, ", 167.90, 0.3712),
-                ("m5.4xlarge, 64(GB), 16, ", 358.43, 0.768)
+amazon_normal = [("t2.small, 2(GB), 1, ", 10.51, 0.023, 0.0069),
+                ("t2.large, 4(GB), 2, ", 41.98, 0.0928, 0.0278),
+                ("t2.xlarge, 16(GB), 4, ", 97.09, 0.1856, 0.0557),
+                ("t2.2xlarge, 32(GB), 8, ", 167.90, 0.3712, 0.1114),
+                ("m5.4xlarge, 64(GB), 16, ", 358.43, 0.768, 0.2527)
                 ]
 
-amazon_optimized = [("c5.xlarge, 8(GB), 4, ", 78.84, 0.17),
-                    ("c5.4xlarge, 32(GB), 16, ", 315.36, 0.68),
-                    ("r4.xlarge, 30.5(GB), 4, ", 122.64, 0.266),
-                    ("r4.2xlarge, 61(GB), 8, ", 245.28, 0.532),
+amazon_optimized = [("c5.xlarge, 8(GB), 4, ", 78.84, 0.17, 0.0638),
+                    ("c5.4xlarge, 32(GB), 16, ", 315.36, 0.68, 0.2469),
+                    ("r4.xlarge, 30.5(GB), 4, ", 122.64, 0.266, 0.063),
+                    ("r4.2xlarge, 61(GB), 8, ", 245.28, 0.532, 0.1268),
                     ]
 
 google_normal = [("n1-standard-1, 3.75(GB), 1, ", 24.27),
@@ -64,7 +64,10 @@ def get_cpu_machine(CPU, storage, hours):
     output[0] = "Reserved: " + machine[0][0] + str(storage) + "(GB), $" + str(tmp) + "\n"
 
     tmp = machine[0][2] * hours + 0.1 * storage
-    output[0] += "On-Demand: " + machine[0][0] + str(storage) + "(GB), $" + str(tmp)
+    output[0] += "On-Demand: " + machine[0][0] + str(storage) + "(GB), $" + str(tmp) + "\n"
+
+    tmp = machine[0][3] * hours + 0.1 * storage
+    output[0] += "Spot: " + machine[0][0] + str(storage) + "(GB), $" + str(tmp)
 
     #Google Pricing
     tmp = machine[1][1] + 0.17 * storage
@@ -107,7 +110,10 @@ def get_ram_machine(RAM, storage, hours):
     output[0] = "Reserved: " + machine[0][0] + str(storage) + "(GB), $" + str(tmp) + "\n"
 
     tmp = machine[0][2] * hours + 0.1 * storage
-    output[0] += "On-Demand: " + machine[0][0] + str(storage) + "(GB), $" + str(tmp)
+    output[0] += "On-Demand: " + machine[0][0] + str(storage) + "(GB), $" + str(tmp) + "\n"
+
+    tmp = machine[0][3] * hours + 0.1 * storage
+    output[0] += "Spot: " + machine[0][0] + str(storage) + "(GB), $" + str(tmp)
 
     #Google Pricing
     tmp = machine[1][1] + 0.17 * storage
@@ -146,7 +152,10 @@ def get_cpu_optimized(CPU, storage, hours):
     output[2] = "Reserved: " + machine[0][0] + str(storage) + "(GB), $" + str(tmp) + "\n"
 
     tmp = machine[0][2] * hours + 0.1 * storage
-    output[2] += "On-Demand: " + machine[0][0] + str(storage) + "(GB), $" + str(tmp)
+    output[2] += "On-Demand: " + machine[0][0] + str(storage) + "(GB), $" + str(tmp) + "\n"
+
+    tmp = machine[0][3] * hours + 0.1 * storage
+    output[2] += "Spot: " + machine[0][0] + str(storage) + "(GB), $" + str(tmp)
 
     tmp = machine[1][1] + 0.17 * storage
     output[4] = machine[1][0] + str(storage) + "(GB), $" + str(tmp)
@@ -184,7 +193,10 @@ def get_ram_optimized(RAM, storage, hours):
     output[2] = "Reserved: " + machine[0][0] + str(storage) + "(GB), $" + str(tmp) + "\n"
 
     tmp = machine[0][2] * hours + 0.1 * storage
-    output[2] += "On-Demand: " + machine[0][0] + str(storage) + "(GB), $" + str(tmp)
+    output[2] += "On-Demand: " + machine[0][0] + str(storage) + "(GB), $" + str(tmp) + "\n"
+
+    tmp = machine[0][3] * hours + 0.1 * storage
+    output[2] += "Spot: " + machine[0][0] + str(storage) + "(GB), $" + str(tmp)
 
     #Google
     tmp = machine[1][1] + 0.17 * storage
