@@ -140,26 +140,34 @@ def get_cpu_optimized(CPU, storage, hours):
 
         #returns right away to avoid the calculation step.
         return output
-    elif CPU <=4:
-        machine[0] = amazon_optimized[0]
-        machine[1] = google_optimized[0]
     else:
-        machine[0] = amazon_optimized[1]
-        machine[1] = google_optimized[1]
+        ind = find_near_cpu_opt(CPU)
+        machine[0] = amazon_optimized[ind]
+        machine[1] = google_optimized[ind]
 
     tmp = machine[0][1] + 0.1 * storage
     output[2] = "Reserved: " + machine[0][0] + str(storage) + "(GB), $" + str(tmp) + "\n"
 
     tmp = machine[0][2] * hours + 0.1 * storage
-    output[2] += "On-Demand: " + machine[0][0] + str(storage) + "(GB), $" + str(tmp) + "\n"
-
-    tmp = machine[0][3] * hours + 0.1 * storage
-    output[2] += "Spot: " + machine[0][0] + str(storage) + "(GB), $" + str(tmp)
+    output[2] += "On-Demand: " + machine[0][0] + str(storage) + "(GB), $" + str(tmp)
 
     tmp = machine[1][1] + 0.17 * storage
     output[4] = machine[1][0] + str(storage) + "(GB), $" + str(tmp)
 
     return output
+
+#Finds the correct CPU optimized index based on CPU requirement
+def find_near_cpu_opt(CPU):
+    index = 0
+
+    if CPU <= 2:
+        print "This is an error: CPU Optimized"
+    elif CPU <=4:
+        index = 0
+    else:
+        index = 1
+
+    return index
 
 def get_ram_optimized(RAM, storage, hours):
     #List is ordered [Title, EC2, Amazon machine, compute engine, google machine]
@@ -177,31 +185,36 @@ def get_ram_optimized(RAM, storage, hours):
 
         #returns right away to avoid the calculation step.
         return output
-    elif RAM <=16:
-        machine[0] = amazon_optimized[2]
-        machine[1] = google_optimized[2]
-    elif RAM <=32:
-        machine[0] = amazon_optimized[2]
-        machine[1] = google_optimized[2]
     else:
-        machine[0] = amazon_optimized[3]
-        machine[1] = google_optimized[3]
-
+        ind = find_near_ram_opt(RAM)
+        machine[0] = amazon_optimized[ind]
+        machine[1] = google_optimized[ind]
+        
     #Amazon
     tmp = machine[0][1] + 0.1 * storage
     output[2] = "Reserved: " + machine[0][0] + str(storage) + "(GB), $" + str(tmp) + "\n"
 
     tmp = machine[0][2] * hours + 0.1 * storage
-    output[2] += "On-Demand: " + machine[0][0] + str(storage) + "(GB), $" + str(tmp) + "\n"
-
-    tmp = machine[0][3] * hours + 0.1 * storage
-    output[2] += "Spot: " + machine[0][0] + str(storage) + "(GB), $" + str(tmp)
+    output[2] += "On-Demand: " + machine[0][0] + str(storage) + "(GB), $" + str(tmp)
 
     #Google
     tmp = machine[1][1] + 0.17 * storage
     output[4] = machine[1][0] + str(storage) + "(GB), $" + str(tmp)
 
     return output
+
+#Finds the correct index for RAM optimized machines based on RAM requirement.
+def find_near_ram_opt(RAM):
+    ind = 0
+
+    if RAM <=4:
+        print "This is an error message: RAM Optimized"
+    elif RAM <= 32:
+        ind = 2
+    else:
+        ind = 3
+
+    return ind
 
 #This function is specifically for amazon during the build your own section
 def find_comparable(RAM, CPU, storage, hours):
