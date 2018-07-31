@@ -268,14 +268,17 @@ class AWS_compare(Frame):
 		self.width_spacer2 = Label(self, width=17, bg=backg, fg=foreg)
 		self.width_spacer2.grid(row=1, column=0)
 
+		self.height_spacer2 = Label(self, height=5, bg=backg, fg=foreg)
+		self.height_spacer2.grid(row=2, column=1)
+
 		self.label5 = Label(self, text="Final Price Calculations", bg=backg, fg=foreg, font=major_font).grid(row=0, column=2)
 
 		self.intro = "Prices are based on a machine with: \n" + str(self.ram_wanted) + "(GB) of RAM \n" + str(self.cpu_wanted) + " CPU(s)\n " + str(self.storage_wanted) + "(GB) of Disk Space\n" + str(self.hours)  + " hours in use / month"
-		self.label6 = Label(self, text=self.intro, bg=backg, fg=foreg, font=major_font).grid(row=1, column=2)
+		self.label6 = Label(self, text=self.intro, bg=backg, fg=foreg, font=minor_font).grid(row=1, column=2)
 
-		self.amazon_custom = machines.find_comparable(self.ram_wanted, self.cpu_wanted, self.storage_wanted, self.hours)
-		self.amazon_title = Label(self, text="Amazon EC2: ", bg=backg, fg=foreg, pady=5, font=my_font).grid(row=2, column=1)
-		self.amazon_p = Label(self, text=self.amazon_custom, bg=backg, fg=foreg, pady=5, font=my_font).grid(row=2, column=2)
+		self.amazon_custom = machines.aws_compare_prices(self.ram_wanted, self.cpu_wanted, self.storage_wanted, self.hours)
+		self.amazon_title = Label(self, text="Amazon EC2: ", bg=backg, fg=foreg, pady=5, font=my_font).grid(row=3, column=1)
+		self.amazon_p = Label(self, text=self.amazon_custom, bg=backg, fg=foreg, pady=5, font=my_font).grid(row=3, column=2)
 
 #====================== Own Build Variables ====================================
 class ComputingOwnBuild(Frame):

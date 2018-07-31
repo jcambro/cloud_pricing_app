@@ -189,7 +189,7 @@ def get_ram_optimized(RAM, storage, hours):
         ind = find_near_ram_opt(RAM)
         machine[0] = amazon_optimized[ind]
         machine[1] = google_optimized[ind]
-        
+
     #Amazon
     tmp = machine[0][1] + 0.1 * storage
     output[2] = "Reserved: " + machine[0][0] + str(storage) + "(GB), $" + str(tmp) + "\n"
@@ -236,6 +236,39 @@ def find_comparable(RAM, CPU, storage, hours):
         #Take a normal machine based on RAM.
         all_answers = get_ram_machine(RAM, storage, hours)
         output = all_answers[0]
+
+    return output
+
+def aws_compare_prices(RAM, CPU, storage, hours):
+    output = ""
+    index = 0
+    am_machine = amazon_normal[0]
+
+    #Prevents divide by zero
+    if CPU == 0:
+        index = find_near_ram(RAM)
+        am_machine = amazon_normal[index]
+    #Lots of RAM. Need RAM optimized
+    elif (RAM / CPU) >= 6:
+        index = find_near_ram_opt(RAM)
+        am_machine = amazon_optimized[index]
+    #Lots of CPU. Need CPU optimized
+    elif (RAM / CPU) <= 2:
+        index = find_near_cpu_opt(CPU)
+        am_machine = amazon_optimized[index]
+    #Fairly normal ratio. Just base off of normal ram.
+    else:
+        index = find_near_ram(RAM)
+        am_machine = amazon_normal[index]
+
+    tmp = am_machine[1] + 0.1 * storage
+    output = "Reserved: " + am_machine[0] + str(storage) + "(GB), $" + str(tmp) + "\n"
+
+    tmp = am_machine[2] * hours + 0.1 * storage
+    output += "On-Demand: " + am_machine[0] + str(storage) + "(GB), $" + str(tmp) + "\n"
+
+    tmp = am_machine[3] * hours + 0.1 * storage
+    output += "Spot: " + am_machine[0] + str(storage) + "(GB), $" + str(tmp)
 
     return output
 
