@@ -42,32 +42,17 @@ def get_cpu_machine(CPU, storage, hours):
     machine = [amazon_normal[0], google_normal[0], miserver_normal[0]]
     output = ["", "", ""]
 
-    if CPU <= 1:
-        machine[0] = amazon_normal[0]
-        machine[1] = google_normal[0]
-        machine[2] = miserver_normal[0]
-    elif CPU <= 2:
-        machine[0] = amazon_normal[1]
-        machine[1] = google_normal[1]
-        machine[2] = miserver_normal[1]
-    elif CPU <= 4:
-        machine[0] = amazon_normal[2]
-        machine[1] = google_normal[2]
-        machine[2] = miserver_normal[2]
-    else:
-        machine[0] = amazon_normal[3]
-        machine[1] = google_normal[3]
-        machine[2] = miserver_normal[3]
+    correct_index = find_near_cpu(CPU)
+    machine[0] = amazon_normal[correct_index]
+    machine[1] = google_normal[correct_index]
+    machine[2] = miserver_normal[correct_index]
 
     #amazon pricing is in the first slot of output
     tmp = machine[0][1] + 0.1 * storage
     output[0] = "Reserved: " + machine[0][0] + str(storage) + "(GB), $" + str(tmp) + "\n"
 
     tmp = machine[0][2] * hours + 0.1 * storage
-    output[0] += "On-Demand: " + machine[0][0] + str(storage) + "(GB), $" + str(tmp) + "\n"
-
-    tmp = machine[0][3] * hours + 0.1 * storage
-    output[0] += "Spot: " + machine[0][0] + str(storage) + "(GB), $" + str(tmp)
+    output[0] += "On-Demand: " + machine[0][0] + str(storage) + "(GB), $" + str(tmp)
 
     #Google Pricing
     tmp = machine[1][1] + 0.17 * storage
@@ -78,42 +63,39 @@ def get_cpu_machine(CPU, storage, hours):
     output[2] = machine[2][0] + str(storage) + "(GB), $" + str(tmp)
 
     return output
+
+#This function returns the correct index for how many CPU's were requested.
+def find_near_cpu(CPU):
+    return_value = 0
+
+    if CPU <= 1:
+        return_value = 0
+    elif CPU <=2:
+        return_value = 1
+    elif CPU<= 4:
+        return_value = 2
+    else:
+        return_value = 3
+
+    #The value returned is the correct index.
+    return return_value
 
 def get_ram_machine(RAM, storage, hours):
     #default value
     machine = [amazon_normal[0], google_normal[0], miserver_normal[0]]
     output = ["", "", ""]
 
-    if RAM <= 2:
-        machine[0] = amazon_normal[0]
-        machine[1] = google_normal[0]
-        machine[2] = miserver_normal[0]
-    elif RAM <= 4:
-        machine[0] = amazon_normal[1]
-        machine[1] = google_normal[1]
-        machine[2] = miserver_normal[1]
-    elif RAM <= 16:
-        machine[0] = amazon_normal[2]
-        machine[1] = google_normal[2]
-        machine[2] = miserver_normal[2]
-    elif RAM <= 32:
-        machine[0] = amazon_normal[3]
-        machine[1] = google_normal[3]
-        machine[2] = miserver_normal[3]
-    else:
-        machine[0] = amazon_normal[4]
-        machine[1] = google_normal[4]
-        machine[2] = miserver_normal[4]
+    correct_index = find_near_ram(RAM)
+    machine[0] = amazon_normal[correct_index]
+    machine[1] = google_normal[correct_index]
+    machine[2] = miserver_normal[correct_index]
 
     #amazon pricing is in the first slot of output
     tmp = machine[0][1] + 0.1 * storage
     output[0] = "Reserved: " + machine[0][0] + str(storage) + "(GB), $" + str(tmp) + "\n"
 
     tmp = machine[0][2] * hours + 0.1 * storage
-    output[0] += "On-Demand: " + machine[0][0] + str(storage) + "(GB), $" + str(tmp) + "\n"
-
-    tmp = machine[0][3] * hours + 0.1 * storage
-    output[0] += "Spot: " + machine[0][0] + str(storage) + "(GB), $" + str(tmp)
+    output[0] += "On-Demand: " + machine[0][0] + str(storage) + "(GB), $" + str(tmp)
 
     #Google Pricing
     tmp = machine[1][1] + 0.17 * storage
@@ -124,6 +106,23 @@ def get_ram_machine(RAM, storage, hours):
     output[2] = machine[2][0] + str(storage) + "(GB), $" + str(tmp)
 
     return output
+
+#Finds the correct index to return based on RAM requirement
+def find_near_ram(RAM):
+    ind = 0
+
+    if RAM <= 2:
+        ind = 0
+    elif RAM <= 4:
+        ind = 1
+    elif RAM <= 16:
+        ind = 2
+    elif RAM <= 32:
+        ind = 3
+    else:
+        ind = 4
+
+    return ind
 
 def get_cpu_optimized(CPU, storage, hours):
     #List is ordered [Title, EC2, Amazon machine, compute engine, google machine]
