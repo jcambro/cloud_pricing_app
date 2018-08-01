@@ -2,8 +2,8 @@
 
 #Lists keep the machine together with the base price
 
-#Amazon has (machine, reserved price, on-demand price/hour )
-#Others are (machine, reserved price / month)
+#Amazon has (machine, reserved price, on-demand price/hour, spot price/hour )
+#Google & miserver are (machine, reserved price / month)
 amazon_normal = [("t2.small, 2(GB), 1, ", 10.51, 0.023, 0.0069),
                 ("t2.large, 4(GB), 2, ", 41.98, 0.0928, 0.0278),
                 ("t2.xlarge, 16(GB), 4, ", 97.09, 0.1856, 0.0557),
@@ -37,6 +37,7 @@ miserver_normal = [("server1, 2(GB), 1, ", 16.795),
                     ("server5, 64(GB), 8, ", 466.295),
                     ]
 
+#User wants to sort by # of CPUs
 def get_cpu_machine(CPU, storage, hours):
     #default value
     machine = [amazon_normal[0], google_normal[0], miserver_normal[0]]
@@ -62,6 +63,7 @@ def get_cpu_machine(CPU, storage, hours):
     tmp = machine[2][1] + 0.0735 * storage
     output[2] = machine[2][0] + str(storage) + "(GB), $" + str(tmp)
 
+    #Output is a list containing 3 strings [amazon, google, miserver]
     return output
 
 #This function returns the correct index for how many CPU's were requested.
@@ -80,6 +82,7 @@ def find_near_cpu(CPU):
     #The value returned is the correct index.
     return return_value
 
+#Used if the user wants to sort by RAM
 def get_ram_machine(RAM, storage, hours):
     #default value
     machine = [amazon_normal[0], google_normal[0], miserver_normal[0]]
@@ -105,6 +108,7 @@ def get_ram_machine(RAM, storage, hours):
     tmp = machine[2][1] + 0.0735 * storage
     output[2] = machine[2][0] + str(storage) + "(GB), $" + str(tmp)
 
+    #Output is a list containing 3 strings [amazon, google, miserver]
     return output
 
 #Finds the correct index to return based on RAM requirement
@@ -139,18 +143,21 @@ def get_cpu_optimized(CPU, storage, hours):
         output[3] = ""
 
         #returns right away to avoid the calculation step.
+        #Too small of CPUs to have any optimization options
         return output
     else:
         ind = find_near_cpu_opt(CPU)
         machine[0] = amazon_optimized[ind]
         machine[1] = google_optimized[ind]
 
+    #Amazon
     tmp = machine[0][1] + 0.1 * storage
     output[2] = "Reserved: " + machine[0][0] + str(storage) + "(GB), $" + str(tmp) + "\n"
 
     tmp = machine[0][2] * hours + 0.1 * storage
     output[2] += "On-Demand: " + machine[0][0] + str(storage) + "(GB), $" + str(tmp)
 
+    #Google
     tmp = machine[1][1] + 0.17 * storage
     output[4] = machine[1][0] + str(storage) + "(GB), $" + str(tmp)
 
@@ -184,6 +191,7 @@ def get_ram_optimized(RAM, storage, hours):
         output[3] = ""
 
         #returns right away to avoid the calculation step.
+        #RAM is too small to have optimized options
         return output
     else:
         ind = find_near_ram_opt(RAM)
@@ -221,6 +229,8 @@ def find_comparable(RAM, CPU, storage, hours):
     output = ""
 
     #Protects div by 0 error
+    #If statements decide if RAM / CPU ratio is skewed in one direction enough
+    # to warrant getting an optimized machine or a regular one
     if CPU == 0:
         answers = get_ram_machine(RAM, storage, hours)
         output = answers[0]
@@ -273,7 +283,7 @@ def aws_compare_prices(RAM, CPU, storage, hours):
     return output
 
 def get_all_amazon():
-    #Output will be in the form [normal, cpu optimized, RAM optimized]
+    #Output will be in the form [normal, cpu optimized, RAM optimized], all strings
     output = ["", "", ""]
     normal = ""
     cpu = ""
@@ -294,7 +304,7 @@ def get_all_amazon():
     return output
 
 def get_all_google():
-    #Output will be in the form [normal, cpu optimized, RAM optimized]
+    #Output will be in the form [normal, cpu optimized, RAM optimized], all strings
     output = ["", "", ""]
     normal = ""
     cpu = ""
