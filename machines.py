@@ -8,13 +8,16 @@ amazon_normal = [("t2.small, 2(GB), 1, ", 10.51, 0.023, 0.0069),
                 ("t2.large, 4(GB), 2, ", 41.98, 0.0928, 0.0278),
                 ("t2.xlarge, 16(GB), 4, ", 97.09, 0.1856, 0.0557),
                 ("t2.2xlarge, 32(GB), 8, ", 167.90, 0.3712, 0.1114),
-                ("m5.4xlarge, 64(GB), 16, ", 358.43, 0.768, 0.2527)
+                ("m5.4xlarge, 64(GB), 16, ", 358.43, 0.768, 0.2527),
+                ("m5.12xlarge, 192(GB), 48, ", 1074.56, 2.304, 2.304),
                 ]
 
 amazon_optimized = [("c5.xlarge, 8(GB), 4, ", 78.84, 0.17, 0.0638),
                     ("c5.4xlarge, 32(GB), 16, ", 315.36, 0.68, 0.2469),
+                    ("c5.9xlarge, 72(GB), 36, ", 708.83, 1.53, 0.3197),
                     ("r4.xlarge, 30.5(GB), 4, ", 122.64, 0.266, 0.063),
                     ("r4.2xlarge, 61(GB), 8, ", 245.28, 0.532, 0.1268),
+                    ("r4.4xlarge, 122(GB), 16, ", 490.56, 1.064, 0.1489),
                     ]
 
 google_normal = [("n1-standard-1, 3.75(GB), 1, ", 24.27),
@@ -22,12 +25,15 @@ google_normal = [("n1-standard-1, 3.75(GB), 1, ", 24.27),
                 ("n1-standard-4, 15(GB), 4, ", 97.09),
                 ("n1-standard-8, 30(GB), 8, ", 194.18),
                 ("n1-standard-16, 60(GB), 16, ", 388.36),
+                ("n1-standard-32, 120(GB), 32", 776.72),
                 ]
 
 google_optimized = [("n1-highcpu-4, 3.6(GB), 4, ", 72.46),
                     ("n1-highcpu-16, 14.4(GB), 16, ", 289.84),
+                    ("n1-highcpu-32, 28.8(GB), 32, ", 579.68),
                     ("n1-highmem-4, 26(GB), 4, ", 121.0),
                     ("n1-highmem-8, 52(GB), 8, ", 242.0),
+                    ("n1-highmem-16, 104(GB), 16, ", 484.0),
                     ]
 
 miserver_normal = [("server1, 2(GB), 1, ", 16.795),
@@ -35,6 +41,7 @@ miserver_normal = [("server1, 2(GB), 1, ", 16.795),
                     ("server3, 16(GB), 4, ", 118.295),
                     ("server4, 32(GB), 8, ", 234.295),
                     ("server5, 64(GB), 8, ", 466.295),
+                    ("server6, 128(GB), 32, ", 932.295),
                     ]
 
 #User wants to sort by # of CPUs
@@ -76,8 +83,12 @@ def find_near_cpu(CPU):
         return_value = 1
     elif CPU<= 4:
         return_value = 2
-    else:
+    elif CPU <= 8:
         return_value = 3
+    elif CPU <= 16:
+        return_value = 4
+    else:
+        return_value = 5
 
     #The value returned is the correct index.
     return return_value
@@ -123,8 +134,10 @@ def find_near_ram(RAM):
         ind = 2
     elif RAM <= 32:
         ind = 3
-    else:
+    elif RAM <= 64:
         ind = 4
+    else:
+        ind = 5
 
     return ind
 
@@ -171,8 +184,10 @@ def find_near_cpu_opt(CPU):
         print "This is an error: CPU Optimized"
     elif CPU <=4:
         index = 0
-    else:
+    elif CPU <= 16:
         index = 1
+    else:
+        index = 2
 
     return index
 
@@ -218,9 +233,11 @@ def find_near_ram_opt(RAM):
     if RAM <=4:
         print "This is an error message: RAM Optimized"
     elif RAM <= 32:
-        ind = 2
-    else:
         ind = 3
+    elif RAM <= 60:
+        ind = 4
+    else:
+        ind = 5
 
     return ind
 
