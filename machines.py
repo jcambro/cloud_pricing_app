@@ -25,7 +25,7 @@ google_normal = [("n1-standard-1, 3.75(GB), 1, ", 24.27),
                 ("n1-standard-4, 15(GB), 4, ", 97.09),
                 ("n1-standard-8, 30(GB), 8, ", 194.18),
                 ("n1-standard-16, 60(GB), 16, ", 388.36),
-                ("n1-standard-32, 120(GB), 32", 776.72),
+                ("n1-standard-32, 120(GB), 32, ", 776.72),
                 ]
 
 google_optimized = [("n1-highcpu-4, 3.6(GB), 4, ", 72.46),
