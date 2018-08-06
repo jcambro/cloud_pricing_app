@@ -316,13 +316,16 @@ def get_all_amazon():
     cpu = ""
     ram = ""
 
+    #Adds all normal amazon machines
     for i in amazon_normal:
         normal += i[0] + " $" + str(i[1]) + "\n"
 
-    for x in range(0, 2):
+    #adds all cpu optimized machines
+    for x in range(0, 3):
         cpu += amazon_optimized[x][0] + " $" + str(amazon_optimized[x][1]) + "\n"
 
-    for y in range(2, 4):
+    #adds all RAM optimized machines
+    for y in range(3, 6):
         ram += amazon_optimized[y][0] + " $" + str(amazon_optimized[y][1]) + "\n"
 
     output[0] = normal
@@ -337,13 +340,16 @@ def get_all_google():
     cpu = ""
     ram = ""
 
+    #adds all normal machines
     for i in google_normal:
         normal += i[0] + " $" + str(i[1]) + "\n"
 
-    for x in range(0, 2):
+    #adds all cpu optimized machines
+    for x in range(0, 3):
         cpu += google_optimized[x][0] + " $" + str(google_optimized[x][1]) + "\n"
 
-    for y in range(2, 4):
+    #adds all RAM optimized machines
+    for y in range(3, 6):
         ram += google_optimized[y][0] + " $" + str(google_optimized[y][1]) + "\n"
 
     output[0] = normal
