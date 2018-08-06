@@ -44,6 +44,16 @@ miserver_normal = [("server1, 2(GB), 1, ", 16.795),
                     ("server6, 128(GB), 32, ", 932.295),
                     ]
 
+# =================== Hard-Coded Additional Storage Pricing ====================
+#Amazon General Purpose SSD. cost/GB/month
+am_add_s = 0.1
+
+#Google SSD Provisioned Space
+g_add_s = 0.17
+
+#MiServer. General Replicated
+mi_add_s = 0.0735
+
 #User wants to sort by # of CPUs
 def get_cpu_machine(CPU, storage, hours):
     #default value
@@ -56,18 +66,18 @@ def get_cpu_machine(CPU, storage, hours):
     machine[2] = miserver_normal[correct_index]
 
     #amazon pricing is in the first slot of output
-    tmp = machine[0][1] + 0.1 * storage
+    tmp = machine[0][1] + am_add_s * storage
     output[0] = "Reserved: " + machine[0][0] + str(storage) + "(GB), $" + str(tmp) + "\n"
 
-    tmp = machine[0][2] * hours + 0.1 * storage
+    tmp = machine[0][2] * hours + am_add_s * storage
     output[0] += "On-Demand: " + machine[0][0] + str(storage) + "(GB), $" + str(tmp)
 
     #Google Pricing
-    tmp = machine[1][1] + 0.17 * storage
+    tmp = machine[1][1] + g_add_s * storage
     output[1] = machine[1][0] + str(storage) + "(GB), $" + str(tmp)
 
     #miserver Pricing
-    tmp = machine[2][1] + 0.0735 * storage
+    tmp = machine[2][1] + mi_add_s * storage
     output[2] = machine[2][0] + str(storage) + "(GB), $" + str(tmp)
 
     #Output is a list containing 3 strings [amazon, google, miserver]
@@ -105,18 +115,18 @@ def get_ram_machine(RAM, storage, hours):
     machine[2] = miserver_normal[correct_index]
 
     #amazon pricing is in the first slot of output
-    tmp = machine[0][1] + 0.1 * storage
+    tmp = machine[0][1] + am_add_s * storage
     output[0] = "Reserved: " + machine[0][0] + str(storage) + "(GB), $" + str(tmp) + "\n"
 
-    tmp = machine[0][2] * hours + 0.1 * storage
+    tmp = machine[0][2] * hours + am_add_s * storage
     output[0] += "On-Demand: " + machine[0][0] + str(storage) + "(GB), $" + str(tmp)
 
     #Google Pricing
-    tmp = machine[1][1] + 0.17 * storage
+    tmp = machine[1][1] + g_add_s * storage
     output[1] = machine[1][0] + str(storage) + "(GB), $" + str(tmp)
 
     #miserver Pricing
-    tmp = machine[2][1] + 0.0735 * storage
+    tmp = machine[2][1] + mi_add_s * storage
     output[2] = machine[2][0] + str(storage) + "(GB), $" + str(tmp)
 
     #Output is a list containing 3 strings [amazon, google, miserver]
@@ -164,14 +174,14 @@ def get_cpu_optimized(CPU, storage, hours):
         machine[1] = google_optimized[ind]
 
     #Amazon
-    tmp = machine[0][1] + 0.1 * storage
+    tmp = machine[0][1] + am_add_s * storage
     output[2] = "Reserved: " + machine[0][0] + str(storage) + "(GB), $" + str(tmp) + "\n"
 
-    tmp = machine[0][2] * hours + 0.1 * storage
+    tmp = machine[0][2] * hours + am_add_s * storage
     output[2] += "On-Demand: " + machine[0][0] + str(storage) + "(GB), $" + str(tmp)
 
     #Google
-    tmp = machine[1][1] + 0.17 * storage
+    tmp = machine[1][1] + g_add_s * storage
     output[4] = machine[1][0] + str(storage) + "(GB), $" + str(tmp)
 
     return output
@@ -214,14 +224,14 @@ def get_ram_optimized(RAM, storage, hours):
         machine[1] = google_optimized[ind]
 
     #Amazon
-    tmp = machine[0][1] + 0.1 * storage
+    tmp = machine[0][1] + am_add_s * storage
     output[2] = "Reserved: " + machine[0][0] + str(storage) + "(GB), $" + str(tmp) + "\n"
 
-    tmp = machine[0][2] * hours + 0.1 * storage
+    tmp = machine[0][2] * hours + am_add_s * storage
     output[2] += "On-Demand: " + machine[0][0] + str(storage) + "(GB), $" + str(tmp)
 
     #Google
-    tmp = machine[1][1] + 0.17 * storage
+    tmp = machine[1][1] + g_add_s * storage
     output[4] = machine[1][0] + str(storage) + "(GB), $" + str(tmp)
 
     return output
@@ -288,13 +298,13 @@ def aws_compare_prices(RAM, CPU, storage, hours):
         index = find_near_ram(RAM)
         am_machine = amazon_normal[index]
 
-    tmp = am_machine[1] + 0.1 * storage
+    tmp = am_machine[1] + am_add_s * storage
     output = "Reserved: " + am_machine[0] + str(storage) + "(GB), $" + str(tmp) + "\n"
 
-    tmp = am_machine[2] * hours + 0.1 * storage
+    tmp = am_machine[2] * hours + am_add_s * storage
     output += "On-Demand: " + am_machine[0] + str(storage) + "(GB), $" + str(tmp) + "\n"
 
-    tmp = am_machine[3] * hours + 0.1 * storage
+    tmp = am_machine[3] * hours + am_add_s * storage
     output += "Spot: " + am_machine[0] + str(storage) + "(GB), $" + str(tmp)
 
     return output
