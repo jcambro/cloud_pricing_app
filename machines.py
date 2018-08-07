@@ -299,10 +299,10 @@ def aws_compare_prices(RAM, CPU, storage, hours):
         am_machine = amazon_normal[index]
 
     tmp = am_machine[1] + am_add_s * storage
-    output = "Reserved: " + am_machine[0] + str(storage) + "(GB), $" + str(tmp) + "\n"
+    output = "Reserved: " + am_machine[0] + str(storage) + "(GB), $" + str(tmp) + "\n" + "\n"
 
     tmp = am_machine[2] * hours + am_add_s * storage
-    output += "On-Demand: " + am_machine[0] + str(storage) + "(GB), $" + str(tmp) + "\n"
+    output += "On-Demand: " + am_machine[0] + str(storage) + "(GB), $" + str(tmp) + "\n" + "\n"
 
     tmp = am_machine[3] * hours + am_add_s * storage
     output += "Spot: " + am_machine[0] + str(storage) + "(GB), $" + str(tmp)

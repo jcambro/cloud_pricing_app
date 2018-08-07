@@ -4,7 +4,7 @@ import machines
 
 my_font = ("Helvetica", 20)
 major_font = ("Helvetica", 30, "bold")
-minor_font = ("Helvetica", 26, "bold")
+minor_font = ("Helvetica", 26, "bold") 
 small_font = ("Helvetica", 16)
 
 foreg = "white"
@@ -74,7 +74,7 @@ class StoragePage(Frame):
 		self.calc_button.grid(row=6, column=1, columnspan=2, sticky="ew", pady=10)
 
 		self.home_button = Button(self, text="Home", font=my_font, bg=button_backg, fg=foreg, activebackground=active_bg, activeforeground=active_fg, padx=1, pady=1, command=self.go_home)
-		self.home_button.grid(row=0, column=0, sticky=W)
+		self.home_button.grid(row=0, column=0, sticky=N+W)
 
 	def go_home(self):
 		self.par_controller.reset_frame(StoragePage)
@@ -91,7 +91,7 @@ class StoragePage(Frame):
 		#I cannot make a new page without the variables updating correctly
 		clear_grid(self)
 
-		self.home_button.grid(row=0, column=0, sticky=W)
+		self.home_button.grid(row=0, column=0, sticky=N+W)
 		self.label6 = Label(self, text="Final Price Calculations", bg=backg, fg=foreg, font=major_font).grid(row=0, column=1, sticky=W)
 
 		#Calculate all of the pricing options
@@ -265,19 +265,19 @@ class AWS_compare(Frame):
 
 		self.home_button.grid(row=0, column=0, sticky=W)
 
-		self.width_spacer2 = Label(self, width=25, bg=backg, fg=foreg)
+		self.width_spacer2 = Label(self, width=45, bg=backg, fg=foreg)
 		self.width_spacer2.grid(row=1, column=0)
 
 		self.height_spacer2 = Label(self, height=5, bg=backg, fg=foreg)
 		self.height_spacer2.grid(row=2, column=1)
 
-		self.label5 = Label(self, text="Final Price Calculations", bg=backg, fg=foreg, font=major_font).grid(row=0, column=2)
+		self.label5 = Label(self, text="Final Price Calculations", bg=backg, fg=foreg, font=major_font).grid(row=0, column=2, pady=5)
 
 		self.intro = "Prices are based on a machine with: \n" + str(self.ram_wanted) + "(GB) of RAM \n" + str(self.cpu_wanted) + " CPU(s)\n " + str(self.storage_wanted) + "(GB) of Disk Space\n" + str(self.hours)  + " hours in use / month"
-		self.label6 = Label(self, text=self.intro, bg=backg, fg=foreg, font=minor_font).grid(row=1, column=2)
+		self.label6 = Label(self, text=self.intro, bg=backg, fg=foreg, font=my_font).grid(row=1, column=2, pady=5)
 
 		self.amazon_custom = machines.aws_compare_prices(self.ram_wanted, self.cpu_wanted, self.storage_wanted, self.hours)
-		self.amazon_title = Label(self, text="Amazon EC2: ", bg=backg, fg=foreg, pady=5, font=my_font).grid(row=3, column=1)
+		self.amazon_title = Label(self, text="Amazon EC2", bg=backg, fg=foreg, pady=5, font=major_font).grid(row=2, column=2)
 		self.amazon_p = Label(self, text=self.amazon_custom, bg=backg, fg=foreg, pady=5, font=my_font).grid(row=3, column=2)
 
 #====================== Own Build Variables ====================================
