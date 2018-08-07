@@ -28,7 +28,7 @@ class StartPage(Frame):
 		self.label2 = Label(self, text="Compare Between Amazon, Google, and the University of Michigan\nPlease Make A Selection Below", bg=backg, fg=foreg, font=minor_font).grid(row=1, column=1, padx=10, pady=15)
 		self.storage_page = Button(self, text="Explore Storage Pricing", font=my_font, height=2, width=25, bg=button_backg, fg=foreg, activebackground=active_bg, activeforeground=active_fg, command= lambda: controller.show_frame(StoragePage) ).grid(row=2, column=1, padx=10, pady=5)
 		self.compute_page = Button(self, text="Explore Computing Pricing",font=my_font, height=2, width=25, bg=button_backg, fg=foreg, activebackground=active_bg, activeforeground=active_fg, command= lambda: controller.show_frame(ComputingIntro) ).grid(row=3, column=1, padx=10, pady=5)
-		self.width_spacer = Label(self, width=7, bg=backg, fg=foreg ).grid(row=0, column=0)
+		self.width_spacer = Label(self, width=14, bg=backg, fg=foreg ).grid(row=0, column=0)
 
 #====================== Storage Varibale Input ================================
 class StoragePage(Frame):
@@ -37,7 +37,7 @@ class StoragePage(Frame):
 		self.config(bg=backg)
 		self.par_controller = controller
 
-		self.width_spacer = Label(self, width=25, bg=backg, fg=foreg)
+		self.width_spacer = Label(self, width=37, bg=backg, fg=foreg)
 		self.width_spacer.grid(row=1, column=0)
 
 		self.label1 = Label(self, text="Storage Needed (GB)", bg=backg, fg=foreg, font=my_font)
@@ -136,7 +136,7 @@ class ComputingIntro(Frame):
 		self.config(bg=backg)
 		self.par_controller = controller
 
-		self.width_spacer = Label(self, width=40, bg=backg, fg=foreg)
+		self.width_spacer = Label(self, width=47, bg=backg, fg=foreg)
 		self.width_spacer.grid(row=0, column=1)
 		self.height_spacer = Label(self, height=17, bg=backg, fg=foreg)
 		self.height_spacer.grid(row=7, column=1)
@@ -166,7 +166,7 @@ class AWS_Info(Frame):
 		self.config(bg=backg)
 		self.par_controller = controller
 
-		self.width_spacer = Label(self, width=22, bg=backg, fg=foreg)
+		self.width_spacer = Label(self, width=29, bg=backg, fg=foreg)
 		self.width_spacer.grid(row=0, column=1)
 
 		self.home_button = Button(self, text="Home", font=my_font, bg=button_backg, fg=foreg, activebackground=active_bg, activeforeground=active_fg, padx=1, pady=1, command=self.go_home)
@@ -215,7 +215,7 @@ class AWS_compare(Frame):
 		self.height_spacer = Label(self, height=15, bg=backg, fg=foreg)
 		self.height_spacer.grid(row=8, column=0)
 
-		self.width_spacer = Label(self, width=34, bg=backg, fg=foreg)
+		self.width_spacer = Label(self, width=40, bg=backg, fg=foreg)
 		self.width_spacer.grid(row=1, column=0)
 
 		self.label1 = Label(self, text="Compare AWS Prices", bg=backg, fg=foreg, font=minor_font)
@@ -265,7 +265,7 @@ class AWS_compare(Frame):
 
 		self.home_button.grid(row=0, column=0, sticky=W)
 
-		self.width_spacer2 = Label(self, width=17, bg=backg, fg=foreg)
+		self.width_spacer2 = Label(self, width=25, bg=backg, fg=foreg)
 		self.width_spacer2.grid(row=1, column=0)
 
 		self.height_spacer2 = Label(self, height=5, bg=backg, fg=foreg)
@@ -293,7 +293,7 @@ class ComputingOwnBuild(Frame):
 		self.height_spacer2 = Label(self, height=18, bg=backg, fg=foreg)
 		self.height_spacer2.grid(row=6, column=0)
 
-		self.width_spacer5 = Label(self, width=37, bg=backg, fg=foreg)
+		self.width_spacer5 = Label(self, width=45, bg=backg, fg=foreg)
 		self.width_spacer5.grid(row=1, column=0)
 
 		self.build_title = Label(self, text="Enter Your Specifications", bg=backg, fg=foreg, font=major_font)
@@ -361,7 +361,7 @@ class ComputingOwnBuild(Frame):
 		self.height_spacer3 = Label(self, height=7, bg=backg, fg=foreg)
 		self.height_spacer3.grid(column=0, row=8)
 
-		self.width_spacer6 = Label(self, width=27, bg=backg, fg=foreg)
+		self.width_spacer6 = Label(self, width=25, bg=backg, fg=foreg)
 		self.width_spacer6.grid(column=0, row=1)
 
 #====================== Computing second selection  ============================
@@ -371,7 +371,7 @@ class ComputingPreBuilt(Frame):
 		self.config(bg=backg)
 		self.par_controller = controller
 
-		self.width_spacer2 = Label(self, width=35, bg=backg, fg=foreg)
+		self.width_spacer2 = Label(self, width=42, bg=backg, fg=foreg)
 		self.width_spacer2.grid(row=1, column=0)
 
 		self.height_spacer = Label(self, height=15, bg=backg, fg=foreg)
@@ -408,7 +408,7 @@ class ComputingRAM(Frame):
 		self.height_spacer = Label(self, height=23, bg=backg, fg=foreg)
 		self.height_spacer.grid(row=8, column=0)
 
-		self.width_spacer3 = Label(self, width=25, bg=backg, fg=foreg)
+		self.width_spacer3 = Label(self, width=32, bg=backg, fg=foreg)
 		self.width_spacer3.grid(row=1, column=0)
 
 		self.label3 = Label(self, text="You have selected RAM", bg=backg, fg=foreg, font=minor_font)
@@ -518,7 +518,7 @@ class ComputingCPU(Frame):
 		self.height_spacer = Label(self, height=23, bg=backg, fg=foreg)
 		self.height_spacer.grid(row=6, column=0)
 
-		self.width_spacer4 = Label(self, width=25, bg=backg, fg=foreg)
+		self.width_spacer4 = Label(self, width=32, bg=backg, fg=foreg)
 		self.width_spacer4.grid(row=1, column=0)
 
 		self.label4 = Label(self, text="You have selected CPUs", bg=backg, fg=foreg, font=minor_font)

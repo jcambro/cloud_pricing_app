@@ -49,5 +49,5 @@ class Application(Tk):
 
 app = Application()
 app.title('Cloud Cost Comparison')
-#app.resizable(width=False, height=False)
+app.resizable(width=False, height=False)
 app.mainloop()
