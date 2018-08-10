@@ -4,7 +4,7 @@ import machines
 
 my_font = ("Helvetica", 20)
 major_font = ("Helvetica", 30, "bold")
-minor_font = ("Helvetica", 26, "bold") 
+minor_font = ("Helvetica", 26, "bold")
 small_font = ("Helvetica", 16)
 
 foreg = "white"
@@ -13,7 +13,7 @@ button_backg = "blue4"
 active_bg = "blue3"
 active_fg = "white"
 
-#helper function that completely empties the page
+#helper function that completely empties all the widgets on a page
 def clear_grid(the_page):
 	for widge in the_page.grid_slaves():
 		widge.grid_remove()
@@ -147,11 +147,11 @@ class ComputingIntro(Frame):
 		self.button1 = Button(self, text="Pre-Built Computing", height=2, width=17, font=my_font, bg=button_backg, fg=foreg, activebackground=active_bg, activeforeground=active_fg, command= lambda: self.par_controller.show_frame(ComputingPreBuilt) )
 		self.button1.grid(row=3, column=10 ,padx=10, pady=5, columnspan=2)
 
-		self.button3 = Button(self, text="Build Your Own", font=my_font, height=2, width=17, bg=button_backg, fg=foreg, activebackground=active_bg, activeforeground=active_fg, command= lambda: self.par_controller.show_frame(ComputingOwnBuild) )
-		self.button3.grid(row=4, column=10, padx=10, pady=5, columnspan=2)
+		self.button2 = Button(self, text="Build Your Own", font=my_font, height=2, width=17, bg=button_backg, fg=foreg, activebackground=active_bg, activeforeground=active_fg, command= lambda: self.par_controller.show_frame(ComputingOwnBuild) )
+		self.button2.grid(row=4, column=10, padx=10, pady=5, columnspan=2)
 
-		self.button4 = Button(self, text="View AWS Options", font=my_font, height=2, width=17, bg=button_backg, fg=foreg, activebackground=active_bg, activeforeground=active_fg, command= lambda: self.par_controller.show_frame(AWS_Info) )
-		self.button4.grid(row=5, column=10, padx=10, pady=5, columnspan=2)
+		self.button3 = Button(self, text="View AWS Options", font=my_font, height=2, width=17, bg=button_backg, fg=foreg, activebackground=active_bg, activeforeground=active_fg, command= lambda: self.par_controller.show_frame(AWS_Info) )
+		self.button3.grid(row=5, column=10, padx=10, pady=5, columnspan=2)
 
 		self.home_button = Button(self, text="Home", font=my_font, bg=button_backg, fg=foreg, activebackground=active_bg, activeforeground=active_fg, padx=1, pady=1, command=self.go_home)
 		self.home_button.grid(row=0, column=0, sticky=W)
@@ -290,11 +290,11 @@ class ComputingOwnBuild(Frame):
 		self.home_button = Button(self, text="Home", font=my_font, bg=button_backg, fg=foreg, activebackground=active_bg, activeforeground=active_fg, padx=1, pady=1, command=self.go_home)
 		self.home_button.grid(row=0, column=0, sticky=W)
 
-		self.height_spacer2 = Label(self, height=18, bg=backg, fg=foreg)
-		self.height_spacer2.grid(row=6, column=0)
+		self.height_spacer = Label(self, height=18, bg=backg, fg=foreg)
+		self.height_spacer.grid(row=6, column=0)
 
-		self.width_spacer5 = Label(self, width=45, bg=backg, fg=foreg)
-		self.width_spacer5.grid(row=1, column=0)
+		self.width_spacer = Label(self, width=45, bg=backg, fg=foreg)
+		self.width_spacer.grid(row=1, column=0)
 
 		self.build_title = Label(self, text="Enter Your Specifications", bg=backg, fg=foreg, font=major_font)
 		self.build_title.grid(row=0, column=1, columnspan=2)
@@ -358,11 +358,11 @@ class ComputingOwnBuild(Frame):
 		self.mi_title = Label(self, text="MiServer: ", bg=backg, fg=foreg, pady=5, font=my_font).grid(row=3, column=1)
 		self.mi_p = Label(self, text="$" + str(self.miserver_price), bg=backg, fg=foreg, pady=5, font=my_font).grid(row=3, column=2)
 
-		self.height_spacer3 = Label(self, height=7, bg=backg, fg=foreg)
-		self.height_spacer3.grid(column=0, row=8)
+		self.height_spacer2 = Label(self, height=7, bg=backg, fg=foreg)
+		self.height_spacer2.grid(column=0, row=8)
 
-		self.width_spacer6 = Label(self, width=25, bg=backg, fg=foreg)
-		self.width_spacer6.grid(column=0, row=1)
+		self.width_spacer2 = Label(self, width=25, bg=backg, fg=foreg)
+		self.width_spacer2.grid(column=0, row=1)
 
 #====================== Computing second selection  ============================
 class ComputingPreBuilt(Frame):
@@ -371,8 +371,8 @@ class ComputingPreBuilt(Frame):
 		self.config(bg=backg)
 		self.par_controller = controller
 
-		self.width_spacer2 = Label(self, width=42, bg=backg, fg=foreg)
-		self.width_spacer2.grid(row=1, column=0)
+		self.width_spacer = Label(self, width=42, bg=backg, fg=foreg)
+		self.width_spacer.grid(row=1, column=0)
 
 		self.height_spacer = Label(self, height=15, bg=backg, fg=foreg)
 		self.height_spacer.grid(row=4, column=0)
@@ -383,14 +383,14 @@ class ComputingPreBuilt(Frame):
 		self.label2 = Label(self, text="Select What You Want To Sort By", bg=backg, fg=foreg, font=major_font)
 		self.label2.grid(row=0, column=1, padx=10, pady=10)
 
-		self.button7 = Button(self, text="RAM",font=my_font, bg="blue4", fg="white", activebackground="blue3", activeforeground="white", height=2, width=20, command= lambda: self.par_controller.show_frame(ComputingRAM))
-		self.button7.grid(row=1, column=1, padx=10, pady=5)
+		self.button1 = Button(self, text="RAM",font=my_font, bg="blue4", fg="white", activebackground="blue3", activeforeground="white", height=2, width=20, command= lambda: self.par_controller.show_frame(ComputingRAM))
+		self.button1.grid(row=1, column=1, padx=10, pady=5)
 
-		self.button4 = Button(self, text="Number of CPUs", bg=button_backg, fg=foreg, activebackground=active_bg, activeforeground=active_fg, font=my_font, height=2, width=20, command= lambda: self.par_controller.show_frame(ComputingCPU) )
-		self.button4.grid(row=2, column=1, padx=10, pady=5)
+		self.button2 = Button(self, text="Number of CPUs", bg=button_backg, fg=foreg, activebackground=active_bg, activeforeground=active_fg, font=my_font, height=2, width=20, command= lambda: self.par_controller.show_frame(ComputingCPU) )
+		self.button2.grid(row=2, column=1, padx=10, pady=5)
 
-		self.button8 = Button(self, text="Display All Options", font=my_font, height=2, width=20, bg=button_backg, fg=foreg, activebackground=active_bg, activeforeground=active_fg, command= lambda: self.par_controller.show_frame(ComputingAll) )
-		self.button8.grid(row=3, column=1, padx=10, pady=5)
+		self.button3 = Button(self, text="Display All Options", font=my_font, height=2, width=20, bg=button_backg, fg=foreg, activebackground=active_bg, activeforeground=active_fg, command= lambda: self.par_controller.show_frame(ComputingAll) )
+		self.button3.grid(row=3, column=1, padx=10, pady=5)
 
 	def go_home(self):
 		self.par_controller.reset_frame(ComputingPreBuilt)
@@ -408,35 +408,35 @@ class ComputingRAM(Frame):
 		self.height_spacer = Label(self, height=23, bg=backg, fg=foreg)
 		self.height_spacer.grid(row=8, column=0)
 
-		self.width_spacer3 = Label(self, width=32, bg=backg, fg=foreg)
-		self.width_spacer3.grid(row=1, column=0)
+		self.width_spacer = Label(self, width=32, bg=backg, fg=foreg)
+		self.width_spacer.grid(row=1, column=0)
 
-		self.label3 = Label(self, text="You have selected RAM", bg=backg, fg=foreg, font=minor_font)
-		self.label3.grid(row=0, column=1, padx=5, pady=5, columnspan=2)
+		self.label0 = Label(self, text="You have selected RAM", bg=backg, fg=foreg, font=minor_font)
+		self.label0.grid(row=0, column=1, padx=5, pady=5, columnspan=2)
 
-		self.label33 = Label(self, text="How much is required (GB)?", bg=backg, fg=foreg, font=my_font)
-		self.label33.grid(row=3, column=1, padx=5, pady=5)
+		self.label1 = Label(self, text="How much is required (GB)?", bg=backg, fg=foreg, font=my_font)
+		self.label1.grid(row=3, column=1, padx=5, pady=5)
 
 		self.entry1 = Entry(self, font=my_font)
 		self.entry1.insert(10, "0")
 		self.entry1.grid(row=3, column=2)
 
-		self.label5 = Label(self, text="Additional Disk Space Needed (GB)", bg=backg, fg=foreg, font=my_font)
-		self.label5.grid(row=4, column=1, padx=5, pady=5)
+		self.label3 = Label(self, text="Additional Disk Space Needed (GB)", bg=backg, fg=foreg, font=my_font)
+		self.label3.grid(row=4, column=1, padx=5, pady=5)
 
 		self.entry3 = Entry(self, font=my_font)
 		self.entry3.insert(10, "0")
 		self.entry3.grid(row=4, column=2)
 
-		self.label6 = Label(self, text="Hours In Use per Month", bg=backg, fg=foreg, font=my_font)
-		self.label6.grid(row=5, column=1, padx=5, pady=5)
+		self.label4 = Label(self, text="Hours In Use per Month", bg=backg, fg=foreg, font=my_font)
+		self.label4.grid(row=5, column=1, padx=5, pady=5)
 
 		self.entry4 = Entry(self, font=my_font)
 		self.entry4.insert(10, "0")
 		self.entry4.grid(row=5, column=2)
 
-		self.button5 = Button(self, text="Display Options", font=my_font, bg=button_backg, fg=foreg, activebackground=active_bg, activeforeground=active_fg, padx=5, pady=5, command=self.display_ram)
-		self.button5.grid(row=6, column=2, padx=10, pady=5)
+		self.button1 = Button(self, text="Display Options", font=my_font, bg=button_backg, fg=foreg, activebackground=active_bg, activeforeground=active_fg, padx=5, pady=5, command=self.display_ram)
+		self.button1.grid(row=6, column=2, padx=10, pady=5)
 
 	def go_home(self):
 		self.par_controller.reset_frame(ComputingRAM)
@@ -461,6 +461,7 @@ class ComputingRAM(Frame):
 		#Returns any optimized machines available
 		self.optim = machines.get_ram_optimized(self.ram_wanted, self.storage_wanted, self.hours)
 
+		#This only displays if there is enough to have optimized. Otherwise they are empty strings.
 		self.extra = self.optim[0]
 		self.am_ex1 = self.optim[1]
 		self.am_ex2 = self.optim[2]
@@ -518,35 +519,35 @@ class ComputingCPU(Frame):
 		self.height_spacer = Label(self, height=23, bg=backg, fg=foreg)
 		self.height_spacer.grid(row=6, column=0)
 
-		self.width_spacer4 = Label(self, width=32, bg=backg, fg=foreg)
-		self.width_spacer4.grid(row=1, column=0)
+		self.width_spacer = Label(self, width=32, bg=backg, fg=foreg)
+		self.width_spacer.grid(row=1, column=0)
 
-		self.label4 = Label(self, text="You have selected CPUs", bg=backg, fg=foreg, font=minor_font)
-		self.label4.grid(row=0, column=1, padx=5, pady=5, columnspan=2)
+		self.label1 = Label(self, text="You have selected CPUs", bg=backg, fg=foreg, font=minor_font)
+		self.label1.grid(row=0, column=1, padx=5, pady=5, columnspan=2)
 
-		self.label44 = Label(self, text="How many are required?", bg=backg, fg=foreg, font=my_font)
-		self.label44.grid(row=2, column=1, padx=5, pady=5)
+		self.label2 = Label(self, text="How many are required?", bg=backg, fg=foreg, font=my_font)
+		self.label2.grid(row=2, column=1, padx=5, pady=5)
 
 		self.entry2 = Entry(self, font=my_font)
 		self.entry2.insert(10, "0")
 		self.entry2.grid(row=2, column=2)
 
-		self.label6 = Label(self, text="Additional Disk Space Needed (GB)", bg=backg, fg=foreg, font=my_font)
-		self.label6.grid(row=3, column=1, padx=5, pady=5)
+		self.label4 = Label(self, text="Additional Disk Space Needed (GB)", bg=backg, fg=foreg, font=my_font)
+		self.label4.grid(row=3, column=1, padx=5, pady=5)
 
 		self.entry4 = Entry(self, font=my_font)
 		self.entry4.insert(10, "0")
 		self.entry4.grid(row=3, column=2)
 
-		self.label7 = Label(self, text="Hours In Use per Month", bg=backg, fg=foreg, font=my_font)
-		self.label7.grid(row=4, column=1, padx=5, pady=5)
+		self.label5 = Label(self, text="Hours In Use per Month", bg=backg, fg=foreg, font=my_font)
+		self.label5.grid(row=4, column=1, padx=5, pady=5)
 
 		self.entry5 = Entry(self, font=my_font)
 		self.entry5.insert(10, "0")
 		self.entry5.grid(row=4, column=2)
 
-		self.button6 = Button(self, text="Display Options", font=my_font, bg=button_backg, fg=foreg, activebackground=active_bg, activeforeground=active_fg, padx=5, pady=5, command=self.display_cpu)
-		self.button6.grid(row=5, column=2, padx=10, pady=5)
+		self.button1 = Button(self, text="Display Options", font=my_font, bg=button_backg, fg=foreg, activebackground=active_bg, activeforeground=active_fg, padx=5, pady=5, command=self.display_cpu)
+		self.button1.grid(row=5, column=2, padx=10, pady=5)
 
 	def go_home(self):
 		self.par_controller.reset_frame(ComputingCPU)
@@ -571,6 +572,7 @@ class ComputingCPU(Frame):
 		#Returns any optimized machines available
 		self.optim = machines.get_cpu_optimized(self.cpu_wanted, self.storage_wanted, self.hours)
 
+		#This only displays if there is enough to have optimized. Otherwise they are empty strings.
 		self.extra = self.optim[0]
 		self.am_ex1 = self.optim[1]
 		self.am_ex2 = self.optim[2]

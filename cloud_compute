@@ -9,7 +9,6 @@ class Application(Tk):
 	def __init__(self, *args, **kwargs):
 		Tk.__init__(self, *args, **kwargs)
 
-		#Tkfont.
 		#setup frame
 		#container 2 is used to center the frames.
 		self.container = Frame(self)
@@ -23,6 +22,11 @@ class Application(Tk):
 		self.container2.place(in_=self.container, anchor="center", relx=0.5, rely=0.5)
 
 		self.frames = {}
+
+		'''
+		This app puts all the pages in the frame intially on top of one another.
+		When a page is displayed, the page is raised on top of the rest.
+		'''
 
 		#puts all the frames in a nice container.
 		for F in (pages.StartPage, pages.StoragePage, pages.ComputingIntro, pages.ComputingOwnBuild, pages.ComputingPreBuilt,
@@ -40,7 +44,7 @@ class Application(Tk):
 		frame.tkraise()
 		return frame
 
-	#For the home button. Reinitializes a page in the dictionary for a fresh start.
+	#For the home button. Reinitializes a page in the dictionary for a clean slate
 	def reset_frame(self, context):
 		frame = context(self.container2, self)
 		self.frames[context] = frame
